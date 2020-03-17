@@ -10,6 +10,9 @@ import { SlideShowComponent } from './slide-show/slide-show.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewsComponent } from './news/news.component';
 import { YoutubeIncrustationComponent } from './youtube-incrustation/youtube-incrustation.component';
+import { AppRoutingModule } from './app-routing.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { IndexComponent } from './index/index.component'
 
 @NgModule({
   declarations: [
@@ -19,9 +22,12 @@ import { YoutubeIncrustationComponent } from './youtube-incrustation/youtube-inc
     SigninComponent,
     SlideShowComponent,
     NewsComponent,
-    YoutubeIncrustationComponent
+    YoutubeIncrustationComponent,
+    PageNotFoundComponent,
+    IndexComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule
   ],
