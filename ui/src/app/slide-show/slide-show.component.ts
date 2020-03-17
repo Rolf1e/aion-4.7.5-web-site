@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {slideImages} from './slide.loader';
-import { slideAnimation } from './slide.loader';
+import {slideImagesList} from './slide.loader';
+import {slideAnimation} from './slide.loader';
 
 @Component({
   selector: 'app-slide-show',
@@ -10,11 +10,11 @@ import { slideAnimation } from './slide.loader';
 })
 export class SlideShowComponent implements OnInit {
 
-  private slides;
+  private readonly slides;
   private currentIndex = 0;
 
   constructor() {
-    this.slides = slideImages;
+    this.slides = slideImagesList;
     this.preloadImages();
   }
 
@@ -51,7 +51,7 @@ export class SlideShowComponent implements OnInit {
     return this.currentIndex;
   }
 
-   setCurrentIndex(value: number) {
+  setCurrentIndex(value: number) {
     this.currentIndex = value;
   }
 }

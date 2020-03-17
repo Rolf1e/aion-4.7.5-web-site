@@ -1,0 +1,10 @@
+<ul>
+  <ng-template ngFor [ngForOf]="getNewsList" let-news>
+    <li class="news">
+      <img [src]="news.image"
+           [alt]="news.description">
+      <h3>{{ news.title }}</h3>
+      <p>{{ news.text }}</p>
+    </li>
+  </ng-template>
+</ul>

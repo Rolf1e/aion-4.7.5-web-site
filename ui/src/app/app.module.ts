@@ -8,6 +8,8 @@ import { SigninComponent } from './login/signin/signin.component';
 import { SlideShowComponent } from './slide-show/slide-show.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NewsComponent } from './news/news.component';
+import { YoutubeIncrustationComponent } from './youtube-incrustation/youtube-incrustation.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BannerComponent,
     MenuComponent,
     SigninComponent,
-    SlideShowComponent
+    SlideShowComponent,
+    NewsComponent,
+    YoutubeIncrustationComponent
   ],
   imports: [
     BrowserModule,

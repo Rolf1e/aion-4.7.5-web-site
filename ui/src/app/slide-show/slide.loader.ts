@@ -1,6 +1,6 @@
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 
-export const slideImages = [
+export const slideImagesList = [
   {image: 'assets/images/slide-show/aion1.jpeg', description: 'first image'},
   {image: 'assets/images/slide-show/aion2.jpeg', description: 'second image'},
   {image: 'assets/images/slide-show/aion3.jpeg', description: 'third image'}

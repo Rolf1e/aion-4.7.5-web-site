@@ -1,0 +1,8 @@
+<ul>
+  <ng-template ngFor [ngForOf]="getLinksList" let-link>
+    <li class="news">//TODO fix
+      <iframe [title]="link.title" [src]="link.url"></iframe>
+      <h3>{{ link.title }}</h3>
+    </li>
+  </ng-template>
+</ul>
