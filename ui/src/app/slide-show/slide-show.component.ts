@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {slideImages} from './slide.loader';
-import {slideAnimation} from './slide.loader';
+import { slideAnimation } from './slide.loader';
 
 @Component({
   selector: 'app-slide-show',
@@ -27,18 +27,16 @@ export class SlideShowComponent implements OnInit {
     });
   }
 
-  previousSlide() {
-    this.currentIndex = (this.currentIndex > this.slides.length - 1)
+  nextSlide() {
+    this.currentIndex = (this.currentIndex >= this.slides.length - 1)
       ? 0
       : ++this.currentIndex;
-    console.log(this.currentIndex);
   }
 
-  nextSlide() {
-    this.currentIndex = (this.currentIndex < 0)
+  previousSlide() {
+    this.currentIndex = (this.currentIndex <= 0)
       ? this.slides.length - 1
       : --this.currentIndex;
-    console.log(this.currentIndex);
   }
 
   isCurrentSlideIndex(index) {
@@ -53,7 +51,7 @@ export class SlideShowComponent implements OnInit {
     return this.currentIndex;
   }
 
-  setCurrentIndex(value: number) {
+   setCurrentIndex(value: number) {
     this.currentIndex = value;
   }
 }
