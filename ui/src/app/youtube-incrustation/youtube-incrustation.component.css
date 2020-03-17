@@ -1,0 +1,18 @@
+.links {
+  list-style: none;
+  text-align: left;
+  border: 1px #333 solid;
+  margin: 5px;
+  color: #FFF;
+  background-color: #000;
+}
+
+.youtube-incrustation {
+  width: 80%;
+  padding: 10px;
+}
+
+.links h3 {
+  width: 80%;
+  padding: 10px;
+}

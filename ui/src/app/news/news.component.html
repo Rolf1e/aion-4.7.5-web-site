@@ -1,6 +1,6 @@
-<ul>
+<ul class="news">
   <ng-template ngFor [ngForOf]="getNewsList" let-news>
-    <li class="news">
+    <li class="one-news">
       <img [src]="news.image"
            [alt]="news.description">
       <h3>{{ news.title }}</h3>
