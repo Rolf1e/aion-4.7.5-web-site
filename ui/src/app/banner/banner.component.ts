@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannerComponent implements OnInit {
 
+  private bannerTitle = 'Aion Server';
   constructor() { }
 
   ngOnInit(): void {
   }
 
+
+  get getBannerTitle(): string {
+    return this.bannerTitle;
+  }
 }

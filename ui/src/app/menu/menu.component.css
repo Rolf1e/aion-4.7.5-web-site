@@ -1,0 +1,10 @@
+ul {
+  border: 1px black solid;
+  margin: auto;
+  text-align: center;
+  width: 50%;
+}
+
+li {
+  margin: 2% 4%;
+}
