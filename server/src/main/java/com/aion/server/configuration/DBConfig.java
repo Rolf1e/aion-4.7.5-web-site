@@ -1,20 +1,20 @@
-package com.aion.server.component;
+package com.aion.server.configuration;
 
 import com.aion.server.database.config.DataBaseConfiguration;
 import com.aion.server.database.dto.Authentication;
 import com.aion.server.database.infra.DBClient;
-import com.aion.server.database.infra.H2Client;
+import com.aion.server.database.infra.PostgresClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class DBConfig {
 
     @Bean(destroyMethod = "disconnect")
     public DBClient dbClient(Authentication authentication,
                              DataBaseConfiguration configuration) {
-        return new H2Client(authentication, configuration);
+        return new PostgresClient(authentication, configuration);
     }
 
     @Bean
@@ -28,7 +28,8 @@ public class DBConfig {
 
     @Bean
     public DataBaseConfiguration configuration(@Value("${database.driver}") String driver,
-                                               @Value("${database.type}") String type) {
-        return new DataBaseConfiguration(driver, type);
+                                               @Value("${database.type}") String type,
+                                               @Value("${database.dbname}") String dbName) {
+        return new DataBaseConfiguration(driver, type, dbName);
     }
 }

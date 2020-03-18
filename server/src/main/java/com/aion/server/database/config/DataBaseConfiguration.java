@@ -9,5 +9,6 @@ public class DataBaseConfiguration {
 
     private String dataBaseDriver;
     private String dataBaseType;
+    private String databaseName;
 
 }

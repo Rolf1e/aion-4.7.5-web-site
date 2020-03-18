@@ -2,14 +2,15 @@ package com.aion.server.database.infra;
 
 import com.aion.server.database.dto.SQLQuery;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public interface DBClient {
 
-    void connect();
+    void connect() throws SQLException;
 
-    void disconnect();
+    void disconnect() throws SQLException;
 
-    void execute(SQLQuery query);
+    Map<String, String> execute(SQLQuery query) throws SQLException;
 
 }
