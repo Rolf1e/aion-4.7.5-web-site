@@ -30,19 +30,19 @@ public class SQLQueryAdaptor {
                     .append(",");
         }
 
-        select.delete(select.length() - 2, select.length() - 1);//remove last ','
+        select.replace(select.length() - 1, select.length(), " ");//replace last ','
         return select.toString();
     }
 
     private String getFrom() {
         StringBuilder from = new StringBuilder("FROM ");
 
-        for (String fromTo : sqlQuery.getToSelect()) {
+        for (String fromTo : sqlQuery.getFromTable()) {
             from.append(fromTo)
                     .append(",");
         }
 
-        from.delete(from.length() - 2, from.length() - 1);//remove last ','
+        from.replace(from.length() - 1, from.length(), " ");//replace last ','
         return from.toString();
     }
 
@@ -60,12 +60,13 @@ public class SQLQueryAdaptor {
                         .append(" = ")
                         .append("'")
                         .append(entry.getValue())
-                        .append("',");
+                        .append("' ")
+                        .append(SQLQuery.ConditionType.AND)
+                        .append(" ");
             }
         }
 
-        asString.delete(asString.length() - 2, asString.length() - 1)//remove last ','
-                .append(";");
+        asString.replace(asString.length() - 5, asString.length(), ";");//replace last ','
         return asString.toString();
     }
 
