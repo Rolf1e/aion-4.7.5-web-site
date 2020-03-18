@@ -1,0 +1,7 @@
+database:
+  user: tigran
+  password: tigran
+  driver: org.h2.Driver
+  host:
+  port:
+  type:

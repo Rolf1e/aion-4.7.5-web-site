@@ -12,7 +12,8 @@ import { NewsComponent } from './index/news/news.component';
 import { YoutubeIncrustationComponent } from './index/youtube-incrustation/youtube-incrustation.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { IndexComponent } from './index/index.component'
+import { IndexComponent } from './index/index.component';
+import { ForumComponent } from './forum/forum.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { IndexComponent } from './index/index.component'
     NewsComponent,
     YoutubeIncrustationComponent,
     PageNotFoundComponent,
-    IndexComponent
+    IndexComponent,
+    ForumComponent
   ],
   imports: [
     AppRoutingModule,

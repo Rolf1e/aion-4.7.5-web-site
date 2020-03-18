@@ -10,4 +10,11 @@ export class AppComponent {
 
   constructor() {
   }
+
+  //TODO:
+  // - add forum
+  // - add sign in/out
+  // - media queries
+  // - improve css
+
 }
