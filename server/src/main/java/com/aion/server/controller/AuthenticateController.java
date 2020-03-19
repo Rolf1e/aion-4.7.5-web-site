@@ -19,6 +19,6 @@ public class AuthenticateController {
             produces = "application/json")
     public Boolean login(@RequestBody Login login) {
         return new LoginResolver(dbClient, login)
-                .exist();
+                .checkExist();
     }
 }

@@ -2,6 +2,7 @@ package com.aion.server.component.login;
 
 import com.aion.server.controller.dto.Login;
 import com.aion.server.database.dto.SQLQuery;
+import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.aion.server.component.login.LoginConfig.*;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord;
 
 @Slf4j
 public class LoginResolver {
@@ -26,10 +28,10 @@ public class LoginResolver {
         this.login = login;
     }
 
-    public Boolean exist() {
+    public Boolean checkExist() {
         try {
             openDBConnection();
-            return !dbClient.execute(getSqlQuery()).isEmpty();
+            return !dbClient.select(getSqlQuery(), SQLKeyWord.SELECT).isEmpty();
         } catch (SQLException e) {
             log.error("Failed to retrieve from database for user {}", login.getUsername(), e);
         } finally {
@@ -45,7 +47,7 @@ public class LoginResolver {
         where.put("username", login.getUsername());
         where.put("password", login.getPassword());
 
-        return new SQLQuery(
+        return SQLQueryBuilder.buildSelectQuery(
                 Arrays.asList(USERNAME_COLUMN, PASSWORD_COLUMN),
                 Collections.singletonList(USERS_TABLE),
                 Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))

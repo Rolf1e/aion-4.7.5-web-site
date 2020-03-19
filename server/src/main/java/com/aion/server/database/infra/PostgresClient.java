@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.aion.server.database.infra.SQLConnectionBuilder.getConnection;
+import static com.aion.server.database.infra.SQLQueryAdaptor.*;
 
 @Slf4j
 public class PostgresClient implements DBClient {
@@ -31,11 +32,13 @@ public class PostgresClient implements DBClient {
         this.configuration = configuration;
     }
 
+    @Override
     public void connect() throws SQLException {
         connection = getConnection(authentication, configuration);
         statement = connection.createStatement();
     }
 
+    @Override
     public void disconnect() throws SQLException {
         if (statement != null) {
             statement.close();
@@ -45,12 +48,22 @@ public class PostgresClient implements DBClient {
         }
     }
 
-    public Map<String, String> execute(SQLQuery query) throws SQLException {
-        Optional<ResultSet> resultSet = Optional.ofNullable(statement.executeQuery(SQLQueryAdaptor.getQueryAsString(query)));
+    @Override
+    public Map<String, String> select(SQLQuery query,
+                                      SQLKeyWord keyWord) throws SQLException {
+
+        Optional<ResultSet> resultSet = Optional.ofNullable(statement.executeQuery(getQueryAsString(query, keyWord)));
         if (resultSet.isPresent()) {
-            return getResult(resultSet.get(), query.getToSelect());
+            return getResult(resultSet.get(), query.getColumns());
         }
         return new HashMap<>();
+    }
+
+    @Override
+    public int insert(SQLQuery query,
+                      SQLKeyWord keyWord) throws SQLException {
+
+        return statement.executeUpdate(getQueryAsString(query, keyWord));
     }
 
     private Map<String, String> getResult(ResultSet resultSet,
@@ -64,6 +77,4 @@ public class PostgresClient implements DBClient {
         resultSet.close();
         return queryResult;
     }
-
-
 }
