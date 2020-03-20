@@ -56,12 +56,13 @@ public class SQLQueryAdaptor {
     }
 
     private String getUpdate() {
-        return keyWord.getKeyWord() + " " + getFrom() + " SET " + getSet() + " " + getWhere();
+        return keyWord.getKeyWord() + " " + getFrom() + " " + getSet() + " " + getWhere();
     }
 
     private String getFrom() {
         if (keyWord.equals(INSERT) ||
-                keyWord.equals(DELETE)) {
+                keyWord.equals(DELETE) ||
+                keyWord.equals(UPDATE)) {
             return sqlQuery.getFrom().get(0);//we can't insert in multiples tables
         }
         StringBuilder from = new StringBuilder();
@@ -87,13 +88,36 @@ public class SQLQueryAdaptor {
         return columns.toString();
     }
 
+    private String getInsertValues() {
+        StringBuilder values = new StringBuilder();
+
+        for (String value : sqlQuery.getInsertValues()) {
+            values.append("'")
+                    .append(value)
+                    .append("',");
+        }
+        values.delete(values.length() - 1, values.length());
+
+        return values.toString();
+    }
+
     private String getWhere() {
-        List<SQLQuery.Where> whereList = sqlQuery.getWhere();
+        return getCondition("WHERE");
+    }
+
+    private String getSet() {
+        String set = getCondition("SET");
+        return set.substring(0, set.length() - 1);
+    }
+
+    private String getCondition(String word) {
+        List<SQLQuery.Where> whereList = sqlQuery.getCondition();
         if (whereList == null || whereList.isEmpty()) {
             return ";";
         }
 
-        StringBuilder asString = new StringBuilder("WHERE ");
+        StringBuilder asString = new StringBuilder(word)
+                .append(" ");
 
         for (SQLQuery.Where where : whereList) {
             for (Map.Entry<String, String> entry : where.getCondition().entrySet()) {
@@ -108,23 +132,6 @@ public class SQLQueryAdaptor {
         asString.replace(asString.length() - 5, asString.length(), ";");//replace last ','
 
         return asString.toString();
-    }
-
-    private String getInsertValues() {
-        StringBuilder values = new StringBuilder();
-
-        for (String value : sqlQuery.getInsertValues()) {
-            values.append("'")
-                    .append(value)
-                    .append("',");
-        }
-        values.delete(values.length() - 1, values.length());
-
-        return values.toString();
-    }
-
-    private String getSet() {
-        return "";
     }
 
     public enum SQLKeyWord {

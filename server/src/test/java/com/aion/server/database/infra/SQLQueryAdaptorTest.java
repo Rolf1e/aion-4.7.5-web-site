@@ -71,7 +71,7 @@ public class SQLQueryAdaptorTest {
         where.put("test", "test");
 
         SQLQuery query = SQLQueryBuilder.buildDeleteQuery(
-                Arrays.asList("TEST", "TEST2"),
+                Arrays.asList("TEST", "TEST2"),// should not take the second table
                 Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
         );
 
@@ -85,11 +85,46 @@ public class SQLQueryAdaptorTest {
         where.put("test2", "test2");
 
         SQLQuery query = SQLQueryBuilder.buildDeleteQuery(
-                Arrays.asList("TEST", "TEST2"),
+                Arrays.asList("TEST", "TEST2"),// should not take the second table
                 Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("DELETE FROM TEST WHERE test2 = 'test2' AND test = 'test';", getQueryAsString(query, DELETE));
     }
-    //TODO add unit test for update
+
+    @Test
+    public void should_build_simple_update_query() {
+        Map<String, String> set = new HashMap<>();
+        set.put("test", "test");
+
+        Map<String, String> where = new HashMap<>();
+        where.put("test", "test");
+
+        SQLQuery query = SQLQueryBuilder.buildUpdateQuery(
+                Collections.singletonList("TEST"),
+                Collections.singletonList(new SQLQuery.Where(set, SQLQuery.ConditionType.EQUAL)),
+                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+        );
+
+        Assert.assertEquals("UPDATE TEST SET test = 'test' WHERE test = 'test';", getQueryAsString(query, UPDATE));
+    }
+
+    @Test
+    public void should_build_complex_update_query() {
+        Map<String, String> set = new HashMap<>();
+        set.put("test", "test");
+        set.put("test2", "test2");
+
+        Map<String, String> where = new HashMap<>();
+        where.put("test", "test");
+        where.put("test2", "test2");
+
+        SQLQuery query = SQLQueryBuilder.buildUpdateQuery(
+                Arrays.asList("TEST", "TEST2"),// should not take the second table
+                Collections.singletonList(new SQLQuery.Where(set, SQLQuery.ConditionType.EQUAL)),
+                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+        );
+
+        Assert.assertEquals("UPDATE TEST SET test2 = 'test2' AND test = 'test' WHERE test2 = 'test2' AND test = 'test';", getQueryAsString(query, UPDATE));
+    }
 }

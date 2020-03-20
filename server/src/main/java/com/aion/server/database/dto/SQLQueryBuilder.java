@@ -1,9 +1,12 @@
 package com.aion.server.database.dto;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 
 import static com.aion.server.database.dto.SQLQuery.*;
 
+@UtilityClass
 public class SQLQueryBuilder {
 
     public static SQLQuery buildSelectQuery(List<String> columns,
@@ -11,7 +14,7 @@ public class SQLQueryBuilder {
                                             List<Where> where) {
         return new SQLQuery(from)
                 .setColumns(columns)
-                .setWhere(where);
+                .setCondition(where);
     }
 
     public static SQLQuery buildInsertQuery(List<String> columns,
@@ -26,12 +29,14 @@ public class SQLQueryBuilder {
                                             List<Where> where) {
 
         return new SQLQuery(from)
-                .setWhere(where);
+                .setCondition(where);
     }
 
     public static SQLQuery buildUpdateQuery(List<String> from,
-                                            List<String> set) {
+                                            List<Where> set,
+                                            List<Where> where) {
         return new SQLQuery(from)
-                .setSet(set);
+                .setSet(set)
+                .setCondition(where);
     }
 }
