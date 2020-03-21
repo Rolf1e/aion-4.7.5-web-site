@@ -11,10 +11,10 @@ public class SQLQueryBuilder {
 
     public static SQLQuery buildSelectQuery(List<String> columns,
                                             List<String> from,
-                                            List<Where> where) {
+                                            List<Condition> where) {
         return new SQLQuery(from)
                 .setColumns(columns)
-                .setCondition(where);
+                .setWhere(where);
     }
 
     public static SQLQuery buildInsertQuery(List<String> columns,
@@ -26,17 +26,17 @@ public class SQLQueryBuilder {
     }
 
     public static SQLQuery buildDeleteQuery(List<String> from,
-                                            List<Where> where) {
+                                            List<Condition> where) {
 
         return new SQLQuery(from)
-                .setCondition(where);
+                .setWhere(where);
     }
 
     public static SQLQuery buildUpdateQuery(List<String> from,
-                                            List<Where> set,
-                                            List<Where> where) {
+                                            List<Condition> set,
+                                            List<Condition> where) {
         return new SQLQuery(from)
                 .setSet(set)
-                .setCondition(where);
+                .setWhere(where);
     }
 }

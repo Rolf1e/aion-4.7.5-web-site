@@ -111,16 +111,16 @@ public class SQLQueryAdaptor {
     }
 
     private String getCondition(String word) {
-        List<SQLQuery.Where> whereList = sqlQuery.getCondition();
-        if (whereList == null || whereList.isEmpty()) {
+        List<SQLQuery.Condition> conditionList = sqlQuery.getWhere();
+        if (conditionList == null || conditionList.isEmpty()) {
             return ";";
         }
 
         StringBuilder asString = new StringBuilder(word)
                 .append(" ");
 
-        for (SQLQuery.Where where : whereList) {
-            for (Map.Entry<String, String> entry : where.getCondition().entrySet()) {
+        for (SQLQuery.Condition condition : conditionList) {
+            for (Map.Entry<String, String> entry : condition.getCondition().entrySet()) {
                 asString.append(entry.getKey())
                         .append(" ")
                         .append(SQLQuery.ConditionType.EQUAL.getType())

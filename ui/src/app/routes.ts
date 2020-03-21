@@ -3,6 +3,7 @@ import {AppComponent} from "./app.component";
 import {IndexComponent} from "./index/index.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {ForumComponent} from "./forum/forum.component";
+import {SigninComponent} from "./index/login/signin/signin.component";
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
   {
     path: 'index',
     component: IndexComponent
+  },
+  {
+    path: 'register',
+    component: SigninComponent
   },
   {
     path: 'forum',

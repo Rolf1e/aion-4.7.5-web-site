@@ -1,4 +1,4 @@
-package com.aion.server.component.login;
+package com.aion.server.service.login;
 
 import lombok.experimental.UtilityClass;
 

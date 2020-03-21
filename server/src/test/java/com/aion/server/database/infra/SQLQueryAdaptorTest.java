@@ -22,7 +22,7 @@ public class SQLQueryAdaptorTest {
         SQLQuery query = SQLQueryBuilder.buildSelectQuery(
                 Collections.singletonList("test"),
                 Collections.singletonList("TEST"),
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("SELECT test FROM TEST WHERE test = 'test';", getQueryAsString(query, SELECT));
@@ -37,7 +37,7 @@ public class SQLQueryAdaptorTest {
         SQLQuery query = SQLQueryBuilder.buildSelectQuery(
                 Arrays.asList("test", "test2"),
                 Arrays.asList("TEST", "TEST2"),
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("SELECT test,test2 FROM TEST,TEST2 WHERE test2 = 'test2' AND test = 'test';", getQueryAsString(query, SELECT));
@@ -72,7 +72,7 @@ public class SQLQueryAdaptorTest {
 
         SQLQuery query = SQLQueryBuilder.buildDeleteQuery(
                 Arrays.asList("TEST", "TEST2"),// should not take the second table
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("DELETE FROM TEST WHERE test = 'test';", getQueryAsString(query, DELETE));
@@ -86,7 +86,7 @@ public class SQLQueryAdaptorTest {
 
         SQLQuery query = SQLQueryBuilder.buildDeleteQuery(
                 Arrays.asList("TEST", "TEST2"),// should not take the second table
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("DELETE FROM TEST WHERE test2 = 'test2' AND test = 'test';", getQueryAsString(query, DELETE));
@@ -102,8 +102,8 @@ public class SQLQueryAdaptorTest {
 
         SQLQuery query = SQLQueryBuilder.buildUpdateQuery(
                 Collections.singletonList("TEST"),
-                Collections.singletonList(new SQLQuery.Where(set, SQLQuery.ConditionType.EQUAL)),
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Collections.singletonList(new SQLQuery.Condition(set, SQLQuery.ConditionType.EQUAL)),
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("UPDATE TEST SET test = 'test' WHERE test = 'test';", getQueryAsString(query, UPDATE));
@@ -121,8 +121,8 @@ public class SQLQueryAdaptorTest {
 
         SQLQuery query = SQLQueryBuilder.buildUpdateQuery(
                 Arrays.asList("TEST", "TEST2"),// should not take the second table
-                Collections.singletonList(new SQLQuery.Where(set, SQLQuery.ConditionType.EQUAL)),
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Collections.singletonList(new SQLQuery.Condition(set, SQLQuery.ConditionType.EQUAL)),
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
 
         Assert.assertEquals("UPDATE TEST SET test2 = 'test2' AND test = 'test' WHERE test2 = 'test2' AND test = 'test';", getQueryAsString(query, UPDATE));

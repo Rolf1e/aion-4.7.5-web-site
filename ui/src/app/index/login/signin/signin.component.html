@@ -1,2 +1,12 @@
-<li class="nav-item"><a href="">Shop</a></li>
-<li class="nav-item"><a href="">Account</a></li>
+<app-banner></app-banner>
+<app-menu></app-menu>
+<form [formGroup]="loginForm" (ngSubmit)="checkLogin()">
+  <label class="login-form">Username:
+    <input type="text" formControlName="username">
+  </label>
+  <label class="login-form">Password:
+    <input type="password" formControlName="password">
+  </label>
+  <input type="submit" value="Send">
+</form>
+

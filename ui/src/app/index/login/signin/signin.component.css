@@ -2,3 +2,13 @@ li {
   margin: 0 4%;
   display: inline-block;
 }
+
+form {
+  width: 25%;
+  margin: auto;
+  padding-top: 30px;
+}
+
+.login-form {
+  margin-left: 0;
+}

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {newsList} from "./new.loader";
+import {newsList} from './new.loader';
 
 @Component({
   selector: 'app-news',

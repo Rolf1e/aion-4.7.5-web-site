@@ -10,9 +10,9 @@ public class SQLQuery {
 
     private List<String> columns;
     private List<String> from;
-    private List<Where> condition;
+    private List<Condition> where;
     private List<String> insertValues;
-    private List<Where> set;
+    private List<Condition> set;
 
     SQLQuery(List<String> from) {
         this.from = from;
@@ -20,13 +20,13 @@ public class SQLQuery {
 
     @AllArgsConstructor
     @Getter
-    public static class Where {
+    public static class Condition {
         private Map<String, String> condition;
         private ConditionType type;
     }
 
-    SQLQuery setCondition(List<Where> condition) {
-        this.condition = condition;
+    SQLQuery setWhere(List<Condition> where) {
+        this.where = where;
         return this;
     }
 
@@ -40,7 +40,7 @@ public class SQLQuery {
         return this;
     }
 
-    SQLQuery setSet(List<Where> set) {
+    SQLQuery setSet(List<Condition> set) {
         this.set = set;
         return this;
     }

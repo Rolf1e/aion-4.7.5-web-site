@@ -1,4 +1,4 @@
-package com.aion.server.component.login;
+package com.aion.server.service.login;
 
 import com.aion.server.controller.dto.Login;
 import com.aion.server.database.dto.SQLQuery;
@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.aion.server.component.login.LoginConfig.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord;
 
 @Slf4j
@@ -48,9 +47,9 @@ public class LoginResolver {
         where.put("password", login.getPassword());
 
         return SQLQueryBuilder.buildSelectQuery(
-                Arrays.asList(USERNAME_COLUMN, PASSWORD_COLUMN),
-                Collections.singletonList(USERS_TABLE),
-                Collections.singletonList(new SQLQuery.Where(where, SQLQuery.ConditionType.EQUAL))
+                Arrays.asList(LoginConfig.USERNAME_COLUMN, LoginConfig.PASSWORD_COLUMN),
+                Collections.singletonList(LoginConfig.USERS_TABLE),
+                Collections.singletonList(new SQLQuery.Condition(where, SQLQuery.ConditionType.EQUAL))
         );
     }
 
