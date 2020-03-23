@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannerComponent implements OnInit {
 
-  private bannerTitle = 'Aion Server';
+  private bannerTitle = 'Aion Shard 4.7.5';
   constructor() { }
 
   ngOnInit(): void {
