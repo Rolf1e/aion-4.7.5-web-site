@@ -1,4 +1,4 @@
-package com.aion.server.service.login;
+package com.aion.server.database.config;
 
 import lombok.experimental.UtilityClass;
 
@@ -11,4 +11,5 @@ public class LoginConfig {
     //COLUMNS
     public static final String USERNAME_COLUMN = "USERNAME";
     public static final String PASSWORD_COLUMN = "PASSWORD";
+    public static final String TOKEN_COLUMN = "TOKEN";
 }
