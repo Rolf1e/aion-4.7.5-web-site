@@ -1,9 +1,9 @@
 package com.aion.server.controller;
 
 import com.aion.server.database.infra.DBClient;
-import com.aion.server.service.dto.InputUserInfos;
-import com.aion.server.service.dto.OutputUserInfos;
-import com.aion.server.service.token.TokenService;
+import com.aion.server.handler.dto.InputUserInfos;
+import com.aion.server.handler.dto.OutputUserInfos;
+import com.aion.server.handler.token.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ public class TokenController {
 
     @PostMapping(value = "/token", consumes = "application/json", produces = "application/json")
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
-        return new TokenService(userInfos, dbClient)
+        return new TokenHandler(userInfos, dbClient)
                 .getUserWithToken();
     }
 }

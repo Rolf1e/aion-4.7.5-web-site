@@ -1,17 +1,17 @@
-package com.aion.server.service.token;
+package com.aion.server.handler.token;
 
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 
 @Slf4j
 public class TokenGenerator {
 
-    //TODO
     public static String generate() {
         return new TokenGenerator()
                 .generateToken();
     }
 
     private String generateToken() {
-        return "";
+        return RandomString.make(255);
     }
 }

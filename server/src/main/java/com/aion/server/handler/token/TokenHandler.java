@@ -1,10 +1,10 @@
-package com.aion.server.service.token;
+package com.aion.server.handler.token;
 
 import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
-import com.aion.server.service.dto.InputUserInfos;
-import com.aion.server.service.dto.OutputUserInfos;
+import com.aion.server.handler.dto.InputUserInfos;
+import com.aion.server.handler.dto.OutputUserInfos;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
@@ -20,12 +20,12 @@ import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
 import static java.util.Collections.singletonList;
 
 @Slf4j
-public class TokenService {
+public class TokenHandler {
 
     private InputUserInfos userInfos;
     private DBClient dbClient;
 
-    public TokenService(InputUserInfos userInfos,
+    public TokenHandler(InputUserInfos userInfos,
                         DBClient dbClient) {
 
         this.userInfos = userInfos;
