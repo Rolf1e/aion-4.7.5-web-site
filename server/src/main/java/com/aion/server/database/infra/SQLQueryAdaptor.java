@@ -102,16 +102,16 @@ public class SQLQueryAdaptor {
     }
 
     private String getWhere() {
-        return getCondition("WHERE");
+        return getCondition("WHERE", sqlQuery.getWhere());
     }
 
     private String getSet() {
-        String set = getCondition("SET");
+        String set = getCondition("SET", sqlQuery.getSet());
         return set.substring(0, set.length() - 1);
     }
 
-    private String getCondition(String word) {
-        List<SQLQuery.Condition> conditionList = sqlQuery.getWhere();
+    private String getCondition(String word,
+                                List<SQLQuery.Condition> conditionList) {
         if (conditionList == null || conditionList.isEmpty()) {
             return ";";
         }

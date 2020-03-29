@@ -1,10 +1,12 @@
-package com.aion.server.handler.token;
+package com.aion.server.handler;
 
 import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
 import com.aion.server.handler.dto.InputUserInfos;
 import com.aion.server.handler.dto.OutputUserInfos;
+import com.aion.server.handler.utils.TokenGenerator;
+import com.aion.server.service.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
@@ -15,8 +17,8 @@ import java.util.Map;
 import static com.aion.server.database.config.LoginConfig.*;
 import static com.aion.server.database.dto.SQLQuery.Condition;
 import static com.aion.server.database.dto.SQLQuery.ConditionType;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
+import static java.util.Collections.*;
 import static java.util.Collections.singletonList;
 
 @Slf4j
@@ -44,7 +46,7 @@ public class TokenHandler {
                 return "Bad credentials";
             }
             String token = select.get(TOKEN_COLUMN);
-            if (token.equals("")) {
+            if (token == null) {
                 token = TokenGenerator.generate();
                 registerToken(token);
             }
@@ -62,15 +64,21 @@ public class TokenHandler {
     }
 
     private void registerToken(String token) throws SQLException {
-        dbClient.insert(toInsertToken(token), INSERT);
+        dbClient.insert(toUpdateToken(token), UPDATE);
     }
 
-    private SQLQuery toInsertToken(String token) {
-        return SQLQueryBuilder.buildInsertQuery(
-                Collections.singletonList(TOKEN_COLUMN),
-                Collections.singletonList(USERS_TABLE),
-                Collections.singletonList(token)
+    private SQLQuery toUpdateToken(String token) {
+        return SQLQueryBuilder.buildUpdateQuery(
+                singletonList(USERS_TABLE),
+                singletonList(new SQLQuery.Condition(getSet(token), SQLQuery.ConditionType.EQUAL)),
+                singletonList(new SQLQuery.Condition(getWhere(), SQLQuery.ConditionType.EQUAL))
         );
+    }
+
+    private Map<String, String> getSet(String token) {
+        Map<String, String> set = new HashMap<>();
+        set.put(TOKEN_COLUMN, token);
+        return set;
     }
 
     private SQLQuery toSelectToken() {
@@ -82,9 +90,10 @@ public class TokenHandler {
     }
 
     private Map<String, String> getWhere() {
+        String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         Map<String, String> where = new HashMap<>();
         where.put(USERNAME_COLUMN, userInfos.getUsername());
-        where.put(PASSWORD_COLUMN, userInfos.getPassword());//todo Ask for auth encryption
+        where.put(PASSWORD_COLUMN, encryptedPassword);
         return where;
     }
 

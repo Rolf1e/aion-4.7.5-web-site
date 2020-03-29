@@ -18,14 +18,14 @@ import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord;
 import static com.aion.server.database.infra.SQLQueryAdaptor.getQueryAsString;
 
 @Slf4j
-public class PostgresClient implements DBClient {
+public class DatabaseClient implements DBClient {
 
     private Authentication authentication;
     private DataBaseConfiguration configuration;
     private Connection connection;
     private Statement statement;
 
-    public PostgresClient(Authentication authentication,
+    public DatabaseClient(Authentication authentication,
                           DataBaseConfiguration configuration) {
 
         this.authentication = authentication;

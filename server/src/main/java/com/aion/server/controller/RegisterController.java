@@ -1,23 +1,24 @@
 package com.aion.server.controller;
 
 import com.aion.server.database.infra.DBClient;
+import com.aion.server.handler.RegisterHandler;
 import com.aion.server.handler.dto.InputUserInfos;
 import com.aion.server.handler.dto.OutputUserInfos;
-import com.aion.server.handler.TokenHandler;
+import com.aion.server.handler.exception.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TokenController {
+public class RegisterController {
 
     @Autowired
     private DBClient dbClient;
 
-    @PostMapping(value = "/token", consumes = "application/json", produces = "application/json")
-    public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
-        return new TokenHandler(userInfos, dbClient)
-                .getUserWithToken();
+    @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
+    public OutputUserInfos register(@RequestBody InputUserInfos userToRegister) throws UserExistException {
+        return new RegisterHandler(dbClient, userToRegister)
+                .registerNewUser();
     }
 }

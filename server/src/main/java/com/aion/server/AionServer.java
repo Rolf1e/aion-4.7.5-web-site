@@ -15,5 +15,4 @@ public class AionServer {
     }
 
 //    TODO: - enables Spring OAuth2
-//          - Generate a token
 }

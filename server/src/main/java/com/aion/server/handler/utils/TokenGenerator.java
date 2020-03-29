@@ -1,4 +1,4 @@
-package com.aion.server.handler.token;
+package com.aion.server.handler.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
