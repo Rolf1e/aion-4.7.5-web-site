@@ -12,20 +12,20 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.aion.server.database.infra.SQLConnectionBuilder.getConnection;
-import static com.aion.server.database.infra.SQLQueryAdaptor.*;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord;
+import static com.aion.server.database.infra.SQLQueryAdaptor.getQueryAsString;
 
 @Slf4j
-public class PostgresClient implements DBClient {
+public class DatabaseClient implements DBClient {
 
     private Authentication authentication;
     private DataBaseConfiguration configuration;
     private Connection connection;
     private Statement statement;
 
-    public PostgresClient(Authentication authentication,
+    public DatabaseClient(Authentication authentication,
                           DataBaseConfiguration configuration) {
 
         this.authentication = authentication;
@@ -52,11 +52,8 @@ public class PostgresClient implements DBClient {
     public Map<String, String> select(SQLQuery query,
                                       SQLKeyWord keyWord) throws SQLException {
 
-        Optional<ResultSet> resultSet = Optional.ofNullable(statement.executeQuery(getQueryAsString(query, keyWord)));
-        if (resultSet.isPresent()) {
-            return getResult(resultSet.get(), query.getColumns());
-        }
-        return new HashMap<>();
+        ResultSet resultSet = statement.executeQuery(getQueryAsString(query, keyWord));
+        return getResult(resultSet, query.getColumns());
     }
 
     @Override
