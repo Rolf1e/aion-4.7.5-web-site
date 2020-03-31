@@ -42,11 +42,11 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
         } catch (SQLException e) {
             log.error("Can not reach player database", e);
             return new OutputUserInfos();
-        } finally {
+        } /*finally {
             if (dbStateController.getState()) {
                 closeDBConnection();
             }
-        }
+        }*/
     }
 
     public boolean checkRegistered() throws SQLException {

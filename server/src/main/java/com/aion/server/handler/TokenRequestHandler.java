@@ -51,11 +51,11 @@ public class TokenRequestHandler extends AbstractRequestHandler {
         } catch (SQLException e) {
             log.error("Can not retrieve token for user {}", userInfos.getUsername(), e);
             return "";
-        } finally {
+        }/* finally {
             if (dbStateController.getState()) {
                 closeDBConnection();
             }
-        }
+        }*/
     }
 
     private Map<String, String> select() throws SQLException {

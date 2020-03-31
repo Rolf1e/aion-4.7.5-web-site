@@ -38,11 +38,11 @@ public class LoginRequestHandler extends AbstractRequestHandler {
         } catch (SQLException e) {
             log.error("Can not reach player database", e);
             return false;
-        } finally {
+        }/* finally {
             if (dbStateController.getState()) {
                 closeDBConnection();
             }
-        }
+        }*/
     }
 
     private SQLQuery toSelectUser() {
