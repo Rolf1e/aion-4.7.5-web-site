@@ -23,14 +23,28 @@ import static java.util.Collections.singletonList;
 @Slf4j
 public class TokenRequestHandler extends AbstractRequestHandler {
 
+    private String toCheck;
+
     public TokenRequestHandler(DBClient dbClient,
                                InputUserInfos userInfos) {
 
         super(dbClient, userInfos);
     }
 
+    public TokenRequestHandler(DBClient dbClient,
+                               String token) {
+
+        super(dbClient);
+        this.toCheck = token;
+    }
+
     public OutputUserInfos getUserWithToken() {
         return new OutputUserInfos(userInfos.getUsername(), userInfos.getPassword(), getToken());
+    }
+
+    public boolean checkToken() throws SQLException {
+        final Map<String, String> select = select(selectUsernameFromToken());
+        return !select.isEmpty();
     }
 
     private String getToken() {
@@ -38,7 +52,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
             if (!dbStateController.getState()) {
                 openDBConnection();
             }
-            final Map<String, String> select = select();
+            final Map<String, String> select = select(toSelectToken());
             if (select.isEmpty()) {
                 return "Bad credentials";
             }
@@ -58,8 +72,8 @@ public class TokenRequestHandler extends AbstractRequestHandler {
         }*/
     }
 
-    private Map<String, String> select() throws SQLException {
-        return dbClient.select(toSelectToken(), SELECT);
+    private Map<String, String> select(SQLQuery query) throws SQLException {
+        return dbClient.select(query, SELECT);
     }
 
     private void registerToken(String token) throws SQLException {
@@ -96,4 +110,17 @@ public class TokenRequestHandler extends AbstractRequestHandler {
         return where;
     }
 
+    private SQLQuery selectUsernameFromToken() {
+        return SQLQueryBuilder.buildSelectQuery(
+                singletonList(USERNAME_COLUMN),
+                singletonList(USERS_TABLE),
+                singletonList(new Condition(getWhereToken(), ConditionType.EQUAL))
+        );
+    }
+
+    private Map<String, String> getWhereToken() {
+        Map<String, String> where = new HashMap<>();
+        where.put(TOKEN_COLUMN, toCheck);
+        return where;
+    }
 }
