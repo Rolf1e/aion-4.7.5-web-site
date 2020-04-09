@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.aion.server.database.config.LoginConfig.*;
+import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -28,6 +28,7 @@ public class LoginRequestHandler extends AbstractRequestHandler {
         encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
     }
 
+    //TODO use OutputUser
     public boolean checkRegistered() {
         try {
             if (!dbStateController.getState()) {

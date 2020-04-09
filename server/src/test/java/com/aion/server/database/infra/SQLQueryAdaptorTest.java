@@ -10,11 +10,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.aion.server.database.config.LoginConfig.PASSWORD_COLUMN;
-import static com.aion.server.database.config.LoginConfig.USERNAME_COLUMN;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.getQueryAsString;
-import static java.util.Collections.singletonList;
 
 public class SQLQueryAdaptorTest {
 

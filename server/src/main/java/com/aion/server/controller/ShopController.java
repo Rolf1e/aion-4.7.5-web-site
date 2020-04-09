@@ -27,6 +27,9 @@ public class ShopController {
                 return "Failed to verify user token";
             }
 
+            
+
+
             return ""; //TODO
         } catch (SQLException e) {
             log.error("Failed to connect to user database to check token {}", item.getToken(), e);

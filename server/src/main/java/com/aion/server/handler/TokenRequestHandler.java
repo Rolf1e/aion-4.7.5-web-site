@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.aion.server.database.config.LoginConfig.*;
+import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.dto.SQLQuery.Condition;
 import static com.aion.server.database.dto.SQLQuery.ConditionType;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
@@ -38,6 +38,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
         this.toCheck = token;
     }
 
+    //TODO add id user
     public OutputUserInfos getUserWithToken() {
         return new OutputUserInfos(userInfos.getUsername(), userInfos.getPassword(), getToken());
     }

@@ -1,12 +1,15 @@
 package com.aion.server.handler.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class OutputUserInfos {
 
+    private String id;
     private String username;
     private String password;
     private String token;

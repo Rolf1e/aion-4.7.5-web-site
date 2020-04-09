@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.sql.SQLException;
 import java.util.Collections;
 
-import static com.aion.server.database.config.LoginConfig.*;
+import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
 import static java.util.Arrays.asList;
 
