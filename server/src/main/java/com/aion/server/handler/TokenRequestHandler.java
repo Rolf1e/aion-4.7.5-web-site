@@ -16,8 +16,6 @@ import java.util.Map;
 import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.dto.SQLQuery.Condition;
 import static com.aion.server.database.dto.SQLQuery.ConditionType;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 

@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.Collections;
 
 import static com.aion.server.database.config.TableDBConfig.*;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
 import static java.util.Arrays.asList;
 
 @Slf4j
@@ -42,7 +41,7 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
         }
     }
 
-    public boolean checkRegistered() throws SQLException {
+    public boolean checkRegistered() {
         return new LoginRequestHandler(dbClient, userInfos)
                 .checkRegistered();
     }

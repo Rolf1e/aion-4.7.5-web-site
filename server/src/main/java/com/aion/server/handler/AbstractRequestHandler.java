@@ -3,14 +3,14 @@ package com.aion.server.handler;
 import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.infra.DBClient;
 import com.aion.server.database.infra.DBStateController;
-import com.aion.server.database.infra.SQLQueryAdaptor;
 import com.aion.server.handler.dto.InputUserInfos;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
 import java.util.Map;
 
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
 
 @Slf4j
 public abstract class AbstractRequestHandler {

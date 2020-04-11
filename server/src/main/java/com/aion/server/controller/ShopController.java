@@ -28,11 +28,12 @@ public class ShopController {
                 return "Failed to verify user token";
             }
 
-
             final ShopRequestHandler shopRequestHandler = new ShopRequestHandler(dbClient, item, tokenRequestHandler.getUserFromToken());
-            if (shopRequestHandler.registerItem()) {
+            if (shopRequestHandler.canPerform()) {
+                shopRequestHandler.registerItem();
                 return "Successfully registered item in db";
             }
+
         } catch (SQLException e) {
             log.error("Failed to connect to user database to check token {}", item.getToken(), e);
             return "Failed to connect to user database to check token";
