@@ -30,11 +30,8 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
 
     public OutputUserInfos registerNewUser() throws UserExistException {
         try {
-            if (!dbStateController.getState()) {
-                openDBConnection();
-            }
             if (!checkRegistered()) {
-                registerUserToDB();
+                insert(toInsertUser());
                 return new TokenRequestHandler(dbClient, userInfos)
                         .getUserWithToken();
             }
@@ -42,20 +39,12 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
         } catch (SQLException e) {
             log.error("Can not reach player database", e);
             return new OutputUserInfos();
-        } /*finally {
-            if (dbStateController.getState()) {
-                closeDBConnection();
-            }
-        }*/
+        }
     }
 
     public boolean checkRegistered() throws SQLException {
         return new LoginRequestHandler(dbClient, userInfos)
                 .checkRegistered();
-    }
-
-    private void registerUserToDB() throws SQLException {
-        dbClient.insert(toInsertUser(), INSERT);
     }
 
     private SQLQuery toInsertUser() {

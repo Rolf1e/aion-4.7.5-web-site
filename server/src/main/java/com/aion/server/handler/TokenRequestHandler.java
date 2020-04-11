@@ -56,9 +56,6 @@ public class TokenRequestHandler extends AbstractRequestHandler {
 
     private String getToken() {
         try {
-            if (!dbStateController.getState()) {
-                openDBConnection();
-            }
             final Map<String, String> select = select(toSelectToken());
             if (select.isEmpty()) {
                 return "Bad credentials";
@@ -66,25 +63,13 @@ public class TokenRequestHandler extends AbstractRequestHandler {
             String token = select.get(TOKEN_COLUMN);
             if (token == null) {
                 token = TokenGenerator.generate();
-                registerToken(token);
+                insert(toUpdateToken(token));
             }
             return token;
         } catch (SQLException e) {
             log.error("Can not retrieve token for user {}", userInfos.getUsername(), e);
             return "";
-        }/* finally {
-            if (dbStateController.getState()) {
-                closeDBConnection();
-            }
-        }*/
-    }
-
-    private Map<String, String> select(SQLQuery query) throws SQLException {
-        return dbClient.select(query, SELECT);
-    }
-
-    private void registerToken(String token) throws SQLException {
-        dbClient.insert(toUpdateToken(token), UPDATE);
+        }
     }
 
     private SQLQuery toUpdateToken(String token) {

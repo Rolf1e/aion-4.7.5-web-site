@@ -31,19 +31,12 @@ public class LoginRequestHandler extends AbstractRequestHandler {
     //TODO use OutputUser
     public boolean checkRegistered() {
         try {
-            if (!dbStateController.getState()) {
-                openDBConnection();
-            }
-            return !dbClient.select(toSelectUser(), SELECT)
+            return !select(toSelectUser())
                     .isEmpty();
         } catch (SQLException e) {
             log.error("Can not reach player database", e);
             return false;
-        }/* finally {
-            if (dbStateController.getState()) {
-                closeDBConnection();
-            }
-        }*/
+        }
     }
 
     private SQLQuery toSelectUser() {
