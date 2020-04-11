@@ -5,4 +5,8 @@ database:
   host: localhost
   port: 3306
   type: mysql
-  dbname : aion-web-site
+  dbname: aion-web-site
+
+mail:
+  identifiant: aion.shard@gmail.com
+  password: Ny@rkT34m!

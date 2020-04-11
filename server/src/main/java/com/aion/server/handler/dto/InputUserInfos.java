@@ -11,6 +11,7 @@ public class InputUserInfos {
     private String username;
     private String password;
     private String token;
+    private String mail;
 
     public InputUserInfos(String username,
                           String password) {
