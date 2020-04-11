@@ -18,6 +18,7 @@ import static com.aion.server.database.dto.SQLQuery.Condition;
 import static com.aion.server.database.dto.SQLQuery.ConditionType;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 @Slf4j
@@ -46,6 +47,11 @@ public class TokenRequestHandler extends AbstractRequestHandler {
     public boolean checkToken() throws SQLException {
         final Map<String, String> select = select(selectUsernameFromToken());
         return !select.isEmpty();
+    }
+
+    public OutputUserInfos getUserFromToken() throws SQLException {
+        final Map<String, String> select = select(selectUsernameFromToken());
+        return new OutputUserInfos(select.get(USERNAME_ID_COLUMN), select.get(USERNAME_COLUMN), select.get(PASSWORD_COLUMN), select.get(TOKEN_COLUMN));
     }
 
     private String getToken() {
@@ -113,7 +119,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
 
     private SQLQuery selectUsernameFromToken() {
         return SQLQueryBuilder.buildSelectQuery(
-                singletonList(USERNAME_COLUMN),
+                asList(USERNAME_ID_COLUMN, USERNAME_COLUMN, PASSWORD_COLUMN, TOKEN_COLUMN),
                 singletonList(USERS_TABLE),
                 singletonList(new Condition(getWhereToken(), ConditionType.EQUAL))
         );

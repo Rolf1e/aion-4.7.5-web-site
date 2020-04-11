@@ -1,6 +1,7 @@
 package com.aion.server.controller;
 
 import com.aion.server.database.infra.DBClient;
+import com.aion.server.handler.ShopRequestHandler;
 import com.aion.server.handler.TokenRequestHandler;
 import com.aion.server.handler.dto.AionItem;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +28,15 @@ public class ShopController {
                 return "Failed to verify user token";
             }
 
-            
 
-
-            return ""; //TODO
+            final ShopRequestHandler shopRequestHandler = new ShopRequestHandler(dbClient, item, tokenRequestHandler.getUserFromToken());
+            if (shopRequestHandler.registerItem()) {
+                return "Successfully registered item in db";
+            }
         } catch (SQLException e) {
             log.error("Failed to connect to user database to check token {}", item.getToken(), e);
             return "Failed to connect to user database to check token";
         }
+        return "Failed to register item";
     }
 }

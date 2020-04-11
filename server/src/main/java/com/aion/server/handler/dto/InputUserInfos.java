@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InputUserInfos {
 
+    private String id;
     private String username;
     private String password;
     private String token;
@@ -16,5 +17,12 @@ public class InputUserInfos {
 
         this.username = username;
         this.password = password;
+    }
+
+    public InputUserInfos(OutputUserInfos outputUserInfos) {
+        this.id = outputUserInfos.getId();
+        this.username = outputUserInfos.getUsername();
+        this.password = outputUserInfos.getPassword();
+        this.token = outputUserInfos.getToken();
     }
 }

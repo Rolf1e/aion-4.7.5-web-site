@@ -25,6 +25,7 @@ public abstract class AbstractRequestHandler {
 
     public AbstractRequestHandler(DBClient dbClient) {
         this.dbClient = dbClient;
+        dbStateController = DBStateController.getInstance();
     }
 
     protected void openDBConnection() {

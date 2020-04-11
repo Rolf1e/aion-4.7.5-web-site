@@ -10,13 +10,14 @@ public class TableDBConfig {
     public static final String USERS_TABLE = "USERS";
 
     //COLUMNS
+    public static final String USERNAME_ID_COLUMN = "ID";
     public static final String USERNAME_COLUMN = "USERNAME";
     public static final String PASSWORD_COLUMN = "PASSWORD";
     public static final String TOKEN_COLUMN = "TOKEN";
 
     //USERS
     //SHOP
-    public static final String SHOP_TABLE = "SHOP";
+    public static final String SHOP_TABLE = "PLAYER_SHOP";
 
     //COLUMNS
     public static final String PLAYER_ID_COLUMN = "PLAYERID";

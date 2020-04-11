@@ -4,6 +4,8 @@ import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
 import com.aion.server.handler.dto.AionItem;
+import com.aion.server.handler.dto.InputUserInfos;
+import com.aion.server.handler.dto.OutputUserInfos;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
@@ -19,8 +21,10 @@ public class ShopRequestHandler extends AbstractRequestHandler {
     private AionItem aionItem;
 
     public ShopRequestHandler(DBClient dbClient,
-                              AionItem aionItem) {
-        super(dbClient);
+                              AionItem aionItem,
+                              OutputUserInfos outputUserInfos) {
+
+        super(dbClient, new InputUserInfos(outputUserInfos));
         this.aionItem = aionItem;
     }
 
@@ -37,7 +41,7 @@ public class ShopRequestHandler extends AbstractRequestHandler {
         return false;
     }
 
-    public void registerItemToDB() throws SQLException {
+    private void registerItemToDB() throws SQLException {
         dbClient.insert(toInsertItem(), INSERT);
     }
 
@@ -45,7 +49,7 @@ public class ShopRequestHandler extends AbstractRequestHandler {
         return SQLQueryBuilder.buildInsertQuery(
                 asList(PLAYER_ID_COLUMN, ITEM_ID_COLUMN, ITEM_COUNT_COLUMN),
                 Collections.singletonList(SHOP_TABLE),
-                asList(userInfos.getUsername())
+                asList(userInfos.getId(), aionItem.getIdItem(), aionItem.getCountItem())
         );
     }
 
