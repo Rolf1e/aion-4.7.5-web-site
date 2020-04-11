@@ -1,43 +1,51 @@
 package com.aion.server.component.mail.infra.builders;
 
+import com.aion.server.component.mail.infra.dto.MailTemplate;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
-public class MessageContentBuilder {
+@Slf4j
+class MessageContentBuilder {
 
-    private List<String> contentToConvert;
-    private Session session;
+    private final List<String> contentToConvert;
+    private final Session session;
+    private final MailTemplate mailTemplate;
 
-    public MessageContent build() throws MessagingException {
-        return new MessageContent(writeWholeMessage());
+    static MimeMessage build(final Session session,
+                             final MailTemplate mailTemplate) throws MessagingException {
+
+        return new MessageContentBuilder(session, mailTemplate)
+                .buildToMineMessage();
     }
 
-    public MessageContentBuilder(List<String> contentToConvert,
-                                 Session session) {
-        this.contentToConvert = contentToConvert;
+
+    private MessageContentBuilder(final Session session,
+                                  final MailTemplate mailTemplate) {
+
         this.session = session;
+        this.mailTemplate = mailTemplate;
+        this.contentToConvert = getContent();
     }
 
-    public MessageContentBuilder() {
+    private List<String> getContent() {
+        try {
+            return new MessageContentReader(mailTemplate.getFileNameTemplate()).getContent();
+        } catch (IOException e) {
+            log.error("Failed to read {}", mailTemplate.getFileNameTemplate(), e);
+        }
+        return Collections.emptyList();
     }
 
-
-    public MessageContentBuilder setContentToConvert(List<String> contentToConvert) {
-        this.contentToConvert = contentToConvert;
-        return this;
-    }
-
-    public MessageContentBuilder setSession(Session session) {
-        this.session = session;
-        return this;
-    }
-
-    public MimeMessage writeWholeMessage() throws MessagingException {
+    private MimeMessage buildToMineMessage() throws MessagingException {
         MimeMessage finalMessage = new MimeMessage(session);
         Multipart multipart = new MimeMultipart();
 
@@ -49,15 +57,9 @@ public class MessageContentBuilder {
         return finalMessage;
     }
 
-    private MimeBodyPart getMessagePart(String part) {
+    private MimeBodyPart getMessagePart(String part) throws MessagingException {
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-
-        try {
-            mimeBodyPart.setText(part);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
+        mimeBodyPart.setText(part);
         return mimeBodyPart;
     }
 }

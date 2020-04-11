@@ -14,6 +14,5 @@ public class AionServer {
         SpringApplication.run(AionServer.class, args);
     }
 
-//    TODO: - enables Spring OAuth2
-//    - uniform pom versions
+//    TODO: - /!\ TU /!\
 }

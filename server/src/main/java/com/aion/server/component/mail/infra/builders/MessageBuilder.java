@@ -1,5 +1,8 @@
 package com.aion.server.component.mail.infra.builders;
 
+import com.aion.server.component.mail.infra.dto.MessageData;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -10,57 +13,34 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 public class MessageBuilder {
 
-    private String[] to;
-    private String from;
-    private String subject;
-    private List<String> content;
-    private Session session;
+    private final MessageData messageData;
+    private final Session session;
 
-    public Message build() throws MessagingException {
-        MessageContent messageContent = new MessageContentBuilder()
-                .setContentToConvert(content)
-                .setSession(session)
-                .build();
+    public static Message build(final MessageData messageData,
+                                final Session session) throws MessagingException {
 
-        InternetAddress[] internetAddresses = sendTo(to);
+        return new MessageBuilder(messageData, session)
+                .buildToMessage();
+    }
 
-        Message message = new MimeMessage((MimeMessage) messageContent.getFinalMessage());
-        message.setFrom(new InternetAddress(from));
+    private MessageBuilder(MessageData messageData,
+                           Session session) {
+
+        this.messageData = messageData;
+        this.session = session;
+    }
+
+    private Message buildToMessage() throws MessagingException {
+        InternetAddress[] internetAddresses = sendTo(messageData.getTo());
+        Message message = new MimeMessage(MessageContentBuilder.build(session, messageData.getMailTemplate()));
+        message.setFrom(new InternetAddress(messageData.getFrom()));
         message.setRecipients(Message.RecipientType.TO, internetAddresses);
         message.setSentDate(new Date());
-        message.setSubject(subject);
-
+        message.setSubject(messageData.getFrom());
         return message;
-    }
-
-    public MessageBuilder() {
-    }
-
-    public MessageBuilder setTo(String[] to) {
-        this.to = to;
-        return this;
-    }
-
-    public MessageBuilder setFrom(String from) {
-        this.from = from;
-        return this;
-    }
-
-    public MessageBuilder setSubject(String subject) {
-        this.subject = subject;
-        return this;
-    }
-
-    public MessageBuilder setContent(List<String> content) {
-        this.content = content;
-        return this;
-    }
-
-    public MessageBuilder setSession(Session session) {
-        this.session = session;
-        return this;
     }
 
     private static InternetAddress[] sendTo(String[] to) throws AddressException {
