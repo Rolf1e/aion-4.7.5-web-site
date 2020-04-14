@@ -1,0 +1,11 @@
+database:
+  user: rolfie
+  password: rolfie
+  driver: org.postgresql.Driver
+  host: localhost
+  port: 5432
+  type: postgresql
+  dbname : aion-web-site
+mail:
+  identifiant:
+  password:
