@@ -5,17 +5,22 @@ import java.util.List;
 
 public enum MailTemplate {
 
-    CONFIRM_LOGIN("loginConfirm.template", Arrays.asList(
-            "link.verification", "date"));
+    CONFIRM_LOGIN("server/src/main/resources/templates/mail/loginConfirm.template",
+            Arrays.asList("link.verification", "date"),
+            "Mail de confirmation de création de compte");
 
     private final String fileNameTemplate;
-    public final List<String> toReplace;
+    private final List<String> toReplace;
+    private final String subject;
+
 
     MailTemplate(String fileNameTemplate,
-                 List<String> toReplace) {
+                 List<String> toReplace,
+                 String subject) {
 
         this.fileNameTemplate = fileNameTemplate;
         this.toReplace = toReplace;
+        this.subject = subject;
     }
 
     public String getFileNameTemplate() {
@@ -24,5 +29,9 @@ public enum MailTemplate {
 
     public List<String> getToReplace() {
         return toReplace;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 }

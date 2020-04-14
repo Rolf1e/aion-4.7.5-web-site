@@ -1,6 +1,7 @@
 package com.aion.server.component.mail.infra.builders;
 
 import com.aion.server.component.mail.exceptions.WrongSizeTemplateException;
+import com.aion.server.component.mail.infra.TemplateHandler;
 import org.junit.Assert;
 import org.junit.Test;
 

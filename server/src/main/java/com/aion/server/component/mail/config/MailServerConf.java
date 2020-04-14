@@ -4,7 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum MailServerConf {
+    LAPOSTE("smtp.laposte.net", "587"),
     GMAIL("smtp.gmail.com", "587");
+
     private String hostSender;
     private String portSender;
 
@@ -14,4 +16,6 @@ public enum MailServerConf {
         this.hostSender = hostSender;
         this.portSender = portSender;
     }
+
+    public static String MAIL_SENDER = "aion.shard@gmail.com";
 }

@@ -39,7 +39,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
 
     //TODO add id user
     public OutputUserInfos getUserWithToken() {
-        return new OutputUserInfos(userInfos.getUsername(), userInfos.getPassword(), getToken());
+        return new OutputUserInfos(userInfos.getUsername(), EncryptionService.toDecode(userInfos.getPassword()), getToken());
     }
 
     public boolean checkToken() throws SQLException {

@@ -1,5 +1,6 @@
 package com.aion.server.controller;
 
+import com.aion.server.component.mail.infra.sender.MailSender;
 import com.aion.server.database.infra.DBClient;
 import com.aion.server.handler.RegisterRequestHandler;
 import com.aion.server.handler.dto.InputUserInfos;
@@ -16,9 +17,12 @@ public class RegisterController {
     @Autowired
     private DBClient dbClient;
 
+    @Autowired
+    private MailSender mailSender;
+
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     public OutputUserInfos register(@RequestBody InputUserInfos userToRegister) throws UserExistException {
-        return new RegisterRequestHandler(dbClient, userToRegister)
+        return new RegisterRequestHandler(dbClient, userToRegister, mailSender)
                 .registerNewUser();
     }
 }

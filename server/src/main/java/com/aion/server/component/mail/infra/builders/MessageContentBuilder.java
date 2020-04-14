@@ -27,7 +27,6 @@ class MessageContentBuilder {
                 .buildToMineMessage();
     }
 
-
     private MessageContentBuilder(final Session session,
                                   final MailTemplate mailTemplate) {
 
@@ -38,7 +37,8 @@ class MessageContentBuilder {
 
     private List<String> getContent() {
         try {
-            return new MessageContentReader(mailTemplate.getFileNameTemplate()).getContent();
+            return new FileContentReader(mailTemplate.getFileNameTemplate())
+                    .getContent();
         } catch (IOException e) {
             log.error("Failed to read {}", mailTemplate.getFileNameTemplate(), e);
         }

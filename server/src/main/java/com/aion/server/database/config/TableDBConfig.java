@@ -13,6 +13,8 @@ public class TableDBConfig {
     public static final String USERNAME_COLUMN = "USERNAME";
     public static final String PASSWORD_COLUMN = "PASSWORD";
     public static final String TOKEN_COLUMN = "TOKEN";
+    public static final String ACCOUNT_ACTIVATED = "ACTIVATED";
+    public static final String MAIL = "MAIL";
 
 
     //SHOP
