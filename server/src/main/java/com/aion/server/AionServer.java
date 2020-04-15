@@ -15,7 +15,7 @@ public class AionServer {
     }
 
 //    TODO: - /!\ TU /!\
-//    - add gitignore
-//    - fix gmail config
+//    - handle mail in return
+//    - paypal
 }
 

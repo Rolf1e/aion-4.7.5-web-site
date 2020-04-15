@@ -23,6 +23,7 @@ import static java.util.Collections.singletonList;
 public class TokenRequestHandler extends AbstractRequestHandler {
 
     private String toCheck;
+    private String idUser;
 
     public TokenRequestHandler(DBClient dbClient,
                                InputUserInfos userInfos) {
@@ -37,9 +38,9 @@ public class TokenRequestHandler extends AbstractRequestHandler {
         this.toCheck = token;
     }
 
-    //TODO add id user
     public OutputUserInfos getUserWithToken() {
-        return new OutputUserInfos(userInfos.getUsername(), EncryptionService.toDecode(userInfos.getPassword()), getToken());
+        final String token = getToken();
+        return new OutputUserInfos(idUser, userInfos.getUsername(), EncryptionService.toDecode(userInfos.getPassword()), token);
     }
 
     public boolean checkToken() throws SQLException {
@@ -63,6 +64,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
                 token = TokenGenerator.generate();
                 update(toUpdateToken(token));
             }
+            idUser = select.get(USERNAME_ID_COLUMN);
             return token;
         } catch (SQLException e) {
             log.error("Can not retrieve token for user {}", userInfos.getUsername(), e);
@@ -86,7 +88,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
 
     private SQLQuery toSelectToken() {
         return SQLQueryBuilder.buildSelectQuery(
-                singletonList(TOKEN_COLUMN),
+                asList(TOKEN_COLUMN, USERNAME_ID_COLUMN),
                 singletonList(USERS_TABLE),
                 singletonList(new Condition(getWhere(), ConditionType.EQUAL))
         );
