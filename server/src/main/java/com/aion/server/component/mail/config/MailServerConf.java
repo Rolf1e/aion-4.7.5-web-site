@@ -4,8 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum MailServerConf {
-    LAPOSTE("smtp.laposte.net", "587"),
-    GMAIL("smtp.gmail.com", "587");
+    GMAIL("smtp.gmail.com", "465");
 
     private String hostSender;
     private String portSender;

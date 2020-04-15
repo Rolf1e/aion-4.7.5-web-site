@@ -15,4 +15,7 @@ public class AionServer {
     }
 
 //    TODO: - /!\ TU /!\
+//    - add gitignore
+//    - fix gmail config
 }
+
