@@ -17,5 +17,7 @@ public class AionServer {
 //    TODO: - /!\ TU /!\
 //    - handle mail in return
 //    - paypal
+//    - had mail to handle html
+//    - refactor with service
 }
 

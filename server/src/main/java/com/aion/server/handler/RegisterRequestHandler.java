@@ -45,7 +45,7 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
             if (!checkRegistered()) {
                 insert(toInsertUser());
                 valuesToFilWith.addAll(Arrays.asList("lien de vérification", "15 / 4 / 2020"));
-                sendMail();
+                sendMail();                          //TODO add "/valid?token=" + token
                 return new TokenRequestHandler(dbClient, userInfos)
                         .getUserWithToken();
             }

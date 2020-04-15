@@ -44,8 +44,8 @@ public class TokenRequestHandler extends AbstractRequestHandler {
     }
 
     public boolean checkToken() throws SQLException {
-        final Map<String, String> select = select(selectUsernameFromToken());
-        return !select.isEmpty();
+        return !select(selectUsernameFromToken())
+                .isEmpty();
     }
 
     public OutputUserInfos getUserFromToken() throws SQLException {
