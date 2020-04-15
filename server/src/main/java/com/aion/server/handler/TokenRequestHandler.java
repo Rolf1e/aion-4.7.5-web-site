@@ -61,7 +61,7 @@ public class TokenRequestHandler extends AbstractRequestHandler {
             String token = select.get(TOKEN_COLUMN);
             if (token == null) {
                 token = TokenGenerator.generate();
-                insert(toUpdateToken(token));
+                update(toUpdateToken(token));
             }
             return token;
         } catch (SQLException e) {

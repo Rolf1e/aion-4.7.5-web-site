@@ -8,8 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.sql.SQLException;
 import java.util.Map;
 
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
 
 @Slf4j
 public abstract class AbstractRequestHandler {
@@ -34,5 +33,9 @@ public abstract class AbstractRequestHandler {
 
     protected void insert(SQLQuery query) throws SQLException {
         dbClient.insert(query, INSERT);
+    }
+
+    protected void update(SQLQuery query) throws SQLException {
+        dbClient.insert(query, UPDATE);
     }
 }
