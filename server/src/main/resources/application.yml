@@ -1,8 +1,11 @@
 database:
-  user: rolfie
-  password: rolfie
-  driver: org.postgresql.Driver
+  user: root
+  password: password
+  driver: org.mysql.Driver
   host: localhost
-  port: 5432
-  type: postgresql
+  port: 3306
+  type: mysql
   dbname : aion-web-site
+mail:
+  identifiant: dtigrus@gmail.com
+  password: TIGRANtoine92
