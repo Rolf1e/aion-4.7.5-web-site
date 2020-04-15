@@ -14,18 +14,21 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.MessagingException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static com.aion.server.component.mail.config.MailServerConf.MAIL_SENDER;
 import static com.aion.server.database.config.TableDBConfig.*;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singleton;
 
 @Slf4j
 public class RegisterRequestHandler extends AbstractRequestHandler {
 
     private String encryptedPassword;
     private final MailSender mailSender;
+    private final List<String> valuesToFilWith;
 
     public RegisterRequestHandler(final DBClient dbClient,
                                   InputUserInfos userInfos,
@@ -34,19 +37,21 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
         super(dbClient, userInfos);
         encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         this.mailSender = mailSender;
+        valuesToFilWith = new ArrayList<>();
     }
 
     public OutputUserInfos registerNewUser() throws UserExistException {
         try {
             if (!checkRegistered()) {
-//                insert(toInsertUser());
+                insert(toInsertUser());
+                valuesToFilWith.addAll(Arrays.asList("lien de vérification", "15 / 4 / 2020"));
                 sendMail();
                 return new TokenRequestHandler(dbClient, userInfos)
                         .getUserWithToken();
             }
             throw new UserExistException(userInfos.getUsername());
-//        } catch (SQLException e) {
-//            log.error("Can not reach player database", e);
+        } catch (SQLException e) {
+            log.error("Can not reach player database", e);
         } catch (MessagingException e) {
             log.error("Failed to send mail to {}", userInfos.getMail(), e);
         }
@@ -73,6 +78,7 @@ public class RegisterRequestHandler extends AbstractRequestHandler {
     private MessageData generateMessageData() {
         return new MessageData(new String[]{userInfos.getMail()},
                 MAIL_SENDER,
-                MailTemplate.CONFIRM_LOGIN);
+                MailTemplate.CONFIRM_LOGIN,
+                valuesToFilWith);
     }
 }

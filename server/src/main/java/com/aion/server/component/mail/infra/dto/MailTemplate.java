@@ -10,16 +10,16 @@ public enum MailTemplate {
             "Mail de confirmation de création de compte");
 
     private final String fileNameTemplate;
-    private final List<String> toReplace;
+    private final List<String> fields;
     private final String subject;
 
 
     MailTemplate(String fileNameTemplate,
-                 List<String> toReplace,
+                 List<String> fields,
                  String subject) {
 
         this.fileNameTemplate = fileNameTemplate;
-        this.toReplace = toReplace;
+        this.fields = fields;
         this.subject = subject;
     }
 
@@ -27,8 +27,8 @@ public enum MailTemplate {
         return fileNameTemplate;
     }
 
-    public List<String> getToReplace() {
-        return toReplace;
+    public List<String> getFields() {
+        return fields;
     }
 
     public String getSubject() {

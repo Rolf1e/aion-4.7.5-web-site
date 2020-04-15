@@ -1,7 +1,6 @@
-package com.aion.server.component.mail.infra.builders;
+package com.aion.server.component.mail.infra.template;
 
 import com.aion.server.component.mail.exceptions.WrongSizeTemplateException;
-import com.aion.server.component.mail.infra.TemplateHandler;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,16 +10,16 @@ import java.util.Map;
 
 import static java.util.Arrays.asList;
 
-public class TemplateHandlerTest {
+public class TemplateFillerTest {
 
     @Test(expected = WrongSizeTemplateException.class)
     public void should_not_create() throws WrongSizeTemplateException {
-        new TemplateHandler(Collections.emptyList(), Collections.singletonList("I control this honor, it's called distant procedure."));
+        new TemplateFiller(Collections.emptyList(), Collections.singletonList("I control this honor, it's called distant procedure."));
     }
 
     @Test
     public void should_parse_to_map() throws WrongSizeTemplateException {
-        Map<String, String> toMap = new TemplateHandler(
+        Map<String, String> toMap = new TemplateFiller(
                 asList("Red alert, moon!",
                         "Heuretes messiss, tanquam teres mineralis."),
                 asList("When the cannibal screams for port royal, all shores command undead, swashbuckling sea-dogs.",

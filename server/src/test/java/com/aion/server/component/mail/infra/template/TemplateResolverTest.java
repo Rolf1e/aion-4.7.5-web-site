@@ -1,6 +1,5 @@
-package com.aion.server.component.mail.infra.builders;
+package com.aion.server.component.mail.infra.template;
 
-import com.aion.server.component.mail.infra.TemplateResolver;
 import org.junit.Assert;
 import org.junit.Test;
 

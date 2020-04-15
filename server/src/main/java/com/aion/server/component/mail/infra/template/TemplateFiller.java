@@ -1,4 +1,4 @@
-package com.aion.server.component.mail.infra;
+package com.aion.server.component.mail.infra.template;
 
 import com.aion.server.component.mail.exceptions.WrongSizeTemplateException;
 
@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TemplateHandler {
+public class TemplateFiller {
 
-    private List<String> fields;
-    private List<String> toReplace;
+    private final List<String> fields;
+    private final List<String> toReplace;
 
-    public TemplateHandler(List<String> fields,
-                           List<String> toReplace) throws WrongSizeTemplateException {
+    TemplateFiller(final List<String> fields,
+                   final List<String> toReplace) throws WrongSizeTemplateException {
 
         if (fields.size() != toReplace.size()) {
             throw new WrongSizeTemplateException();
@@ -22,7 +22,7 @@ public class TemplateHandler {
         this.fields = fields;
     }
 
-    public Map<String, String> getToMap() {
+    Map<String, String> getToMap() {
         Map<String, String> toMap = new HashMap<>();
 
         for (int i = 0; i < fields.size(); ++i) {

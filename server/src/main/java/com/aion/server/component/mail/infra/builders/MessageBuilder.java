@@ -35,7 +35,7 @@ public class MessageBuilder {
 
     private Message buildToMessage() throws MessagingException {
         InternetAddress[] internetAddresses = sendTo(messageData.getTo());
-        Message message = new MimeMessage(MessageContentBuilder.build(session, messageData.getMailTemplate()));
+        Message message = new MimeMessage(MessageContentBuilder.build(session, messageData.getMailTemplate(), messageData.getValuesToFilWith()));
         message.setFrom(new InternetAddress(messageData.getFrom()));
         message.setRecipients(Message.RecipientType.TO, internetAddresses);
         message.setSentDate(new Date());

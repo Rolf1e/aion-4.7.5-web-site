@@ -7,5 +7,5 @@ database:
   type: mysql
   dbname : aion-web-site
 mail:
-  identifiant: aion.shard@gmail.com
-  password:
+  identifiant: dtigrus@gmail.com
+  password: TIGRANtoine92
