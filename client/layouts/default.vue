@@ -19,20 +19,22 @@
       </template>
 
       <template slot="end">
-        <b-navbar-item tag="div">
-          <div class="buttons">
-            <a class="button is-primary">
-              <strong>Inscription</strong>
-            </a>
-            <a class="button is-light">
-              Connexion
-            </a>
-          </div>
+
+        <b-navbar-item class="button btn is-primary" tag="router-link" :to="{ path: '/register' }">
+          Inscription
         </b-navbar-item>
+
+        <b-navbar-item class="button btn is-light" tag="router-link" :to="{ path: '/login' }">
+          Connexion
+        </b-navbar-item>
+
       </template>
+
     </b-navbar>
 
     <nuxt></nuxt>
+
+
 
   </div>
 
@@ -46,19 +48,19 @@
         links: [
           {
             title: 'Home',
-            path : '/',
+            path: '/',
           },
           {
             title: 'Forum',
-            path : '/forum',
+            path: '/forum',
           },
           {
             title: 'Rules',
-            path : '/rules',
+            path: '/rules',
           },
           {
             title: 'Shop',
-            path : '/shop',
+            path: '/shop',
           }
 
         ]
@@ -79,12 +81,16 @@
     width: 90px;
     height: 90px;
     margin-right: 30px;
-    max-height: none!important;
+    max-height: none !important;
   }
 
   .link {
     margin: 20px 0;
     height: 50px;
+  }
+
+  .btn {
+    margin: 5px;
   }
 
 </style>
