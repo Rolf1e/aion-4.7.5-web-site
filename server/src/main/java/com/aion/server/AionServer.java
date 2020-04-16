@@ -15,5 +15,6 @@ public class AionServer {
 //    - paypal
 //    - had mail to handle html
 //    - refactor with service
+//    - Better handling errors
 }
 

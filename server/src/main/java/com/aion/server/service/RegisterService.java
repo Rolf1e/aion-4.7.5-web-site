@@ -20,6 +20,7 @@ import static com.aion.server.component.mail.config.MailServerConf.MAIL_SENDER;
 import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
+import static java.util.Arrays.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
@@ -44,14 +45,15 @@ public class RegisterService {
     }
 
     public OutputUserInfos registerNewUser(final InputUserInfos userInfos) throws UserExistException {
-
-        final List<String> valuesToFilWith = new ArrayList<>();
-        final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         try {
             if (!checkRegistered(userInfos)) {
+                final String token = tokenService.generateToken();
+                final List<String> valuesToFilWith = asList("/valid?token=" + token, "15 / 4 / 2020");
+
+                sendMail(userInfos, valuesToFilWith);
+                final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
                 dbClient.insert(toInsertUser(userInfos, encryptedPassword), INSERT);
-                valuesToFilWith.addAll(Arrays.asList("lien de vérification", "15 / 4 / 2020"));
-                sendMail(userInfos, valuesToFilWith);                          //TODO add "/valid?token=" + token
+
                 return tokenService.getUserWithToken(userInfos);
             }
             throw new UserExistException(userInfos.getUsername());
