@@ -15,6 +15,8 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
+
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     public OutputUserInfos register(@RequestBody InputUserInfos userToRegister) throws UserExistException {
         return registerService.registerNewUser(userToRegister);

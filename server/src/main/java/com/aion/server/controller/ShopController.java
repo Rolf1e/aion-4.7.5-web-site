@@ -23,6 +23,8 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
+
     @PostMapping(value = "/buy")
     public String buyItem(@RequestBody AionItem item) {
         try {
