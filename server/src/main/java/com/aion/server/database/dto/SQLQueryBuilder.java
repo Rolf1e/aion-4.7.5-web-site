@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 
 import java.util.List;
 
-import static com.aion.server.database.dto.SQLQuery.*;
+import static com.aion.server.database.dto.SQLQuery.Condition;
 
 @UtilityClass
 public class SQLQueryBuilder {
