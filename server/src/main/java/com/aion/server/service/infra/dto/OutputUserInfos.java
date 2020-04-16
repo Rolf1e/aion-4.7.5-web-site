@@ -13,6 +13,7 @@ public class OutputUserInfos {
     private String username;
     private String password;
     private String token;
+    private boolean error;
 
     public OutputUserInfos(String username,
                            String password,
@@ -22,4 +23,12 @@ public class OutputUserInfos {
         this.password = password;
         this.token = token;
     }
+
+    public OutputUserInfos(final InputUserInfos userInfos,
+                           final boolean error) {
+        this.username = userInfos.getUsername();
+        this.password = userInfos.getPassword();
+        this.error = error;
+    }
+
 }
