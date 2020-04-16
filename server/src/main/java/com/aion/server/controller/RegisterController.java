@@ -1,7 +1,7 @@
 package com.aion.server.controller;
 
 import com.aion.server.database.infra.DBClient;
-import com.aion.server.handler.RegisterHandler;
+import com.aion.server.handler.RegisterRequestHandler;
 import com.aion.server.handler.dto.InputUserInfos;
 import com.aion.server.handler.dto.OutputUserInfos;
 import com.aion.server.handler.exception.UserExistException;
@@ -18,7 +18,7 @@ public class RegisterController {
 
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     public OutputUserInfos register(@RequestBody InputUserInfos userToRegister) throws UserExistException {
-        return new RegisterHandler(dbClient, userToRegister)
+        return new RegisterRequestHandler(dbClient, userToRegister)
                 .registerNewUser();
     }
 }

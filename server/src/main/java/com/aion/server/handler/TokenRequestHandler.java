@@ -10,28 +10,23 @@ import com.aion.server.service.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.aion.server.database.config.LoginConfig.*;
 import static com.aion.server.database.dto.SQLQuery.Condition;
 import static com.aion.server.database.dto.SQLQuery.ConditionType;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
-import static java.util.Collections.*;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
 import static java.util.Collections.singletonList;
 
 @Slf4j
-public class TokenHandler {
+public class TokenRequestHandler extends AbstractRequestHandler {
 
-    private InputUserInfos userInfos;
-    private DBClient dbClient;
+    public TokenRequestHandler(DBClient dbClient,
+                               InputUserInfos userInfos) {
 
-    public TokenHandler(InputUserInfos userInfos,
-                        DBClient dbClient) {
-
-        this.userInfos = userInfos;
-        this.dbClient = dbClient;
+        super(dbClient, userInfos);
     }
 
     public OutputUserInfos getUserWithToken() {
@@ -40,7 +35,9 @@ public class TokenHandler {
 
     private String getToken() {
         try {
-            openDBConnection();
+            if (!dbStateController.getState()) {
+                openDBConnection();
+            }
             final Map<String, String> select = select();
             if (select.isEmpty()) {
                 return "Bad credentials";
@@ -54,9 +51,11 @@ public class TokenHandler {
         } catch (SQLException e) {
             log.error("Can not retrieve token for user {}", userInfos.getUsername(), e);
             return "";
-        } finally {
-            closeDBConnection();
-        }
+        }/* finally {
+            if (dbStateController.getState()) {
+                closeDBConnection();
+            }
+        }*/
     }
 
     private Map<String, String> select() throws SQLException {
@@ -95,22 +94,6 @@ public class TokenHandler {
         where.put(USERNAME_COLUMN, userInfos.getUsername());
         where.put(PASSWORD_COLUMN, encryptedPassword);
         return where;
-    }
-
-    private void openDBConnection() {
-        try {
-            dbClient.connect();
-        } catch (SQLException e) {
-            log.error("Failed to open connection login database for user {}", userInfos.getUsername(), e);
-        }
-    }
-
-    private void closeDBConnection() {
-        try {
-            dbClient.disconnect();
-        } catch (SQLException e) {
-            log.error("Failed to close connection with login database for user {}", userInfos.getUsername(), e);
-        }
     }
 
 }

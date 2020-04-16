@@ -15,4 +15,5 @@ public class AionServer {
     }
 
 //    TODO: - enables Spring OAuth2
+//    - uniform pom versions
 }
