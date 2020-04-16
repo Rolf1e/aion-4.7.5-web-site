@@ -20,6 +20,8 @@ public class TokenController {
     @Autowired
     private RegisterService registerService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
+
     @PostMapping(value = "/token", consumes = "application/json", produces = "application/json")
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
         return tokenService.getUserWithToken(userInfos);
