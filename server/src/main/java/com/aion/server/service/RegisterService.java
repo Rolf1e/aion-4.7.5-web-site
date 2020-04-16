@@ -14,15 +14,14 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.aion.server.component.mail.config.MailServerConf.MAIL_SENDER;
 import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 @Slf4j
 @Service
@@ -64,6 +63,10 @@ public class RegisterService {
         return new OutputUserInfos();
     }
 
+    public void updateActivatedUser(final String token) throws SQLException {
+        dbClient.insert(toUpdateUserActivated(token), UPDATE);
+    }
+
     public boolean checkRegistered(final InputUserInfos userInfos) {
         return loginService.checkRegistered(userInfos);
     }
@@ -73,9 +76,29 @@ public class RegisterService {
 
         return SQLQueryBuilder.buildInsertQuery(
                 asList(USERNAME_COLUMN, PASSWORD_COLUMN, MAIL),
-                Collections.singletonList(USERS_TABLE),
+                singletonList(USERS_TABLE),
                 asList(userInfos.getUsername(), encryptedPassword, userInfos.getMail())
         );
+    }
+
+    private SQLQuery toUpdateUserActivated(final String token) {
+        return SQLQueryBuilder.buildUpdateQuery(
+                singletonList(USERS_TABLE),
+                singletonList(new SQLQuery.Condition(getSet(), SQLQuery.ConditionType.EQUAL)),
+                singletonList(new SQLQuery.Condition(getWhereToken(token), SQLQuery.ConditionType.EQUAL))
+        );
+    }
+
+    private Map<String, String> getWhereToken(final String token) {
+        Map<String, String> where = new HashMap<>();
+        where.put(TOKEN_COLUMN, token);
+        return where;
+    }
+
+    private Map<String, String> getSet() {
+        Map<String, String> set = new HashMap<>();
+        set.put(ACCOUNT_ACTIVATED, "1");
+        return set;
     }
 
     private void sendMail(final InputUserInfos userInfos,

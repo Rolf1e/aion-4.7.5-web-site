@@ -1,5 +1,6 @@
 package com.aion.server.controller;
 
+import com.aion.server.service.RegisterService;
 import com.aion.server.service.TokenService;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
@@ -16,6 +17,9 @@ public class TokenController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private RegisterService registerService;
+
     @PostMapping(value = "/token", consumes = "application/json", produces = "application/json")
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
         return tokenService.getUserWithToken(userInfos);
@@ -24,10 +28,13 @@ public class TokenController {
     @GetMapping("/valid")
     public boolean confirmMail(@RequestParam("token") String token) {
         try {
-            return tokenService.checkToken(token);
+            if (tokenService.checkToken(token)) {
+                registerService.updateActivatedUser(token);
+                return true;
+            }
         } catch (SQLException e) {
             log.error("Failed to check token {} ", token, e);
-            return false;
         }
+        return false;
     }
 }
