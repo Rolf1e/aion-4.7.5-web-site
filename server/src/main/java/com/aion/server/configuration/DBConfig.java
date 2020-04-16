@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DBConfig {
 
-    @Bean(destroyMethod = "disconnect")
+    @Bean(destroyMethod = "disconnect", initMethod = "connect")
     public DBClient dbClient(Authentication authentication,
                              DataBaseConfiguration configuration) {
         return new DatabaseClient(authentication, configuration);
