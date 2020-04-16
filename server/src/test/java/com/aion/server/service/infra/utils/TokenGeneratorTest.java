@@ -1,6 +1,5 @@
-package com.aion.server.handler.handler;
+package com.aion.server.service.infra.utils;
 
-import com.aion.server.handler.utils.TokenGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 

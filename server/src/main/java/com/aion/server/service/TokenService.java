@@ -3,10 +3,11 @@ package com.aion.server.service;
 import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
-import com.aion.server.database.infra.SQLQueryAdaptor;
-import com.aion.server.handler.dto.InputUserInfos;
-import com.aion.server.handler.dto.OutputUserInfos;
-import com.aion.server.handler.exception.UserDoesntExistException;
+import com.aion.server.service.infra.dto.InputUserInfos;
+import com.aion.server.service.infra.dto.OutputUserInfos;
+import com.aion.server.service.infra.exception.UserDoesntExistException;
+import com.aion.server.service.infra.utils.TokenGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -14,15 +15,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.aion.server.database.config.TableDBConfig.*;
-import static com.aion.server.database.config.TableDBConfig.TOKEN_COLUMN;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 @Service
+@Slf4j
 public class TokenService {
 
     private final DBClient dbClient;
+    private String idUser;
 
     public TokenService(final DBClient dbClient) {
         this.dbClient = dbClient;
@@ -33,12 +36,36 @@ public class TokenService {
                 .isEmpty();
     }
 
+    public OutputUserInfos getUserWithToken(final InputUserInfos userInfos) {
+        final String token = getToken(userInfos);
+        return new OutputUserInfos(idUser, userInfos.getUsername(), EncryptionService.toDecode(userInfos.getPassword()), token);
+    }
+
     public OutputUserInfos getUserFromToken(final String token) throws SQLException, UserDoesntExistException {
         final Map<String, String> select = dbClient.select(selectUsernameFromToken(token), SELECT);
         if (select.isEmpty()) {
             throw new UserDoesntExistException(token);
         }
         return new OutputUserInfos(select.get(USERNAME_ID_COLUMN), select.get(USERNAME_COLUMN), select.get(PASSWORD_COLUMN), select.get(TOKEN_COLUMN));
+    }
+
+    private String getToken(final InputUserInfos userInfos) {
+        try {
+            final Map<String, String> select = dbClient.select(toSelectToken(userInfos), SELECT);
+            if (select.isEmpty()) {
+                return "Bad credentials";
+            }
+            String token = select.get(TOKEN_COLUMN);
+            if (token == null) {
+                token = TokenGenerator.generate();
+                dbClient.insert(toUpdateToken(token, userInfos), UPDATE);
+            }
+            idUser = select.get(USERNAME_ID_COLUMN);
+            return token;
+        } catch (SQLException e) {
+            log.error("Can not retrieve token for user {}", userInfos.getUsername(), e);
+            return "";
+        }
     }
 
     private SQLQuery toUpdateToken(final String token,

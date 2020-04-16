@@ -4,7 +4,6 @@ import com.aion.server.component.mail.exceptions.WrongSizeTemplateException;
 import com.aion.server.component.mail.infra.dto.MailTemplate;
 import com.aion.server.component.mail.infra.template.TemplateHandler;
 import lombok.extern.slf4j.Slf4j;
-import sun.font.CreatedFontTracker;
 
 import javax.mail.MessagingException;
 import javax.mail.Multipart;

@@ -1,4 +1,4 @@
-package com.aion.server.handler.dto;
+package com.aion.server.service.infra.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
