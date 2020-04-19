@@ -1,9 +1,6 @@
 package com.aion.server.controller;
 
-import com.aion.server.service.PaypalService;
-import com.aion.server.service.ShardService;
-import com.aion.server.service.ShopService;
-import com.aion.server.service.TokenService;
+import com.aion.server.service.*;
 import com.aion.server.service.infra.dto.AionItem;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.ShardsPurchase;
@@ -25,6 +22,7 @@ public class ShopController {
     private final ShopService shopService;
     private final PaypalService paypalService;
     private final ShardService shardService;
+    private final LoginService loginService;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/purchase/shards")
@@ -33,6 +31,11 @@ public class ShopController {
             if (!tokenService.checkToken(purchase.getToken())) {
                 log.info("Failed to verify token for user {}", purchase.getUserId());
                 return "Failed to verify user token";
+            }
+
+            if (!loginService.checkAccountIsActivated(purchase.getUserId())) {
+                log.info("Player {} has not activate is account ", purchase.getUserId());
+                return "Player has not activate is account";
             }
 
             final int amountResponse = paypalService.checkPurchase(purchase);
