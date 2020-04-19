@@ -17,7 +17,7 @@ public class PaypalConfig {
         return new PayPalHttpClient(environment);
     }
 
-    @Bean(name = "sandBoxhttpClient")
+    @Bean(name = "sandboxHttpClient")
     public PayPalHttpClient sandBoxHttpClient(@Qualifier("sandbox") PayPalEnvironment environment) {
         return new PayPalHttpClient(environment);
     }

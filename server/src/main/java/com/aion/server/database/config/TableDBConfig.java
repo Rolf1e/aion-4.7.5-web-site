@@ -24,7 +24,7 @@ public class TableDBConfig {
     public static final String PLAYER_ID_COLUMN = "PLAYERID";
     public static final String ITEM_PLAYER_ID_COLUMN = "ITEMID";
     public static final String ITEM_COUNT_COLUMN = "ITEMCOUNT";
-    public static final String AMOUNT_MONEY_USER = "AMOUNT_WEB_MONEY";
+    public static final String SHARD_COLUMN = "SHARDS";
 
 
     //ITEMS
