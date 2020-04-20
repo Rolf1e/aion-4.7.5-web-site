@@ -35,7 +35,7 @@ public class ShopService {
         final Map<String, String> itemPrice = dbClient.select(toSelectItemPrice(aionItem), SELECT);
 
         if (!moneyAmount.isEmpty()) {
-            final String playerWallet = moneyAmount.get(AMOUNT_MONEY_USER);
+            final String playerWallet = moneyAmount.get(SHARD_COLUMN);
             final String price = itemPrice.get(ITEM_PRICE_COLUMN);
             if (Integer.parseInt(playerWallet) >= Integer.parseInt(price)) {
                 return true;
@@ -67,7 +67,7 @@ public class ShopService {
 
     private SQLQuery toSelectMoneyForUser(final InputUserInfos userInfos) {
         return SQLQueryBuilder.buildSelectQuery(
-                asList(USERNAME_COLUMN, AMOUNT_MONEY_USER),
+                asList(USERNAME_COLUMN, SHARD_COLUMN),
                 singletonList(USERS_TABLE),
                 singletonList(new SQLQuery.Condition(getMoneyUserWhere(userInfos), SQLQuery.ConditionType.EQUAL))
         );

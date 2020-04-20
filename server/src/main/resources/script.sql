@@ -1,9 +1,10 @@
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(255) COLLATE armscii8_bin NOT NULL,
-    `password` varchar(45) COLLATE armscii8_bin NOT NULL,
-    `token` varchar(45) COLLATE armscii8_bin DEFAULT NULL,
-    `amount_web_money` int(11) DEFAULT NULL,
+    `password` varchar(255) COLLATE armscii8_bin NOT NULL,
+    `token` varchar(255) COLLATE armscii8_bin DEFAULT NULL,
+    `mail` varchar(255) COLLATE armscii8_bin DEFAULT NULL,
+    `shards` bigint(20) DEFAULT 0
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin
 

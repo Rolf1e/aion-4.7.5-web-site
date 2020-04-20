@@ -1,6 +1,7 @@
 package com.aion.server.component.mail.infra.builders;
 
 import com.aion.server.component.mail.exceptions.WrongSizeTemplateException;
+import com.aion.server.component.mail.infra.ContentType;
 import com.aion.server.component.mail.infra.dto.MailTemplate;
 import com.aion.server.component.mail.infra.template.TemplateHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +64,7 @@ class MessageContentBuilder {
         for (String part : contentToConvert) {
             multipart.addBodyPart(getMessagePart(part));
         }
-        finalMessage.setContent(multipart);
+        finalMessage.setContent(multipart, ContentType.HTML.getContentType());
 
         return finalMessage;
     }

@@ -31,6 +31,12 @@ public class TokenService {
         this.dbClient = dbClient;
     }
 
+    /**
+     *
+     * @param token
+     * @return true if token is valid
+     * @throws SQLException
+     */
     public boolean checkToken(final String token) throws SQLException {
         return !dbClient.select(selectUsernameFromToken(token), SELECT)
                 .isEmpty();
