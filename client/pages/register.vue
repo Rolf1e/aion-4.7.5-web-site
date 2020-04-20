@@ -58,13 +58,6 @@
 
                 if (this.password === this.confirmPassword && this.password != '') {
 
-                    const {data: response} = await this.$axios.post('http://localhost:8080/register', {
-                        "username": this.username,
-                        "password": this.password,
-                        "mail": this.email
-                    })
-
-                    console.log(response)
 
                     if (response.error === false) {
                         Swal.fire({
