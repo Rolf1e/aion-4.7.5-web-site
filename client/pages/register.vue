@@ -27,7 +27,7 @@
         </b-message>
 
 
-        <b-button type="button is-primary" @click="login">Connexion</b-button>
+        <b-button type="button is-primary" @click="register">Connexion</b-button>
 
     </div>
 </template>
@@ -53,9 +53,8 @@
         },
 
         methods: {
-            async login() {
+            async register() {
 
-                this.openModal()
 
                 if (this.password === this.confirmPassword && this.password != '') {
 
@@ -93,30 +92,8 @@
                     this.error.show = true
                 }
 
-                /*
-                if (this.email == 'arthur' && this.password == 'mdp') {
-                  console.log('le mdp est bon')
-                  let token = 'mon_token'
-                  this.$store.dispatch('auth/loadToken', token )
-                  this.$router.push({path : '/'})
-                } else {
-                  this.error.show = true
-                }
-                */
-
             },
 
-            openToast(message) {
-                this.$buefy.toast.open({
-                    message: message,
-                    type: 'is-success',
-                    duration: 15000
-                })
-            },
-
-            openModal() {
-
-            }
 
         }
     }
