@@ -4,6 +4,7 @@ import com.aion.server.service.RegisterService;
 import com.aion.server.service.TokenService;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,13 @@ import java.sql.SQLException;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 public class TokenController {
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
+    private final RegisterService registerService;
 
-    @Autowired
-    private RegisterService registerService;
+    @CrossOrigin(origins = "http://localhost:3000")
 
     @PostMapping(value = "/token", consumes = "application/json", produces = "application/json")
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {

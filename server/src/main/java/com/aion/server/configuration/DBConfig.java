@@ -12,24 +12,26 @@ import org.springframework.context.annotation.Configuration;
 public class DBConfig {
 
     @Bean(destroyMethod = "disconnect", initMethod = "connect")
-    public DBClient dbClient(Authentication authentication,
-                             DataBaseConfiguration configuration) {
+    public DBClient dbClient(final Authentication authentication,
+                             final DataBaseConfiguration configuration) {
+
         return new DatabaseClient(authentication, configuration);
     }
 
     @Bean
-    public Authentication authentication(@Value("${database.user}") String user,
-                                         @Value("${database.password}") String pwd,
-                                         @Value("${database.host}") String host,
-                                         @Value("${database.port}") String port) {
+    public Authentication authentication(@Value("${database.user}") final String user,
+                                         @Value("${database.password}") final String pwd,
+                                         @Value("${database.host}") final String host,
+                                         @Value("${database.port}") final String port) {
 
         return new Authentication(user, pwd, host, port);
     }
 
     @Bean
-    public DataBaseConfiguration configuration(@Value("${database.driver}") String driver,
-                                               @Value("${database.type}") String type,
-                                               @Value("${database.dbname}") String dbName) {
+    public DataBaseConfiguration configuration(@Value("${database.driver}") final String driver,
+                                               @Value("${database.type}") final String type,
+                                               @Value("${database.dbname}") final String dbName) {
+
         return new DataBaseConfiguration(driver, type, dbName);
     }
 }

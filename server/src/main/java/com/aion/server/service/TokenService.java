@@ -31,6 +31,12 @@ public class TokenService {
         this.dbClient = dbClient;
     }
 
+    /**
+     *
+     * @param token
+     * @return true if token is valid
+     * @throws SQLException
+     */
     public boolean checkToken(final String token) throws SQLException {
         return !dbClient.select(selectUsernameFromToken(token), SELECT)
                 .isEmpty();
@@ -38,7 +44,7 @@ public class TokenService {
 
     public OutputUserInfos getUserWithToken(final InputUserInfos userInfos) {
         final String token = getToken(userInfos);
-        return new OutputUserInfos(idUser, userInfos.getUsername(), EncryptionService.toDecode(userInfos.getPassword()), token);
+        return new OutputUserInfos(idUser, userInfos.getUsername(), EncryptionService.toDecode(userInfos.getPassword()), token, false);
     }
 
     public OutputUserInfos getUserFromToken(final String token) throws SQLException, UserDoesntExistException {
@@ -46,7 +52,11 @@ public class TokenService {
         if (select.isEmpty()) {
             throw new UserDoesntExistException(token);
         }
-        return new OutputUserInfos(select.get(USERNAME_ID_COLUMN), select.get(USERNAME_COLUMN), select.get(PASSWORD_COLUMN), select.get(TOKEN_COLUMN));
+        return new OutputUserInfos(select.get(USERNAME_ID_COLUMN), select.get(USERNAME_COLUMN), select.get(PASSWORD_COLUMN), select.get(TOKEN_COLUMN), false);
+    }
+
+    public String generateToken() {
+        return TokenGenerator.generate();
     }
 
     private String getToken(final InputUserInfos userInfos) {

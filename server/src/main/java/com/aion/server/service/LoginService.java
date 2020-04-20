@@ -38,6 +38,19 @@ public class LoginService {
         }
     }
 
+    public boolean checkAccountIsActivated(final int idPlayer) {
+        try {
+            final Map<String, String> response = dbClient.select(toSelectActivate(idPlayer), SELECT);
+
+            if (response.get(ACCOUNT_ACTIVATED).equals("1")) {
+                return true;
+            }
+        } catch (SQLException e) {
+            log.error("Failed to check account is activated for user {}", idPlayer, e);
+        }
+        return false;
+    }
+
     private SQLQuery toSelectUser(final InputUserInfos userInfos,
                                   final String encryptedPassword) {
 
@@ -56,4 +69,20 @@ public class LoginService {
         where.put(PASSWORD_COLUMN, encryptedPassword);
         return where;
     }
+
+    private SQLQuery toSelectActivate(final int idPlayer) {
+        return SQLQueryBuilder.buildSelectQuery(
+                singletonList(ACCOUNT_ACTIVATED),
+                singletonList(USERS_TABLE),
+                singletonList(new SQLQuery.Condition(getWhereIdPlayer(idPlayer), SQLQuery.ConditionType.EQUAL))
+        );
+    }
+
+    private Map<String, String> getWhereIdPlayer(final int idPlayer) {
+        Map<String, String> where = new HashMap<>();
+        where.put(USERNAME_ID_COLUMN, String.valueOf(idPlayer));
+        return where;
+    }
+
+
 }

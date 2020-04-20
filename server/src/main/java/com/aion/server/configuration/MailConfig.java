@@ -16,7 +16,7 @@ public class MailConfig {
     }
 
     @Bean(name = "gmailSender")
-    public MailSender gmailSender(MailServerConf mailServerConf) {
+    public MailSender gmailSender(final MailServerConf mailServerConf) {
         return new MailSender(mailServerConf);
     }
 }
