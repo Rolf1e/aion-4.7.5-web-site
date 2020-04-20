@@ -16,5 +16,9 @@ public class AionServer {
 //    - had mail to handle html
 //    - refactor with service
 //    - Better handling errors
+//    - error in base64 with pwd
+//    - Check if db handling is good
+//    - Fix load out resource (mail template)
+
 }
 

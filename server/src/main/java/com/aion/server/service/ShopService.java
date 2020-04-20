@@ -6,6 +6,7 @@ import com.aion.server.database.infra.DBClient;
 import com.aion.server.service.infra.dto.AionItem;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -22,17 +23,21 @@ import static java.util.Collections.singletonList;
 @Service
 public class ShopService {
 
-    private final DBClient dbClient;
+    private final DBClient gameDB;
+    private final DBClient loginDB;
 
-    public ShopService(DBClient dbClient) {
-        this.dbClient = dbClient;
+    public ShopService(@Qualifier("ac47_server_gs") final DBClient gameDB,
+                       @Qualifier("ac47_server_ls") final DBClient loginDB) {
+
+        this.gameDB = gameDB;
+        this.loginDB = loginDB;
     }
 
     public boolean canPerform(final AionItem aionItem,
                               final InputUserInfos userInfos) throws SQLException {
 
-        final Map<String, String> moneyAmount = dbClient.select(toSelectMoneyForUser(userInfos), SELECT);
-        final Map<String, String> itemPrice = dbClient.select(toSelectItemPrice(aionItem), SELECT);
+        final Map<String, String> moneyAmount = loginDB.select(toSelectMoneyForUser(userInfos), SELECT);
+        final Map<String, String> itemPrice = gameDB.select(toSelectItemPrice(aionItem), SELECT);
 
         if (!moneyAmount.isEmpty()) {
             final String playerWallet = moneyAmount.get(SHARD_COLUMN);
@@ -49,7 +54,7 @@ public class ShopService {
     public void registerItem(final AionItem aionItem,
                              final InputUserInfos userInfos) {
         try {
-            dbClient.insert(toInsertItem(aionItem, userInfos), INSERT);
+            gameDB.insert(toInsertItem(aionItem, userInfos), INSERT);
         } catch (SQLException e) {
             log.error("Failed to add item to player {}", aionItem.getIdPlayer(), e);
         }

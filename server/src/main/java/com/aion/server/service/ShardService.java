@@ -4,6 +4,7 @@ import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -19,25 +20,24 @@ import static java.util.Collections.singletonList;
 @Service
 public class ShardService {
 
-    private final DBClient dbClient;
+    private final DBClient loginDB;
 
-    public ShardService(final DBClient dbClient) {
-        this.dbClient = dbClient;
+    public ShardService(@Qualifier("ac47_server_ls") final DBClient loginDB) {
+        this.loginDB = loginDB;
     }
 
     public boolean giveShardsToPlayer(final int idPlayer,
                                       final int shardAmount) {
-
         try {
-            final Map<String, String> reponse = dbClient.select(toSelectOldAmount(idPlayer), SELECT);
-            if (reponse.isEmpty()) {
+            final Map<String, String> response = loginDB.select(toSelectOldAmount(idPlayer), SELECT);
+            if (response.isEmpty()) {
                 log.info("Failed to get old shard amount for player {}", idPlayer);
                 return false;
             }
-            final String stringOldAmount = reponse.get(SHARD_COLUMN);
+            final String stringOldAmount = response.get(SHARD_COLUMN);
             int oldAmount = Integer.parseInt(stringOldAmount);
 
-            dbClient.insert(updateShardsInDb(oldAmount + shardAmount, idPlayer), UPDATE);
+            loginDB.insert(updateShardsInDb(oldAmount + shardAmount, idPlayer), UPDATE);
             log.info("Give {} shards to player {}", shardAmount, idPlayer);
             return true;
         } catch (SQLException e) {

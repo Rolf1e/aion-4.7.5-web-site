@@ -8,6 +8,7 @@ import com.aion.server.service.infra.dto.OutputUserInfos;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.utils.TokenGenerator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class TokenService {
     private final DBClient dbClient;
     private String idUser;
 
-    public TokenService(final DBClient dbClient) {
+    public TokenService(@Qualifier("ac47_server_ls") final DBClient dbClient) {
         this.dbClient = dbClient;
     }
 
