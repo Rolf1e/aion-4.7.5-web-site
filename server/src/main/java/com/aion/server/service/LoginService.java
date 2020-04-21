@@ -27,7 +27,6 @@ public class LoginService {
         this.dbClient = dbClient;
     }
 
-    //TODO use OutputUser
     public boolean checkRegistered(final InputUserInfos userInfos) {
         final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         try {
