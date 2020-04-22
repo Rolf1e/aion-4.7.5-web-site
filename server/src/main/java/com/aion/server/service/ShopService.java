@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.aion.server.database.config.TableDBConfig.*;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.SELECT;
+import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
@@ -36,25 +35,41 @@ public class ShopService {
     public boolean canPerform(final AionItem aionItem,
                               final InputUserInfos userInfos) throws SQLException {
 
-        final Map<String, String> moneyAmount = loginDB.select(toSelectMoneyForUser(userInfos), SELECT);
-        final Map<String, String> itemPrice = gameDB.select(toSelectItemPrice(aionItem), SELECT);
+        final Map<String, String> moneyAmount = getUserMoney(userInfos);
+        final Map<String, String> itemPrice = getItemPrice(aionItem);
 
-        if (!moneyAmount.isEmpty()) {
+        if (!moneyAmount.isEmpty() && !itemPrice.isEmpty()) {
             final String playerWallet = moneyAmount.get(SHARD_COLUMN);
             final String price = itemPrice.get(ITEM_PRICE_COLUMN);
-            if (Integer.parseInt(playerWallet) >= Integer.parseInt(price)) {
+            if (Integer.parseInt(playerWallet) >= Integer.parseInt(price) * Integer.parseInt(aionItem.getCountItem())) {
                 return true;
             }
+            log.error("Not enough Shards");
+            return false;
         }
-
         log.error("Failed to read money");
         return false;
+    }
+
+    private Map<String, String> getItemPrice(final AionItem aionItem) throws SQLException {
+        return gameDB.select(toSelectItemPrice(aionItem), SELECT);
+    }
+
+    private Map<String, String> getUserMoney(final InputUserInfos userInfos) throws SQLException {
+        return loginDB.select(toSelectMoneyForUser(userInfos), SELECT);
     }
 
     public void registerItem(final AionItem aionItem,
                              final InputUserInfos userInfos) {
         try {
+            final String playerWallet = getUserMoney(userInfos).get(SHARD_COLUMN);
+            final String price = getItemPrice(aionItem).get(ITEM_PRICE_COLUMN);
+            final int moneyToSubtract = Integer.parseInt(playerWallet) - Integer.parseInt(price) * Integer.parseInt(aionItem.getCountItem());
+            loginDB.insert(toUpdateMoneyOfPlayer(userInfos, moneyToSubtract), UPDATE);
+            log.info("Subtract player money {}", userInfos.getId());
+            //TODO create player_shop
             gameDB.insert(toInsertItem(aionItem, userInfos), INSERT);
+            log.info("Give item {} to player {}", aionItem.getIdItem(), userInfos.getId());
         } catch (SQLException e) {
             log.error("Failed to add item to player {}", aionItem.getIdPlayer(), e);
         }
@@ -64,9 +79,9 @@ public class ShopService {
                                   final InputUserInfos userInfos) {
 
         return SQLQueryBuilder.buildInsertQuery(
-                asList(PLAYER_ID_COLUMN, ITEM_PLAYER_ID_COLUMN, ITEM_COUNT_COLUMN),
+                asList(RECIPIENT_COLUMN, ITEM_DESCRIPTION_COLUMN, ITEM_ID_COLUMN, SHOP_COUNT_COLUMN),
                 singletonList(SHOP_TABLE),
-                asList(userInfos.getId(), aionItem.getIdItem(), aionItem.getCountItem())
+                asList(userInfos.getUsername(), aionItem.getIdItem(), aionItem.getIdItem(), aionItem.getCountItem())
         );
     }
 
@@ -99,4 +114,18 @@ public class ShopService {
         return where;
     }
 
+    private SQLQuery toUpdateMoneyOfPlayer(final InputUserInfos userInfos,
+                                           final int amount) {
+        return SQLQueryBuilder.buildUpdateQuery(
+                singletonList(USERS_TABLE),
+                singletonList(new SQLQuery.Condition(getSet(amount), SQLQuery.ConditionType.EQUAL)),
+                singletonList(new SQLQuery.Condition(getMoneyUserWhere(userInfos), SQLQuery.ConditionType.EQUAL))
+        );
+    }
+
+    private Map<String, String> getSet(final int amount) {
+        Map<String, String> set = new HashMap<>();
+        set.put(SHARD_COLUMN, String.valueOf(amount));
+        return set;
+    }
 }
