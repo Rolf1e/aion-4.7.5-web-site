@@ -11,8 +11,9 @@ import java.sql.SQLException;
 @UtilityClass
 public class SQLConnectionBuilder {
 
-    public static Connection getConnection(Authentication auth,
-                                            DataBaseConfiguration config) throws SQLException {
+    public static Connection getConnection(final Authentication auth,
+                                           final DataBaseConfiguration config) throws SQLException {
+
         String url = "jdbc:" + config.getDataBaseType() + "://" + auth.getHost() + ":" + auth.getPort() + "/" + config.getDatabaseName();
         return DriverManager.getConnection(url, auth.getUser(), auth.getPassword());
     }

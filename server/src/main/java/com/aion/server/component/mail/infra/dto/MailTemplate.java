@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum MailTemplate {
 
-    CONFIRM_LOGIN("server/src/main/resources/templates/mail/loginConfirm.template",
+    CONFIRM_LOGIN("/templates/mail/loginConfirm.template",
             Arrays.asList("link.verification", "date"),
             "Mail de confirmation de création de compte");
 

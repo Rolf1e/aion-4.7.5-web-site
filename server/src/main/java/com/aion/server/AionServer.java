@@ -11,10 +11,8 @@ public class AionServer {
     }
 
 //    TODO: - /!\ TU /!\
-//    - handle mail in return
-//    - paypal
 //    - had mail to handle html
-//    - refactor with service
-//    - Better handling errors
+//    - error in base64 with pwd
+//    - UPDATE TO HIBERNATE
 }
 

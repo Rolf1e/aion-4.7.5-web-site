@@ -5,6 +5,7 @@ import com.aion.server.database.dto.SQLQueryBuilder;
 import com.aion.server.database.infra.DBClient;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -22,15 +23,15 @@ public class LoginService {
 
     private final DBClient dbClient;
 
-    public LoginService(DBClient dbClient) {
+    public LoginService(@Qualifier("ac47_server_ls") final DBClient dbClient) {
         this.dbClient = dbClient;
     }
 
-    //TODO use OutputUser
     public boolean checkRegistered(final InputUserInfos userInfos) {
         final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         try {
             return !dbClient.select(toSelectUser(userInfos, encryptedPassword), SELECT)
+                    .get(0)
                     .isEmpty();
         } catch (SQLException e) {
             log.error("Can not reach player database", e);
@@ -40,9 +41,9 @@ public class LoginService {
 
     public boolean checkAccountIsActivated(final int idPlayer) {
         try {
-            final Map<String, String> response = dbClient.select(toSelectActivate(idPlayer), SELECT);
+            final Map<String, String> response = dbClient.select(toSelectActivate(idPlayer), SELECT).get(0);
 
-            if (response.get(ACCOUNT_ACTIVATED).equals("1")) {
+            if (response.get(ACCOUNT_ACTIVATED_COLUMN).equals("1")) {
                 return true;
             }
         } catch (SQLException e) {
@@ -72,7 +73,7 @@ public class LoginService {
 
     private SQLQuery toSelectActivate(final int idPlayer) {
         return SQLQueryBuilder.buildSelectQuery(
-                singletonList(ACCOUNT_ACTIVATED),
+                singletonList(ACCOUNT_ACTIVATED_COLUMN),
                 singletonList(USERS_TABLE),
                 singletonList(new SQLQuery.Condition(getWhereIdPlayer(idPlayer), SQLQuery.ConditionType.EQUAL))
         );

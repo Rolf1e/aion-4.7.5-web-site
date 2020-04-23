@@ -8,6 +8,7 @@ import com.aion.server.service.infra.dto.OutputUserInfos;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.utils.TokenGenerator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -27,18 +28,18 @@ public class TokenService {
     private final DBClient dbClient;
     private String idUser;
 
-    public TokenService(final DBClient dbClient) {
+    public TokenService(@Qualifier("ac47_server_ls") final DBClient dbClient) {
         this.dbClient = dbClient;
     }
 
     /**
-     *
      * @param token
      * @return true if token is valid
      * @throws SQLException
      */
     public boolean checkToken(final String token) throws SQLException {
         return !dbClient.select(selectUsernameFromToken(token), SELECT)
+                .get(0)
                 .isEmpty();
     }
 
@@ -48,7 +49,7 @@ public class TokenService {
     }
 
     public OutputUserInfos getUserFromToken(final String token) throws SQLException, UserDoesntExistException {
-        final Map<String, String> select = dbClient.select(selectUsernameFromToken(token), SELECT);
+        final Map<String, String> select = dbClient.select(selectUsernameFromToken(token), SELECT).get(0);
         if (select.isEmpty()) {
             throw new UserDoesntExistException(token);
         }
@@ -61,7 +62,7 @@ public class TokenService {
 
     private String getToken(final InputUserInfos userInfos) {
         try {
-            final Map<String, String> select = dbClient.select(toSelectToken(userInfos), SELECT);
+            final Map<String, String> select = dbClient.select(toSelectToken(userInfos), SELECT).get(0);
             if (select.isEmpty()) {
                 return "Bad credentials";
             }

@@ -10,6 +10,7 @@ import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
 import com.aion.server.service.infra.exception.UserExistException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -20,7 +21,6 @@ import static com.aion.server.component.mail.config.MailServerConf.MAIL_SENDER;
 import static com.aion.server.database.config.TableDBConfig.*;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
 import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
-import static java.util.Arrays.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
@@ -33,7 +33,7 @@ public class RegisterService {
     private final LoginService loginService;
     private final MailSender mailSender;
 
-    public RegisterService(final DBClient dbClient,
+    public RegisterService(@Qualifier("ac47_server_ls") final DBClient dbClient,
                            final TokenService tokenService,
                            final LoginService loginService,
                            final MailSender mailSender) {
@@ -62,7 +62,7 @@ public class RegisterService {
         } catch (MessagingException e) {
             log.error("Failed to send mail to {}", userInfos.getMail(), e);
         }
-        return new OutputUserInfos();
+        return new OutputUserInfos(userInfos, true);
     }
 
     public void updateActivatedUser(final String token) throws SQLException {
@@ -77,7 +77,7 @@ public class RegisterService {
                                   final String encryptedPassword) {
 
         return SQLQueryBuilder.buildInsertQuery(
-                asList(USERNAME_COLUMN, PASSWORD_COLUMN, MAIL),
+                asList(USERNAME_COLUMN, PASSWORD_COLUMN, MAIL_COLUMN),
                 singletonList(USERS_TABLE),
                 asList(userInfos.getUsername(), encryptedPassword, userInfos.getMail())
         );
@@ -99,7 +99,7 @@ public class RegisterService {
 
     private Map<String, String> getSet() {
         Map<String, String> set = new HashMap<>();
-        set.put(ACCOUNT_ACTIVATED, "1");
+        set.put(ACCOUNT_ACTIVATED_COLUMN, "1");
         return set;
     }
 

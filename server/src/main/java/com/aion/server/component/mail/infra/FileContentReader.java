@@ -1,9 +1,11 @@
-package com.aion.server.component.mail.infra.builders;
+package com.aion.server.component.mail.infra;
+
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileContentReader {
@@ -15,6 +17,7 @@ public class FileContentReader {
     }
 
     public List<String> getContent() throws IOException {
-        return Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        return Arrays.asList(IOUtils.toString(this.getClass().getResourceAsStream(fileName), StandardCharsets.UTF_8)
+                .split("\n"));
     }
 }

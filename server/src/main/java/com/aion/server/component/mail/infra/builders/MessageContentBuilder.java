@@ -2,6 +2,7 @@ package com.aion.server.component.mail.infra.builders;
 
 import com.aion.server.component.mail.exceptions.WrongSizeTemplateException;
 import com.aion.server.component.mail.infra.ContentType;
+import com.aion.server.component.mail.infra.FileContentReader;
 import com.aion.server.component.mail.infra.dto.MailTemplate;
 import com.aion.server.component.mail.infra.template.TemplateHandler;
 import lombok.extern.slf4j.Slf4j;
