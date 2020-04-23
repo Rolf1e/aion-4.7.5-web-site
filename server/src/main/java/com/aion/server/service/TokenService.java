@@ -33,13 +33,13 @@ public class TokenService {
     }
 
     /**
-     *
      * @param token
      * @return true if token is valid
      * @throws SQLException
      */
     public boolean checkToken(final String token) throws SQLException {
         return !dbClient.select(selectUsernameFromToken(token), SELECT)
+                .get(0)
                 .isEmpty();
     }
 
@@ -49,7 +49,7 @@ public class TokenService {
     }
 
     public OutputUserInfos getUserFromToken(final String token) throws SQLException, UserDoesntExistException {
-        final Map<String, String> select = dbClient.select(selectUsernameFromToken(token), SELECT);
+        final Map<String, String> select = dbClient.select(selectUsernameFromToken(token), SELECT).get(0);
         if (select.isEmpty()) {
             throw new UserDoesntExistException(token);
         }
@@ -62,7 +62,7 @@ public class TokenService {
 
     private String getToken(final InputUserInfos userInfos) {
         try {
-            final Map<String, String> select = dbClient.select(toSelectToken(userInfos), SELECT);
+            final Map<String, String> select = dbClient.select(toSelectToken(userInfos), SELECT).get(0);
             if (select.isEmpty()) {
                 return "Bad credentials";
             }

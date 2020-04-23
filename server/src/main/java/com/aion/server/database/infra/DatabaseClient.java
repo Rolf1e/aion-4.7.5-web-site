@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class DatabaseClient implements DBClient {
     }
 
     @Override
-    public Map<String, String> select(SQLQuery query,
+    public List<Map<String, String>> select(SQLQuery query,
                                       SQLKeyWord keyWord) throws SQLException {
 
         ResultSet resultSet = statement.executeQuery(getQueryAsString(query, keyWord));
@@ -63,15 +64,17 @@ public class DatabaseClient implements DBClient {
         return statement.executeUpdate(getQueryAsString(query, keyWord));
     }
 
-    private Map<String, String> getResult(ResultSet resultSet,
+    private List<Map<String, String>> getResult(ResultSet resultSet,
                                           List<String> select) throws SQLException {
-        Map<String, String> queryResult = new HashMap<>();
+        final List<Map<String, String>> wholeResult = new ArrayList<>();
         while (resultSet.next()) {
+            final Map<String, String> queryResult = new HashMap<>();
             for (String column : select) {
                 queryResult.put(column, resultSet.getString(column));
             }
+            wholeResult.add(queryResult);
         }
         resultSet.close();
-        return queryResult;
+        return wholeResult;
     }
 }

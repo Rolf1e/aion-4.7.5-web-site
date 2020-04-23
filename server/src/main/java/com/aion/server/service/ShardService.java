@@ -29,7 +29,7 @@ public class ShardService {
     public boolean giveShardsToPlayer(final int idPlayer,
                                       final int shardAmount) {
         try {
-            final Map<String, String> response = loginDB.select(toSelectOldAmount(idPlayer), SELECT);
+            final Map<String, String> response = loginDB.select(toSelectOldAmount(idPlayer), SELECT).get(0);
             if (response.isEmpty()) {
                 log.info("Failed to get old shard amount for player {}", idPlayer);
                 return false;

@@ -31,6 +31,7 @@ public class LoginService {
         final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         try {
             return !dbClient.select(toSelectUser(userInfos, encryptedPassword), SELECT)
+                    .get(0)
                     .isEmpty();
         } catch (SQLException e) {
             log.error("Can not reach player database", e);
@@ -40,7 +41,7 @@ public class LoginService {
 
     public boolean checkAccountIsActivated(final int idPlayer) {
         try {
-            final Map<String, String> response = dbClient.select(toSelectActivate(idPlayer), SELECT);
+            final Map<String, String> response = dbClient.select(toSelectActivate(idPlayer), SELECT).get(0);
 
             if (response.get(ACCOUNT_ACTIVATED_COLUMN).equals("1")) {
                 return true;

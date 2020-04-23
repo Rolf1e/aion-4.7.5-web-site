@@ -13,7 +13,6 @@ public class AionServer {
 //    TODO: - /!\ TU /!\
 //    - had mail to handle html
 //    - error in base64 with pwd
-//    - Check if db handling is good
-
+//    - UPDATE TO HIBERNATE
 }
 

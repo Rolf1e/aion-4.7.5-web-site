@@ -4,14 +4,15 @@ import com.aion.server.service.*;
 import com.aion.server.service.infra.dto.AionItem;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.ShardsPurchase;
+import com.aion.server.service.infra.dto.ShopItem;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.utils.CurrencyConverter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -81,5 +82,12 @@ public class ShopController {
         }
         return "Failed to register item";
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/listshop")
+    public List<ShopItem> getListShopItem() {
+        return shopService.getShopList();
+    }
+
 }
 

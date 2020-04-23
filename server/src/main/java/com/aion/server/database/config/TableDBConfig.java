@@ -39,7 +39,7 @@ public class TableDBConfig {
     public static final String ITEM_DESCRIPTION_COLUMN = "item_desc";
     public static final String ITEM_COUNT_COLUMN = "item_count";
     public static final String ITEM_PRICE_COLUMN = "price";
-    public static final String ITEM_PATH_TO_IMAGE_COLUMN = "item_path_to_image";
+    public static final String ITEM_PATH_TO_IMAGE_COLUMN = "item_image_path";
 
 
 }
