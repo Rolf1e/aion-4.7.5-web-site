@@ -1,5 +1,6 @@
 package com.aion.server.controller;
 
+import com.aion.server.service.LoginService;
 import com.aion.server.service.RegisterService;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController {
 
     private final RegisterService registerService;
+    private final LoginService loginService;
 
     @CrossOrigin(origins = "http://localhost:3000")
 
@@ -28,5 +30,10 @@ public class RegisterController {
             log.error("User {} already exist", userToRegister.getUsername(), e);
         }
         return new OutputUserInfos(userToRegister, true);
+    }
+
+    @PostMapping(value = "/test", consumes = "application/json", produces = "application/json")
+    public boolean test(@RequestBody InputUserInfos userToRegister) {
+        return loginService.check(userToRegister);
     }
 }

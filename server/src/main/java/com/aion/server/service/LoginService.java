@@ -2,7 +2,9 @@ package com.aion.server.service;
 
 import com.aion.server.database.dto.SQLQuery;
 import com.aion.server.database.dto.SQLQueryBuilder;
+import com.aion.server.database.entity.AccountData;
 import com.aion.server.database.infra.DBClient;
+import com.aion.server.database.repositories.login.AccountDataRepository;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,11 +24,18 @@ import static java.util.Collections.singletonList;
 public class LoginService {
 
     private final DBClient dbClient;
+    private final AccountDataRepository accountDataRepository;
 
-    public LoginService(@Qualifier("ac47_server_ls") final DBClient dbClient) {
+    public LoginService(@Qualifier("ac47_server_ls") final DBClient dbClient,
+                        final AccountDataRepository accountDataRepository) {
+
         this.dbClient = dbClient;
+        this.accountDataRepository = accountDataRepository;
     }
 
+//    public LoginService(@Qualifier("ac47_server_ls") final DBClient dbClient) {
+//        this.dbClient = dbClient;
+//    }
     public boolean checkRegistered(final InputUserInfos userInfos) {
         final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
         try {
@@ -84,6 +93,4 @@ public class LoginService {
         where.put(USERNAME_ID_COLUMN, String.valueOf(idPlayer));
         return where;
     }
-
-
 }
