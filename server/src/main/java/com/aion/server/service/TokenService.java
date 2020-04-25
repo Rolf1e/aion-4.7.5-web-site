@@ -29,7 +29,8 @@ public class TokenService {
     }
 
     public Optional<AccountData> getUserWithToken(final InputUserInfos userInfos) {
-        return accountDataRepository.findByNameAndPassword(userInfos.getUsername(), userInfos.getPassword());
+        final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
+        return accountDataRepository.findByNameAndPassword(userInfos.getUsername(), encryptedPassword);
     }
 
     public Optional<AccountData> getUserFromToken(final String token) {

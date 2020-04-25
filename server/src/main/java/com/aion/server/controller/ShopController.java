@@ -90,6 +90,7 @@ public class ShopController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/listshop")
     public List<Shop> getListShopItem() {
+        log.info("Get shop list");
         return shopService.getShopList();
     }
 

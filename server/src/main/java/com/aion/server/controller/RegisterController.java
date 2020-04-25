@@ -1,6 +1,5 @@
 package com.aion.server.controller;
 
-import com.aion.server.service.LoginService;
 import com.aion.server.service.RegisterService;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController {
 
     private final RegisterService registerService;
-    private final LoginService loginService;
 
     @CrossOrigin(origins = "http://localhost:3000")
 

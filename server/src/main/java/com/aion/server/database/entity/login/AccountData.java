@@ -9,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "account_data")
+@Table(name = "account_data", schema = "ac47_server_ls")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,8 +17,8 @@ public class AccountData {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "name")
     private String name;

@@ -12,4 +12,6 @@ public interface AccountDataRepository extends CrudRepository<AccountData, Long>
     Optional<AccountData> findByNameAndPassword(final String username, final String password);
 
     Optional<AccountData> findByToken(final String token);
+
+    boolean existsByNameAndPassword(final String username, final String password);
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "shop")
+@Table(name = "shop", schema = "ac47_server_gs")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -15,7 +15,7 @@ public class Shop {
 
     @Id
     @Column(name = "object_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String objectId;
 
     @Column(name = "item_id")

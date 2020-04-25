@@ -5,13 +5,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "webshop")
+@Table(name = "webshop", schema = "ac47_server_gs")
 @NoArgsConstructor
 public class WebShop {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "recipient")

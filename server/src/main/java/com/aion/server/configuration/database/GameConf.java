@@ -1,44 +1,47 @@
 package com.aion.server.configuration.database;
 
-import com.aion.server.database.config.DataBaseConfiguration;
-import com.aion.server.database.dto.Authentication;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.aion.server.database.repositories.game")
-@EntityScan(basePackages = "com.aion.server.database.entity.game")
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = {"com.aion.server.database.repositories.game"},
+        entityManagerFactoryRef = "gameEntityManagerFactory",
+        transactionManagerRef = "gameTransactionManager")
 public class GameConf {
 
-    private static final String JDBC = "jdbc:";
-
-    @Primary
-    @Bean(name = "gameDatabase")
-    public DataSource gameDataSource(final Authentication authentication,
-                                     @Qualifier("server") final DataBaseConfiguration configuration) {
-
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(configuration.getDataBaseDriver());
-        dataSourceBuilder.url(JDBC + configuration.getDataBaseType() + "://" + authentication.getHost() + ":" + authentication.getPort() + "/" + configuration.getDatabaseName());
-        dataSourceBuilder.username(authentication.getUser());
-        dataSourceBuilder.password(authentication.getPassword());
-        return dataSourceBuilder.build();
+    @Bean(name = "gameDataSource")
+    @ConfigurationProperties(prefix = "game.datasource")
+    public DataSource gameDataSource() {
+        return DataSourceBuilder
+                .create()
+                .build();
     }
 
-    @Primary
-    @Bean(name = "server")
-    public DataBaseConfiguration configurationServer(@Value("${database.driver}") final String driver,
-                                                     @Value("${database.type}") final String type,
-                                                     @Value("${database.dbname.server}") final String dbName) {
+    @Bean(name = "gameEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean gameEntityManagerFactory(final EntityManagerFactoryBuilder builder,
+                                                                       @Qualifier("gameDataSource") final DataSource dataSource) {
+        return builder.dataSource(dataSource)
+                .packages("com.aion.server.database.entity.game")
+                .persistenceUnit("game")
+                .build();
+    }
 
-        return new DataBaseConfiguration(driver, type, dbName);
+    @Bean(name = "gameTransactionManager")
+    public PlatformTransactionManager gameTransactionManager(@Qualifier("gameEntityManagerFactory") final EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }

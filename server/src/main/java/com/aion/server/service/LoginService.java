@@ -18,9 +18,7 @@ public class LoginService {
 
     public boolean checkRegistered(final InputUserInfos userInfos) {
         final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
-        final Optional<AccountData> byNameAndPassword = accountDataRepository.findByNameAndPassword(userInfos.getUsername(), encryptedPassword);
-        return byNameAndPassword.filter(accountData -> !accountData.getToken().equals(""))
-                .isPresent();
+        return accountDataRepository.existsByNameAndPassword(userInfos.getUsername(), encryptedPassword);
     }
 
     public boolean checkAccountIsActivated(final long idPlayer) {
