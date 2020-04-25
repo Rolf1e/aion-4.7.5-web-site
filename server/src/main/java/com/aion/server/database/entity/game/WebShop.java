@@ -1,6 +1,5 @@
-package com.aion.server.database.entity;
+package com.aion.server.database.entity.game;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "webshop")
 @NoArgsConstructor
-@AllArgsConstructor
 public class WebShop {
 
     @Id
@@ -23,11 +21,24 @@ public class WebShop {
     private String itemDesc;
 
     @Column(name = "item_id")
-    private String itemId;
+    private int itemId;
 
     @Column(name = "count")
     private int count;
 
     @Column(name = "toll")
     private int toll;
+
+    public WebShop(final String recipient,
+                   final String itemDesc,
+                   final int itemId,
+                   final int count,
+                   final int toll) {
+
+        this.recipient = recipient;
+        this.itemDesc = itemDesc;
+        this.itemId = itemId;
+        this.count = count;
+        this.toll = toll;
+    }
 }

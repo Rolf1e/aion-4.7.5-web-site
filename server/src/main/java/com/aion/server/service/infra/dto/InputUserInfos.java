@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InputUserInfos {
 
-    private String id;
+    private long id;
     private String username;
     private String password;
     private String token;

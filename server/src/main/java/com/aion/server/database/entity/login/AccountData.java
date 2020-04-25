@@ -1,8 +1,10 @@
-package com.aion.server.database.entity;
+package com.aion.server.database.entity.login;
 
+import com.aion.server.service.infra.dto.InputUserInfos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -24,6 +26,7 @@ public class AccountData {
     @Column(name = "password")
     private String password;
 
+    @Setter
     @Column(name = "activated")
     private int activated;
 
@@ -37,6 +40,25 @@ public class AccountData {
     private String email;
 
     @Column(name = "toll")
-    private String toll;
+    private long toll;
 
+    public AccountData(final InputUserInfos userInfos,
+                       final String token,
+                       final String encryptedPassword) {
+
+        this.name = userInfos.getUsername();
+        this.password = encryptedPassword;
+        this.email = userInfos.getMail();
+        this.token = token;
+    }
+
+    public long giveToll(final long toGive) {
+        this.toll += toGive;
+        return this.toll;
+    }
+
+    public long takeToll(final long toTake) {
+        this.toll -= toTake;
+        return this.toll;
+    }
 }

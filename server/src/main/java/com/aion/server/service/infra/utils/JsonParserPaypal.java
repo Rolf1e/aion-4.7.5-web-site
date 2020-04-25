@@ -1,7 +1,6 @@
 package com.aion.server.service.infra.utils;
 
 import lombok.experimental.UtilityClass;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 @UtilityClass

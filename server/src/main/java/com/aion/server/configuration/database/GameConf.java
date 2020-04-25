@@ -4,19 +4,23 @@ import com.aion.server.database.config.DataBaseConfiguration;
 import com.aion.server.database.dto.Authentication;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.aion.server.database.repositories.game")
+@EntityScan(basePackages = "com.aion.server.database.entity.game")
 public class GameConf {
 
     private static final String JDBC = "jdbc:";
 
+    @Primary
     @Bean(name = "gameDatabase")
     public DataSource gameDataSource(final Authentication authentication,
                                      @Qualifier("server") final DataBaseConfiguration configuration) {
@@ -29,7 +33,7 @@ public class GameConf {
         return dataSourceBuilder.build();
     }
 
-
+    @Primary
     @Bean(name = "server")
     public DataBaseConfiguration configurationServer(@Value("${database.driver}") final String driver,
                                                      @Value("${database.type}") final String type,

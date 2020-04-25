@@ -4,21 +4,21 @@ import com.aion.server.database.config.DataBaseConfiguration;
 import com.aion.server.database.dto.Authentication;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.aion.server.database.repositories.login")
+@EntityScan(basePackages = "com.aion.server.database.entity.login")
 public class LoginConf {
 
     private static final String JDBC = "jdbc:";
 
-    @Primary
     @Bean(name = "loginDatabase")
     public DataSource loginDataSource(final Authentication authentication,
                                       @Qualifier("login") final DataBaseConfiguration configuration) {

@@ -31,9 +31,4 @@ public class RegisterController {
         }
         return new OutputUserInfos(userToRegister, true);
     }
-
-    @PostMapping(value = "/test", consumes = "application/json", produces = "application/json")
-    public boolean test(@RequestBody InputUserInfos userToRegister) {
-        return loginService.check(userToRegister);
-    }
 }
