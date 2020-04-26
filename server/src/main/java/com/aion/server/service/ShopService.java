@@ -39,7 +39,6 @@ public class ShopService {
             accountData.takeToll(getItemPrice(aionItem));
             accountDataRepository.save(accountData);
             log.info("Subtract player money {}", accountData.getId());
-            //TODO check if it exist
             final Optional<Shop> itemById = getItemById(aionItem);
             if (itemById.isPresent()) {
                 final Shop item = itemById.get();

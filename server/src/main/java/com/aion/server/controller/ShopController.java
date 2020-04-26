@@ -8,10 +8,12 @@ import com.aion.server.service.infra.dto.ShardsPurchase;
 import com.aion.server.service.infra.exception.LoginException;
 import com.aion.server.service.infra.exception.ShopException;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
+import com.aion.server.service.infra.exception.UserExistException;
 import com.aion.server.service.infra.utils.CurrencyConverter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,7 @@ public class ShopController {
     private final PaypalService paypalService;
     private final ShardService shardService;
     private final LoginService loginService;
+    private final PlayerInformationService playerInformationService;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
@@ -70,25 +73,27 @@ public class ShopController {
                 return "Failed to verify user token";
             }
             final Optional<AccountData> userFromToken = tokenService.getUserFromToken(item.getToken());
-            if (userFromToken.isPresent()) {
+            if (userFromToken.isPresent()
+                    && playerInformationService.checkPlayerExist(item.getRecipient())) {
+
                 final AccountData accountData = userFromToken.get();
                 if (shopService.canPerform(item, accountData)) {
                     shopService.registerItem(item, accountData);
                     return "Successfully registered item in db";
                 }
             }
-        } catch (UserDoesntExistException e) {
-            log.error("There is no user with id {} doesn't exist", item.getIdItem(), e);
         } catch (LoginException e) {
             log.error("Failed to find user {} in database", item.getIdPlayer(), e);
+            return "Failed to find user";
         } catch (ShopException e) {
-            log.error("Failed to purchase item {} for user {}", item.getIdItem(), item.getIdPlayer(), e);
+            log.error("Failed to find item {} for user {}", item.getIdItem(), item.getIdPlayer(), e);
+            return "Failed to find item";
         }
-        return "Failed to purchase item";
+        return "Failed to purchase item, I don't know why";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/listshop")
+    @GetMapping(value = "/list-shop")
     public List<Shop> getListShopItem(@RequestParam(value = "category", defaultValue = "all") final String category) {
         if (category.equals("all")) {
             log.info("Get shop list");
@@ -99,7 +104,7 @@ public class ShopController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/listshopcategory")
+    @GetMapping(value = "/list-shop/category")
     public List<String> getListCategory() {
         log.info("Get shop list by categories");
         return shopService.getShopCategoryList();
