@@ -25,11 +25,17 @@ public class TokenController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
-        //todo add check from token
         try {
-            final Optional<AccountData> userWithToken = tokenService.getUserWithToken(userInfos);
+            final Optional<AccountData> userWithToken;
+            //if token is given
+            if (!userInfos.getToken().isEmpty()) {
+                userWithToken = tokenService.getUserFromToken(userInfos.getToken());
+            } else {
+                userWithToken = tokenService.getUserWithToken(userInfos);
+            }
             return userWithToken.map(accountData -> new OutputUserInfos(accountData, "Successfully getting token"))
                     .orElseGet(() -> new OutputUserInfos(userInfos, "Failed to log user"));
+
         } catch (InputInformationException e) {
             log.error("User information are bad ", e);
             return new OutputUserInfos(userInfos, "User information are bad");
