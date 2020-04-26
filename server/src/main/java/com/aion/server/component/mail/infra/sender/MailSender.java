@@ -32,7 +32,7 @@ public class MailSender {
         properties.put("mail.smtp.host", mailsConfig.getHostSender());
         properties.put("mail.smtp.port", mailsConfig.getPortSender());
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.debug", "true");
+//        properties.put("mail.debug", "true");
         properties.put("mail.smtp.ssl.enable", "true");
 
         return properties;
