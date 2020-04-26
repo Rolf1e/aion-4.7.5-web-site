@@ -24,6 +24,7 @@ public class TokenController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+    //TODO TO REFACTOR BECOZ THIS IS UGLY !! 
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
         try {
             final Optional<AccountData> userWithToken;

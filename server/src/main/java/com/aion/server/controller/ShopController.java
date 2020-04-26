@@ -90,7 +90,7 @@ public class ShopController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/listshop")
+    @GetMapping(value = "/list-shop")
     public List<Shop> getListShopItem(@RequestParam(value = "category", defaultValue = "all") final String category) {
         if (category.equals("all")) {
             log.info("Get shop list");
@@ -101,7 +101,7 @@ public class ShopController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/listshopcategory")
+    @GetMapping(value = "/list-shop/category")
     public List<String> getListCategory() {
         log.info("Get shop list by categories");
         return shopService.getShopCategoryList();
