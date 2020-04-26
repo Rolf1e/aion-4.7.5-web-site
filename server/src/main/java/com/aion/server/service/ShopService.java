@@ -57,6 +57,11 @@ public class ShopService {
         return (List<Shop>) shopRepository.findAll();
     }
 
+    public List<Shop> getShopListByCategory(final String category) {
+        return shopRepository.findAllByItemCategory(category);
+    }
+
+
     private long getItemPrice(final AionItem aionItem) throws ItemDoesntExistException {
         final Optional<Shop> itemById = getItemById(aionItem);
         if (itemById.isPresent()) {
