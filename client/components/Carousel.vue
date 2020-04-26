@@ -1,6 +1,6 @@
 <template>
   <b-carousel :indicator-inside="false">
-    <b-carousel-item v-for="(item, i) in 6" :key="i">
+    <b-carousel-item v-for="(item, i) in 3" :key="i++">
             <span class="image">
               <img :src="getImgUrl(i)">
             </span>
@@ -12,7 +12,7 @@
   export default {
     methods: {
       getImgUrl(value) {
-        return `https://picsum.photos/id/43${value}/1230/700`
+        return `http://aion-shard.com/media/slide${value}.png`
       }
     }
   }
