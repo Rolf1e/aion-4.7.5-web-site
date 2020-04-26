@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface PlayerRepository extends CrudRepository<Player, Long> {
 
     Optional<List<Player>> findAllByAccountId(final long accountId);
+
+    boolean existsByName(final String name);
 }

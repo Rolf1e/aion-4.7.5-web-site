@@ -57,9 +57,11 @@ Token
 
     GET localhost:8080/valid?token=*token*
  
- User informations
+User informations
  
-    GET "localhost:8080/list-players?idUser=*idUser*"
+    GET localhost:8080/list-players?idUser=*idUser*
  
+Check user exist
    
+    GET localhost:8080/check-players-exist?name=*name*
 

@@ -22,4 +22,9 @@ public class PlayerInformationController {
         return playerInformationService.getWholeInfosForPlayer(idUser);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/check-players-exist")
+    public boolean checkPlayersExist(@RequestParam(value = "name") final String name) {
+        return playerInformationService.checkPlayerExist(name);
+    }
 }

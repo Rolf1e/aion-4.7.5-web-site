@@ -28,6 +28,7 @@ public class ShopController {
     private final PaypalService paypalService;
     private final ShardService shardService;
     private final LoginService loginService;
+    private final PlayerInformationService playerInformationService;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
@@ -72,7 +73,9 @@ public class ShopController {
                 return "Failed to verify user token";
             }
             final Optional<AccountData> userFromToken = tokenService.getUserFromToken(item.getToken());
-            if (userFromToken.isPresent()) {
+            if (userFromToken.isPresent()
+                    && playerInformationService.checkPlayerExist(item.getRecipient())) {
+
                 final AccountData accountData = userFromToken.get();
                 if (shopService.canPerform(item, accountData)) {
                     shopService.registerItem(item, accountData);
