@@ -74,6 +74,7 @@ public class RegisterService {
                           final List<String> valuesToFilWith) throws MessagingException {
 
         mailSender.sendMailTo(generateMessageData(userInfos, valuesToFilWith));
+        log.info("Mail has been sent to {}", userInfos.getUsername());
     }
 
     private MessageData generateMessageData(final InputUserInfos userInfos,
