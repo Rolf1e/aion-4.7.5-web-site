@@ -8,10 +8,12 @@ import com.aion.server.service.infra.dto.ShardsPurchase;
 import com.aion.server.service.infra.exception.LoginException;
 import com.aion.server.service.infra.exception.ShopException;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
+import com.aion.server.service.infra.exception.UserExistException;
 import com.aion.server.service.infra.utils.CurrencyConverter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.Optional;
@@ -77,14 +79,14 @@ public class ShopController {
                     return "Successfully registered item in db";
                 }
             }
-        } catch (UserDoesntExistException e) {
-            log.error("There is no user with id {} doesn't exist", item.getIdItem(), e);
         } catch (LoginException e) {
             log.error("Failed to find user {} in database", item.getIdPlayer(), e);
+            return "Failed to find user";
         } catch (ShopException e) {
-            log.error("Failed to purchase item {} for user {}", item.getIdItem(), item.getIdPlayer(), e);
+            log.error("Failed to find item {} for user {}", item.getIdItem(), item.getIdPlayer(), e);
+            return "Failed to find item";
         }
-        return "Failed to purchase item";
+        return "Failed to purchase item, I don't know why";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
