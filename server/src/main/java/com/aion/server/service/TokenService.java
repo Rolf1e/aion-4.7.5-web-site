@@ -3,6 +3,7 @@ package com.aion.server.service;
 import com.aion.server.database.entity.login.AccountData;
 import com.aion.server.database.repositories.login.AccountDataRepository;
 import com.aion.server.service.infra.dto.InputUserInfos;
+import com.aion.server.service.infra.exception.EncodeException;
 import com.aion.server.service.infra.exception.InputInformationException;
 import com.aion.server.service.infra.utils.TokenGenerator;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class TokenService {
                 .isPresent();
     }
 
-    public Optional<AccountData> getUserWithToken(final InputUserInfos userInfos) throws InputInformationException {
+    public Optional<AccountData> getUserWithToken(final InputUserInfos userInfos) throws InputInformationException, EncodeException {
         if (userInfos.getUsername().isEmpty() && userInfos.getPassword().isEmpty()) {
             throw new InputInformationException();
         }

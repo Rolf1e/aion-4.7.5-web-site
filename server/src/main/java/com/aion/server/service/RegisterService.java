@@ -7,6 +7,7 @@ import com.aion.server.database.entity.login.AccountData;
 import com.aion.server.database.repositories.login.AccountDataRepository;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
+import com.aion.server.service.infra.exception.EncodeException;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.exception.UserExistException;
 import lombok.AllArgsConstructor;
@@ -30,21 +31,16 @@ public class RegisterService {
     private final MailSender mailSender;
     private final AccountDataRepository accountDataRepository;
 
-    public OutputUserInfos registerNewUser(final InputUserInfos userInfos) throws UserExistException {
-        try {
-            if (!checkRegistered(userInfos)) {
-                final String token = tokenService.generateToken();
-                final List<String> valuesToFilWith = asList("/valid?token=" + token, "15 / 4 / 2020");
-                final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
-                final AccountData accountData = insertUserWithToken(userInfos, token, encryptedPassword);
-                sendMail(userInfos, valuesToFilWith);
-                return new OutputUserInfos(accountData, "Successfully register user");
-            }
-            throw new UserExistException(userInfos.getUsername());
-        } catch (MessagingException e) {
-            log.error("Failed to send mail to {}", userInfos.getMail(), e);
-            return new OutputUserInfos(userInfos, "Failed to send mail");
+    public OutputUserInfos registerNewUser(final InputUserInfos userInfos) throws UserExistException, MessagingException, EncodeException {
+        if (!checkRegistered(userInfos)) {
+            final String token = tokenService.generateToken();
+            final List<String> valuesToFilWith = asList("/valid?token=" + token, "15 / 4 / 2020");
+            final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
+            final AccountData accountData = insertUserWithToken(userInfos, token, encryptedPassword);
+            sendMail(userInfos, valuesToFilWith);
+            return new OutputUserInfos(accountData, "Successfully register user");
         }
+        throw new UserExistException(userInfos.getUsername());
     }
 
     public void updateActivatedUser(final String token) throws UserDoesntExistException {
@@ -58,10 +54,13 @@ public class RegisterService {
         log.info("User {}  has confirmed email ", accountData.getId());
     }
 
-    public boolean checkRegistered(final InputUserInfos userInfos) {
+    public boolean checkRegistered(final InputUserInfos userInfos) throws EncodeException {
         return loginService.checkRegistered(userInfos);
     }
 
+    public void deleteUser(final InputUserInfos userInfos) {
+        accountDataRepository.deleteByNameAndPassword(userInfos.getUsername(), userInfos.getPassword());
+    }
 
     private AccountData insertUserWithToken(final InputUserInfos userInfos,
                                             final String token,
