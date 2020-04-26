@@ -39,7 +39,7 @@ public class ShopService {
             accountData.takeToll(getItemPrice(aionItem));
             accountDataRepository.save(accountData);
             log.info("Subtract player money {}", accountData.getId());
-
+            //TODO check if it exist
             final Optional<Shop> itemById = getItemById(aionItem);
             if (itemById.isPresent()) {
                 final Shop item = itemById.get();
@@ -57,10 +57,13 @@ public class ShopService {
         return (List<Shop>) shopRepository.findAll();
     }
 
+    public List<String> getShopCategoryList() {
+        return shopRepository.getItemCategory();
+    }
+
     public List<Shop> getShopListByCategory(final String category) {
         return shopRepository.findAllByItemCategory(category);
     }
-
 
     private long getItemPrice(final AionItem aionItem) throws ItemDoesntExistException {
         final Optional<Shop> itemById = getItemById(aionItem);
