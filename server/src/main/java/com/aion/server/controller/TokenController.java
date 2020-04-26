@@ -1,15 +1,17 @@
 package com.aion.server.controller;
 
+import com.aion.server.database.entity.login.AccountData;
 import com.aion.server.service.RegisterService;
 import com.aion.server.service.TokenService;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
+import com.aion.server.service.infra.exception.InputInformationException;
+import com.aion.server.service.infra.exception.UserDoesntExistException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -20,22 +22,30 @@ public class TokenController {
     private final RegisterService registerService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-
-    @PostMapping(value = "/token", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
-        return tokenService.getUserWithToken(userInfos);
+        try {
+            final Optional<AccountData> userWithToken = tokenService.getUserWithToken(userInfos);
+            return userWithToken.map(accountData -> new OutputUserInfos(accountData, "Successfully getting token"))
+                    .orElseGet(() -> new OutputUserInfos(userInfos, "Failed to log user"));
+        } catch (InputInformationException e) {
+            log.error("User information are bad ", e);
+        }
+        return new OutputUserInfos(userInfos, "User information are bad");
     }
 
+    //Todo redirection
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/valid")
-    public boolean confirmMail(@RequestParam("token") String token) {
+    public String confirmMail(@RequestParam("token") String token) {
         try {
             if (tokenService.checkToken(token)) {
                 registerService.updateActivatedUser(token);
-                return true;
+                return "You finished account validation";
             }
-        } catch (SQLException e) {
-            log.error("Failed to check token {} ", token, e);
+        } catch (UserDoesntExistException e) {
+            log.error("User {} exist", token, e);
         }
-        return false;
+        return "Something went wrong !";
     }
 }

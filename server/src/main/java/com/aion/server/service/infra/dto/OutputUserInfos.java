@@ -1,5 +1,7 @@
 package com.aion.server.service.infra.dto;
 
+import com.aion.server.database.entity.login.AccountData;
+import com.aion.server.service.EncryptionService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OutputUserInfos {
 
-    private String id;
+    private long id;
     private String username;
     private String password;
     private String token;
-    private boolean error;
+    private long shard;
+    private int premium;
+    private String error;
 
     public OutputUserInfos(String username,
                            String password,
@@ -25,9 +29,20 @@ public class OutputUserInfos {
     }
 
     public OutputUserInfos(final InputUserInfos userInfos,
-                           final boolean error) {
+                           final String error) {
         this.username = userInfos.getUsername();
         this.password = userInfos.getPassword();
+        this.error = error;
+    }
+
+
+    public OutputUserInfos(final AccountData accountData,
+                           final String error) {
+        this.username = accountData.getName();
+        this.password = EncryptionService.toDecode(accountData.getPassword());
+        this.token = accountData.getToken();
+        this.premium = accountData.getMembership();
+        this.shard = accountData.getToll();
         this.error = error;
     }
 

@@ -1,9 +1,11 @@
 package com.aion.server.component.mail.config.auth;
 
 import lombok.extern.slf4j.Slf4j;
+import sun.misc.ClassLoaderUtil;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 @Slf4j
@@ -17,8 +19,8 @@ public class AuthHandler {
     public static AuthHandler getInstance() {
         if (instance == null) {
             Properties properties = loadProperties();
-            instance = new AuthHandler(properties.getProperty("identifiant"),
-                    properties.getProperty("password"));
+            instance = new AuthHandler(properties.getProperty("mail.identifiant"),
+                    properties.getProperty("mail.password"));
         }
         return instance;
     }
@@ -39,7 +41,8 @@ public class AuthHandler {
     private static Properties loadProperties() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileReader("server/src/main/resources/application.yml"));
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            properties.load(classloader.getResourceAsStream("application.properties"));
         } catch (IOException e) {
             log.error("Failed to load mail properties", e);
         }

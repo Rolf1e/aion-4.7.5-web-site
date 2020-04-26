@@ -3,104 +3,72 @@ package com.aion.server.service;
 import com.aion.server.component.mail.infra.dto.MailTemplate;
 import com.aion.server.component.mail.infra.dto.MessageData;
 import com.aion.server.component.mail.infra.sender.MailSender;
-import com.aion.server.database.dto.SQLQuery;
-import com.aion.server.database.dto.SQLQueryBuilder;
-import com.aion.server.database.infra.DBClient;
+import com.aion.server.database.entity.login.AccountData;
+import com.aion.server.database.repositories.login.AccountDataRepository;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.dto.OutputUserInfos;
+import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.exception.UserExistException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static com.aion.server.component.mail.config.MailServerConf.MAIL_SENDER;
-import static com.aion.server.database.config.TableDBConfig.*;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.INSERT;
-import static com.aion.server.database.infra.SQLQueryAdaptor.SQLKeyWord.UPDATE;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class RegisterService {
 
-    private final DBClient dbClient;
     private final TokenService tokenService;
     private final LoginService loginService;
     private final MailSender mailSender;
-
-    public RegisterService(@Qualifier("ac47_server_ls") final DBClient dbClient,
-                           final TokenService tokenService,
-                           final LoginService loginService,
-                           final MailSender mailSender) {
-
-        this.dbClient = dbClient;
-        this.tokenService = tokenService;
-        this.loginService = loginService;
-        this.mailSender = mailSender;
-    }
+    private final AccountDataRepository accountDataRepository;
 
     public OutputUserInfos registerNewUser(final InputUserInfos userInfos) throws UserExistException {
         try {
             if (!checkRegistered(userInfos)) {
                 final String token = tokenService.generateToken();
                 final List<String> valuesToFilWith = asList("/valid?token=" + token, "15 / 4 / 2020");
-
-                sendMail(userInfos, valuesToFilWith);
                 final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
-                dbClient.insert(toInsertUser(userInfos, encryptedPassword), INSERT);
-
-                return tokenService.getUserWithToken(userInfos);
+                final AccountData accountData = insertUserWithToken(userInfos, token, encryptedPassword);
+                sendMail(userInfos, valuesToFilWith);
+                return new OutputUserInfos(accountData, "Successfully register user");
             }
             throw new UserExistException(userInfos.getUsername());
-        } catch (SQLException e) {
-            log.error("Can not reach player database", e);
         } catch (MessagingException e) {
             log.error("Failed to send mail to {}", userInfos.getMail(), e);
+            return new OutputUserInfos(userInfos, "Failed to send mail");
         }
-        return new OutputUserInfos(userInfos, true);
     }
 
-    public void updateActivatedUser(final String token) throws SQLException {
-        dbClient.insert(toUpdateUserActivated(token), UPDATE);
+    public void updateActivatedUser(final String token) throws UserDoesntExistException {
+        final Optional<AccountData> byToken = accountDataRepository.findByToken(token);
+        if (!byToken.isPresent()) {
+            throw new UserDoesntExistException(token);
+        }
+        final AccountData accountData = byToken.get();
+        accountData.setActivated(1);
+        accountDataRepository.save(accountData);
+        log.info("User {}  has confirmed email ", accountData.getId());
     }
 
     public boolean checkRegistered(final InputUserInfos userInfos) {
         return loginService.checkRegistered(userInfos);
     }
 
-    private SQLQuery toInsertUser(final InputUserInfos userInfos,
-                                  final String encryptedPassword) {
 
-        return SQLQueryBuilder.buildInsertQuery(
-                asList(USERNAME_COLUMN, PASSWORD_COLUMN, MAIL_COLUMN),
-                singletonList(USERS_TABLE),
-                asList(userInfos.getUsername(), encryptedPassword, userInfos.getMail())
-        );
-    }
+    private AccountData insertUserWithToken(final InputUserInfos userInfos,
+                                            final String token,
+                                            final String encryptedPassword) {
 
-    private SQLQuery toUpdateUserActivated(final String token) {
-        return SQLQueryBuilder.buildUpdateQuery(
-                singletonList(USERS_TABLE),
-                singletonList(new SQLQuery.Condition(getSet(), SQLQuery.ConditionType.EQUAL)),
-                singletonList(new SQLQuery.Condition(getWhereToken(token), SQLQuery.ConditionType.EQUAL))
-        );
-    }
-
-    private Map<String, String> getWhereToken(final String token) {
-        Map<String, String> where = new HashMap<>();
-        where.put(TOKEN_COLUMN, token);
-        return where;
-    }
-
-    private Map<String, String> getSet() {
-        Map<String, String> set = new HashMap<>();
-        set.put(ACCOUNT_ACTIVATED_COLUMN, "1");
-        return set;
+        final AccountData accountData = new AccountData(userInfos, token, encryptedPassword);
+        return accountDataRepository.save(accountData);
     }
 
     private void sendMail(final InputUserInfos userInfos,

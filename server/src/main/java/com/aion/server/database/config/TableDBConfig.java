@@ -13,6 +13,7 @@ public class TableDBConfig {
     public static final String USERNAME_COLUMN = "NAME";
     public static final String PASSWORD_COLUMN = "PASSWORD";
     public static final String TOKEN_COLUMN = "TOKEN";
+    public static final String MEMBERSHIP_COLUMN = "MEMBERSHIP";
     public static final String ACCOUNT_ACTIVATED_COLUMN = "ACTIVATED";
     public static final String MAIL_COLUMN = "EMAIL";
     public static final String TOLL_COLUMN = "TOLL";
@@ -40,6 +41,4 @@ public class TableDBConfig {
     public static final String ITEM_COUNT_COLUMN = "item_count";
     public static final String ITEM_PRICE_COLUMN = "price";
     public static final String ITEM_PATH_TO_IMAGE_COLUMN = "item_image_path";
-
-
 }

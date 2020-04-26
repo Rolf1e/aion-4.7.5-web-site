@@ -1,10 +1,14 @@
 package com.aion.server.component.mail.infra.dto;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public enum MailTemplate {
 
+    DUMMY("/templates/dummy.txt",
+            Collections.emptyList(),
+            "Dummy template"),
     CONFIRM_LOGIN("/templates/mail/loginConfirm.template",
             Arrays.asList("link.verification", "date"),
             "Mail de confirmation de création de compte");
