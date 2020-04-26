@@ -26,7 +26,7 @@ public class RegisterController {
             return registerService.registerNewUser(userToRegister);
         } catch (UserExistException e) {
             log.error("User {} already exist", userToRegister.getUsername(), e);
+            return new OutputUserInfos(userToRegister, "User already exist");
         }
-        return new OutputUserInfos(userToRegister, true);
     }
 }

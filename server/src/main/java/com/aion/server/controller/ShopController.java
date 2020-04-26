@@ -28,7 +28,7 @@ public class ShopController {
     private final LoginService loginService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping(value = "/purchase/shards")
+    @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
     public String purchaseShards(@RequestBody ShardsPurchase purchase) {
 //        try {
         if (!tokenService.checkToken(purchase.getToken())) {
@@ -62,7 +62,7 @@ public class ShopController {
 
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping(value = "/buy")
+    @PostMapping(value = "/buy", consumes = "application/json", produces = "application/json")
     public String buyItem(@RequestBody AionItem item) {
         try {
             if (!tokenService.checkToken(item.getToken())) {

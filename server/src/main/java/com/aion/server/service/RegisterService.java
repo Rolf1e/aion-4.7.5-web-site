@@ -38,13 +38,13 @@ public class RegisterService {
                 final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
                 final AccountData accountData = insertUserWithToken(userInfos, token, encryptedPassword);
                 sendMail(userInfos, valuesToFilWith);
-                return new OutputUserInfos(accountData, false);
+                return new OutputUserInfos(accountData, "Successfully register user");
             }
             throw new UserExistException(userInfos.getUsername());
         } catch (MessagingException e) {
             log.error("Failed to send mail to {}", userInfos.getMail(), e);
+            return new OutputUserInfos(userInfos, "Failed to send mail");
         }
-        return new OutputUserInfos(userInfos, true);
     }
 
     public void updateActivatedUser(final String token) throws UserDoesntExistException {
