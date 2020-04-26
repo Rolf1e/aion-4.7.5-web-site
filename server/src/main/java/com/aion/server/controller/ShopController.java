@@ -97,4 +97,11 @@ public class ShopController {
         log.info("Get shop list by {}", category);
         return shopService.getShopListByCategory(category);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/listshopcategory")
+    public List<String> getListCategory() {
+        return shopService.getShopCategoryList();
+    }
+
 }

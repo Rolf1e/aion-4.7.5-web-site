@@ -57,6 +57,10 @@ public class ShopService {
         return (List<Shop>) shopRepository.findAll();
     }
 
+    public List<String> getShopCategoryList() {
+        return shopRepository.getItemCategory();
+    }
+
     public List<Shop> getShopListByCategory(final String category) {
         return shopRepository.findAllByItemCategory(category);
     }
