@@ -90,6 +90,10 @@
                     {
                         title: 'Shop',
                         path: '/shop',
+                    },
+                    {
+                        title: 'Download',
+                        path: '/download',
                     }
 
                 ]
@@ -108,7 +112,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 
     .navbar {
         height: 100px;

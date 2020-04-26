@@ -67,13 +67,6 @@
     text-justify: auto;
   }
 
-  /*
-  .buttons {
-    display: flex;
-    justify-content: space-around;
-    margin: 30px 90px;
-  }
-  */
 
   .button {
     margin-top: 15px;
