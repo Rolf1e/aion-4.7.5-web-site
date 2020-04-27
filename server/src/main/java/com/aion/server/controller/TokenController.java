@@ -24,13 +24,15 @@ public class TokenController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
-    //TODO TO REFACTOR BECOZ THIS IS UGLY !! 
+    //TODO TO REFACTOR BECOZ THIS IS UGLY !!
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
         try {
             final Optional<AccountData> userWithToken;
             //if token is given
-            if (!userInfos.getToken().isEmpty()) {
-                userWithToken = tokenService.getUserFromToken(userInfos.getToken());
+            final String token = Optional.ofNullable(userInfos.getToken())
+                    .orElse("");
+            if (!token.equals("")) {
+                userWithToken = tokenService.getUserFromToken(token);
             } else {
                 userWithToken = tokenService.getUserWithToken(userInfos);
             }
