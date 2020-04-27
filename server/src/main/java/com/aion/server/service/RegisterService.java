@@ -10,6 +10,7 @@ import com.aion.server.service.infra.dto.OutputUserInfos;
 import com.aion.server.service.infra.exception.EncodeException;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.exception.UserExistException;
+import com.aion.server.service.infra.utils.EncryptionUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class RegisterService {
         if (!checkRegistered(userInfos)) {
             final String token = tokenService.generateToken();
             final List<String> valuesToFilWith = asList("/valid?token=" + token, "15 / 4 / 2020");
-            final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
+            final String encryptedPassword = EncryptionUtils.toEncode(userInfos.getPassword());
             final AccountData accountData = insertUserWithToken(userInfos, token, encryptedPassword);
             sendMail(userInfos, valuesToFilWith);
             return new OutputUserInfos(accountData, "Successfully register user");

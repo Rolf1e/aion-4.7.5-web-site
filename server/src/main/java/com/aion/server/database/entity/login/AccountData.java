@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "account_data", schema = "ac47_server_ls")
@@ -45,6 +46,14 @@ public class AccountData {
     @Column(name = "toll")
     private long toll;
 
+    @Column(name = "created_at", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Column(name = "updated_at", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
     public AccountData(final InputUserInfos userInfos,
                        final String token,
                        final String encryptedPassword) {
@@ -53,6 +62,17 @@ public class AccountData {
         this.password = encryptedPassword;
         this.email = userInfos.getMail();
         this.token = token;
+    }
+
+    public AccountData(final String name,
+                       final String password,
+                       final String token,
+                       final Date updatedAt) {
+
+        this.name = name;
+        this.password = password;
+        this.token = token;
+        this.updatedAt = updatedAt;
     }
 
     public long giveToll(final long toGive) {

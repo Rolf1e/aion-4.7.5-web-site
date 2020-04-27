@@ -1,7 +1,7 @@
 package com.aion.server.service.infra.dto;
 
 import com.aion.server.database.entity.login.AccountData;
-import com.aion.server.service.EncryptionService;
+import com.aion.server.service.infra.utils.EncryptionUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,7 +39,7 @@ public class OutputUserInfos {
     public OutputUserInfos(final AccountData accountData,
                            final String error) {
         this.username = accountData.getName();
-        this.password = EncryptionService.toDecode(accountData.getPassword());
+        this.password = EncryptionUtils.toDecode(accountData.getPassword());
         this.token = accountData.getToken();
         this.premium = accountData.getMembership();
         this.shard = accountData.getToll();

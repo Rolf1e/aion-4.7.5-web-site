@@ -1,4 +1,4 @@
-package com.aion.server.service;
+package com.aion.server.service.infra.utils;
 
 import com.aion.server.service.infra.exception.EncodeException;
 import lombok.experimental.UtilityClass;
@@ -13,7 +13,7 @@ import java.util.Base64;
 
 @Slf4j
 @UtilityClass
-public class EncryptionService {
+public class EncryptionUtils {
 
     private static final char[] CA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 

@@ -4,6 +4,7 @@ import com.aion.server.database.entity.login.AccountData;
 import com.aion.server.database.repositories.login.AccountDataRepository;
 import com.aion.server.service.infra.dto.InputUserInfos;
 import com.aion.server.service.infra.exception.EncodeException;
+import com.aion.server.service.infra.utils.EncryptionUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class LoginService {
     private final AccountDataRepository accountDataRepository;
 
     public boolean checkRegistered(final InputUserInfos userInfos) throws EncodeException {
-        final String encryptedPassword = EncryptionService.toEncode(userInfos.getPassword());
+        final String encryptedPassword = EncryptionUtils.toEncode(userInfos.getPassword());
         return accountDataRepository.existsByNameAndPassword(userInfos.getUsername(), encryptedPassword);
     }
 
