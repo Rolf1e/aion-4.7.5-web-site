@@ -39,15 +39,19 @@
 
                 if (this.username != '' && this.password != '') {
 
-                    const {data: response} = await this.$axios.post('http://localhost:8080/token', {
+                    const {data: response} = await this.$axios.post('http://51.178.130.119:8081/login', {
                         "username": this.username,
                         "password": this.password
                     })
 
-                    this.$store.dispatch('auth/loadToken', response.token)
-                    this.$store.dispatch('auth/loadUsername', response.username)
-                    this.$emit('refresh')
-                    this.$router.push({path: '/'})
+                    if (response.error == 'Successfully getting token') {
+                        this.$store.dispatch('auth/loadToken', response.token)
+                        this.$store.dispatch('auth/loadUsername', response.username)
+                        this.$emit('refresh')
+                        this.$router.push({path: '/'})
+                    }
+
+                    this.error.show = true
 
                 } else {
                     this.error.show = true

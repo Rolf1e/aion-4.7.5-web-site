@@ -58,8 +58,13 @@
 
                 if (this.password === this.confirmPassword && this.password != '') {
 
+                    const {data: response} = await this.$axios.post('http://51.178.130.119:8081/register', {
+                        "username": this.username,
+                        "password": this.password,
+                        "mail" : this.email
+                    })
 
-                    if (response.error === false) {
+                    if (response.error == 'Successfully register user') {
                         Swal.fire({
                             title: 'Votre compte a été créé',
                             text: 'Veuillez vérifier votre boite mail pour valider votre compte',

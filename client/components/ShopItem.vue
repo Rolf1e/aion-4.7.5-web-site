@@ -5,7 +5,7 @@
             <article class="media" style="margin-bottom: 30px">
                 <div class="media-left">
                     <figure class="image is-96x96">
-                        <img class="picture" :src="picture">
+                        <img class="picture" :src="pictureLink">
                     </figure>
                 </div>
 
@@ -29,7 +29,7 @@
                     <b-button type="is-dark btn" @click="buy" outlined> Acheter</b-button>
                     <b-button type="is-dark btn" @click="gift" outlined> Cadeau</b-button>
                 </div>
-                <p class="price"> {{ price }} € </p>
+                <p class="price"> {{ price }} Shard </p>
             </div>
         </div>
 
@@ -44,18 +44,26 @@
 
         data() {
             return {
-                title: 'Potion',
-                price: 19.99,
-                description: 'Je suis la potion Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nu',
-                //picture: 'http://aion-shard.com/img/cbt_as_alertstance_g2.png'
-                picture: 'https://bulma.io/images/placeholders/128x128.png'
 
             }
         },
 
-        methods : {
+        props: {
+            title: String,
+            description: String,
+            picture: String,
+            price : Number
+        },
 
-            buy(){
+        computed: {
+            pictureLink() {
+                return 'http://aion-shard.com/img/' + this.picture + '.png'
+            }
+        },
+
+        methods: {
+
+            buy() {
                 Swal.fire(
                     'Yeah!',
                     'Stylé ton nouveau item',
@@ -115,7 +123,7 @@
         font-size: 22px;
     }
 
-    .price-block  .btn {
+    .price-block .btn {
         margin-left: 10px;
     }
 
