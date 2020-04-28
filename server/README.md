@@ -65,3 +65,14 @@ Check user exist
    
     GET localhost:8080/check-players-exist?name=*name*
 
+
+##Mail 
+ 
+ Send mail to recipients 
+ 
+    POST localhost:8080/send-mail
+    {
+    	"to" : ["rolfie@mail.com", "example@mail.com"],
+    	"subject" : "Test",
+    	"content" : "Bonjour, \n Ceci est un test!"
+    }

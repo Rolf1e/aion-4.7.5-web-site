@@ -2,7 +2,6 @@ package com.aion.server.service;
 
 import com.aion.server.component.mail.infra.dto.MailTemplate;
 import com.aion.server.component.mail.infra.dto.MessageData;
-import com.aion.server.component.mail.infra.sender.MailSender;
 import com.aion.server.database.entity.login.AccountData;
 import com.aion.server.database.repositories.login.AccountDataRepository;
 import com.aion.server.service.infra.dto.InputUserInfos;
@@ -29,7 +28,7 @@ public class RegisterService {
 
     private final TokenService tokenService;
     private final LoginService loginService;
-    private final MailSender mailSender;
+    private final MailService mailService;
     private final AccountDataRepository accountDataRepository;
 
     public OutputUserInfos registerNewUser(final InputUserInfos userInfos) throws UserExistException, MessagingException, EncodeException {
@@ -74,7 +73,7 @@ public class RegisterService {
     private void sendMail(final InputUserInfos userInfos,
                           final List<String> valuesToFilWith) throws MessagingException {
 
-        mailSender.sendMailTo(generateMessageData(userInfos, valuesToFilWith));
+        mailService.sendMailTo(generateMessageData(userInfos, valuesToFilWith));
         log.info("Mail has been sent to {}", userInfos.getUsername());
     }
 
