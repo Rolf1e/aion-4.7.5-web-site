@@ -1,7 +1,7 @@
 package com.aion.server.configuration;
 
 import com.aion.server.component.mail.config.MailServerConf;
-import com.aion.server.component.mail.infra.sender.MailSender;
+import com.aion.server.component.mail.config.auth.AuthHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,8 +15,8 @@ public class MailConfig {
         return GMAIL;
     }
 
-    @Bean(name = "gmailSender")
-    public MailSender gmailSender(final MailServerConf mailServerConf) {
-        return new MailSender(mailServerConf);
+    @Bean
+    public AuthHandler authHandler() {
+        return AuthHandler.getInstance();
     }
 }
