@@ -49,19 +49,23 @@
             </template>
 
             <template v-else slot="end">
-                <b-navbar-item class="button btn is-primary" tag="router-link" :to="{ path: '/register' }">
-                    Inscription
-                </b-navbar-item>
+                <div>
+                    <b-navbar-item class="button btn is-primary" tag="router-link" :to="{ path: '/register' }">
+                        Inscription
+                    </b-navbar-item>
+                </div>
+                <div>
+                    <b-navbar-item class="button btn is-light" tag="router-link" :to="{ path: '/login' }">
+                        Connexion
+                    </b-navbar-item>
+                </div>
 
-                <b-navbar-item class="button btn is-light" tag="router-link" :to="{ path: '/login' }">
-                    Connexion
-                </b-navbar-item>
             </template>
 
 
         </b-navbar>
 
-        <nuxt ></nuxt>
+        <nuxt></nuxt>
 
 
     </div>
@@ -100,15 +104,13 @@
             }
         },
 
-        computed : {
-           isConnected () {
-               return this.$store.state.auth.username
-           }
+        computed: {
+            isConnected() {
+                return !!this.$store.state.auth.username
+            }
         },
 
-      methods : {
-
-      }
+        methods: {}
     }
 </script>
 
