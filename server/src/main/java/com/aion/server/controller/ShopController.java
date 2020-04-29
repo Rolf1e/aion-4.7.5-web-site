@@ -5,16 +5,15 @@ import com.aion.server.database.entity.game.Shop;
 import com.aion.server.service.*;
 import com.aion.server.service.infra.dto.AionItem;
 import com.aion.server.service.infra.dto.ShardsPurchase;
-import com.aion.server.service.infra.exception.LoginException;
-import com.aion.server.service.infra.exception.ShopException;
-import com.aion.server.service.infra.exception.UserDoesntExistException;
-import com.aion.server.service.infra.exception.UserExistException;
+import com.aion.server.service.infra.exception.*;
 import com.aion.server.service.infra.utils.CurrencyConverter;
+import com.aion.server.service.infra.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import sun.rmi.runtime.Log;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,33 +28,38 @@ public class ShopController {
     private final ShardService shardService;
     private final LoginService loginService;
     private final PlayerInformationService playerInformationService;
+    private final TokenRefresherService tokenRefresherService;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
     public String purchaseShards(@RequestBody ShardsPurchase purchase) {
-//        try {
-        if (!tokenService.checkToken(purchase.getToken())) {
-            log.info("Failed to verify token for user {}", purchase.getUserId());
-            return "Failed to verify user token";
-        }
+        try {
+            final Date updatedAt = tokenRefresherService.refreshToken(purchase.getToken()).getUpdatedAt();
+            if (!updatedAt.equals(DateUtils.getCurrentDate())) {
+                log.info("Token has been renewed {}", purchase.getUserId());
+            }
 
-        if (!loginService.checkAccountIsActivated(purchase.getUserId())) {
-            log.info("Player {} has not activate is account ", purchase.getUserId());
-            return "Player has not activate is account";
-        }
+            if (!loginService.checkAccountIsActivated(purchase.getUserId())) {
+                log.info("Player {} has not activate is account ", purchase.getUserId());
+                return "Player has not activate is account";
+            }
 
 //            final int amountResponse = paypalService.checkPurchase(purchase);
-        final int amountResponse = 10;
-        if (amountResponse == 0) {
-            log.info("Failed to purchase shards for transaction id {}", purchase.getTransactionId());
-            return "Failed to purchase shards for transaction id " + purchase.getTransactionId();
-        }
-        if (amountResponse == purchase.getTransactionAmount()) {
-            final int convert = (int) new CurrencyConverter().convert(amountResponse);
-
-            if (shardService.giveShardsToPlayer(purchase.getUserId(), convert)) {
-                return "You purchased " + convert + " shards for " + purchase.getTransactionAmount() + "";
+            final int amountResponse = 10;
+            if (amountResponse == 0) {
+                log.info("Failed to purchase shards for transaction id {}", purchase.getTransactionId());
+                return "Failed to purchase shards for transaction id " + purchase.getTransactionId();
             }
+            if (amountResponse == purchase.getTransactionAmount()) {
+                final int convert = (int) new CurrencyConverter().convert(amountResponse);
+
+                if (shardService.giveShardsToPlayer(purchase.getUserId(), convert)) {
+                    return "You purchased " + convert + " shards for " + purchase.getTransactionAmount() + "";
+                }
+            }
+        } catch (TokenRefresherException e) {
+            log.error("Failed to verify token for user {}", purchase.getUserId());
+            return "Failed to verify user token";
         }
 //        } catch (IOException e) {
 //            log.error("Failed to getDetails on purchase {}", purchase.getTransactionId(), e);
