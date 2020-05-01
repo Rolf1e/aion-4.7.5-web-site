@@ -26,8 +26,7 @@
             {{ this.error.message }}
         </b-message>
 
-
-        <b-button type="button is-primary" @click="register">Connexion</b-button>
+        <b-button type="button is-primary" :loading='loading' :disabled='loading' @click="register">Connexion</b-button>
 
     </div>
 </template>
@@ -49,14 +48,19 @@
                     show: false,
                     message: ''
                 },
+                loading: false
+
             }
         },
 
         methods: {
             async register() {
 
+                this.loading = true
 
                 if (this.password === this.confirmPassword && this.password != '') {
+
+                    this.loading = true
 
                     const {data: response} = await this.$axios.post('http://51.178.130.119:8081/register', {
                         "username": this.username,
@@ -64,7 +68,9 @@
                         "mail" : this.email
                     })
 
-                    if (response.error == 'Successfully register user') {
+                    this.loading = false
+
+                    if (response.error === 'Successfully register user') {
                         Swal.fire({
                             title: 'Votre compte a été créé',
                             text: 'Veuillez vérifier votre boite mail pour valider votre compte',

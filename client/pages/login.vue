@@ -11,7 +11,7 @@
         </b-field>
 
         <b-message v-if='error.show' type="is-danger">
-            L'email ou le mot de passe n'est pas valide.
+            {{ error.message}}
         </b-message>
 
         <b-button type="button is-primary" @click="login">Connexion</b-button>
@@ -37,25 +37,27 @@
         methods: {
             async login() {
 
-                if (this.username != '' && this.password != '') {
-
-                    const {data: response} = await this.$axios.post('http://51.178.130.119:8081/login', {
-                        "username": this.username,
-                        "password": this.password
-                    })
-
-                    if (response.error == 'Successfully getting token') {
-                        this.$store.dispatch('auth/loadToken', response.token)
-                        this.$store.dispatch('auth/loadUsername', response.username)
-                        this.$emit('refresh')
-                        this.$router.push({path: '/'})
-                    }
-
+                if (this.username === '' || this.password === '') {
                     this.error.show = true
-
-                } else {
-                    this.error.show = true
+                    this.error.message = 'All fields are required.'
+                    return
                 }
+
+                const {data: response} = await this.$axios.post('http://51.178.130.119:8081/login', {
+                    "username": this.username,
+                    "password": this.password
+                })
+
+                if (response.error === 'Successfully getting token') {
+                    this.$store.dispatch('auth/loadToken', response.token)
+                    this.$store.dispatch('auth/loadUsername', response.username)
+                    this.$emit('refresh')
+                    this.$router.push({path: '/'})
+                    return
+                }
+
+                this.error.show = true
+                this.error.message = response.error
             },
 
         }
