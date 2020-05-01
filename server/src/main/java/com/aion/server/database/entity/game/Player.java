@@ -1,13 +1,13 @@
 package com.aion.server.database.entity.game;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "players")
-@Getter
+@Data
 @NoArgsConstructor
 /**
  * Players are Aion characters (No real dude)

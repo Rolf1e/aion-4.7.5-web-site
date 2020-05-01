@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.mail.MessagingException;
 
 @Slf4j
-@RestController
+//@RestController
 @AllArgsConstructor
 public class MailController {
 
     private final MailService mailService;
     private final TokenRefresherService tokenRefresherService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping(value = "/send-mail", consumes = "application/json", produces = "application/json")
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @PostMapping(value = "/send-mail", consumes = "application/json", produces = "application/json")
     public String sendMailTo(@RequestBody final WebMailData webMailData) {
         try {
             final AccountData accountData = tokenRefresherService.refreshToken(webMailData.getToken());

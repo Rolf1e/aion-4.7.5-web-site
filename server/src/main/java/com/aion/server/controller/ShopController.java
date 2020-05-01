@@ -11,18 +11,15 @@ import com.aion.server.service.infra.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.runtime.Log;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
 @AllArgsConstructor
 public class ShopController {
 
-    private final TokenService tokenService;
     private final ShopService shopService;
     private final PaypalService paypalService;
     private final ShardService shardService;
@@ -72,28 +69,29 @@ public class ShopController {
     @PostMapping(value = "/buy", consumes = "application/json", produces = "application/json")
     public String buyItem(@RequestBody AionItem item) {
         try {
-            if (!tokenService.checkToken(item.getToken())) {
-                log.info("Failed to verify token for user {}", item.getIdPlayer());
-                return "Failed to verify user token";
+            final AccountData accountData = tokenRefresherService.refreshToken(item.getToken());
+            if (!accountData.getUpdatedAt().equals(DateUtils.getCurrentDate())) {
+                log.info("Token has been renewed {}", item.getIdPlayer());
             }
-            final Optional<AccountData> userFromToken = tokenService.getUserFromToken(item.getToken());
-            if (userFromToken.isPresent()
-                    && playerInformationService.checkPlayerExist(item.getRecipient())) {
 
-                final AccountData accountData = userFromToken.get();
-                if (shopService.canPerform(item, accountData)) {
-                    shopService.registerItem(item, accountData);
-                    return "Successfully registered item in db";
-                }
+            if (playerInformationService.checkPlayerExist(item.getRecipient())
+                    && shopService.canPerform(item, accountData)) {
+                shopService.registerItem(item, accountData);
+                return "Successfully registered item in db";
             }
+            log.info("You may not perform purchase & or your player doesn't exist");
+            return "You may not perform purchase & or your player doesn't exist";
+
         } catch (LoginException e) {
             log.error("Failed to find user {} in database", item.getIdPlayer(), e);
             return "Failed to find user";
         } catch (ShopException e) {
             log.error("Failed to find item {} for user {}", item.getIdItem(), item.getIdPlayer(), e);
             return "Failed to find item";
+        } catch (TokenRefresherException e) {
+            log.error("Failed to verify token for user {}", item.getIdPlayer());
+            return "Failed to verify user token";
         }
-        return "Failed to purchase item, I don't know why";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

@@ -34,12 +34,10 @@ public class TokenRefresherService {
                                        final Date updatedAt) {
 
         if (!updatedAt.equals(accountData.getUpdatedAt())) {
+            accountData.setUpdatedAt(updatedAt);
+            accountData.setToken(TokenGenerator.generate());
             log.info("Token for user {} is expired, let's renew it !", accountData.getId());
-            final AccountData newAccountData = new AccountData(accountData.getName(),
-                    accountData.getPassword(),
-                    TokenGenerator.generate(),
-                    updatedAt);
-            return accountDataRepository.save(newAccountData);
+            return accountDataRepository.save(accountData);
         }
         return accountData;
     }

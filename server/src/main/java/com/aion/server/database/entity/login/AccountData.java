@@ -2,7 +2,7 @@ package com.aion.server.database.entity.login;
 
 import com.aion.server.service.infra.dto.InputUserInfos;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "account_data", schema = "ac47_server_ls")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
 /**
  * Represent an account (real dude is behind this)
  */
