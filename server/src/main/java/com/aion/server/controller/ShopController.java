@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,18 +32,17 @@ public class ShopController {
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
     public String purchaseShards(@RequestBody ShardsPurchase purchase) {
         try {
-            final Date updatedAt = tokenRefresherService.refreshToken(purchase.getToken()).getUpdatedAt();
-            if (!updatedAt.equals(DateUtils.getCurrentDate())) {
+            final AccountData accountData = tokenRefresherService.refreshToken(purchase.getToken());
+            if (!accountData.getUpdatedAt().equals(DateUtils.getCurrentDate())) {
                 log.info("Token has been renewed {}", purchase.getUserId());
             }
 
-            if (!loginService.checkAccountIsActivated(purchase.getUserId())) {
-                log.info("Player {} has not activate is account ", purchase.getUserId());
+            if (!loginService.checkAccountIsActivated(accountData.getActivated())) {
+                log.info("Player {} has not activate is account ", accountData.getId());
                 return "Player has not activate is account";
             }
 
-//            final int amountResponse = paypalService.checkPurchase(purchase);
-            final int amountResponse = 10;
+            final int amountResponse = paypalService.checkPurchase(purchase);
             if (amountResponse == 0) {
                 log.info("Failed to purchase shards for transaction id {}", purchase.getTransactionId());
                 return "Failed to purchase shards for transaction id " + purchase.getTransactionId();
@@ -57,13 +57,11 @@ public class ShopController {
         } catch (TokenRefresherException e) {
             log.error("Failed to verify token for user {}", purchase.getUserId());
             return "Failed to verify user token";
+        } catch (IOException e) {
+            log.error("Failed to getDetails on purchase {}", purchase.getTransactionId(), e);
         }
-//        } catch (IOException e) {
-//            log.error("Failed to getDetails on purchase {}", purchase.getTransactionId(), e);
-//        }
         return "A problem happened in getting details from Paypal for purchase " + purchase.getTransactionId() + " please contact our support on discord";
     }
-
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/buy", consumes = "application/json", produces = "application/json")
@@ -71,7 +69,12 @@ public class ShopController {
         try {
             final AccountData accountData = tokenRefresherService.refreshToken(item.getToken());
             if (!accountData.getUpdatedAt().equals(DateUtils.getCurrentDate())) {
-                log.info("Token has been renewed {}", item.getIdPlayer());
+                log.info("Token has been renewed {}", accountData.getId());
+            }
+
+            if (!loginService.checkAccountIsActivated(accountData.getId())) {
+                log.info("Player {} has not activate is account ", accountData.getId());
+                return "Player has not activate is account";
             }
 
             if (playerInformationService.checkPlayerExist(item.getRecipient())
