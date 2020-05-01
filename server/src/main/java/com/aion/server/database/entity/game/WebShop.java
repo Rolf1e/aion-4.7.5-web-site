@@ -1,11 +1,13 @@
 package com.aion.server.database.entity.game;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "webshop", schema = "ac47_server_gs")
+@Data
 @NoArgsConstructor
 public class WebShop {
 

@@ -72,6 +72,7 @@ Check user exist
  
     POST localhost:8080/send-mail
     {
+        "token": : "*token*",
     	"to" : ["rolfie@mail.com", "example@mail.com"],
     	"subject" : "Test",
     	"content" : "Bonjour, \n Ceci est un test!"

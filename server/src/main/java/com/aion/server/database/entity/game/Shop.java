@@ -1,7 +1,7 @@
 package com.aion.server.database.entity.game;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "shop", schema = "ac47_server_gs")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
 public class Shop {
 
     @Id
