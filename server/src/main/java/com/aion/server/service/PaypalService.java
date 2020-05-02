@@ -1,17 +1,13 @@
 package com.aion.server.service;
 
 import com.aion.server.service.infra.dto.ShardsPurchase;
-import com.aion.server.service.infra.utils.JsonParserPaypal;
 import com.paypal.core.PayPalEnvironment;
 import com.paypal.core.PayPalHttpClient;
 import com.paypal.core.request.AccessTokenRequest;
 import com.paypal.http.HttpResponse;
-import com.paypal.http.exceptions.SerializeException;
-import com.paypal.http.serializer.Json;
-import com.paypal.orders.Order;
-import com.paypal.orders.OrdersGetRequest;
+import com.paypal.payments.Capture;
+import com.paypal.payments.CapturesGetRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +27,9 @@ public class PaypalService {
         this.payPalEnvironment = payPalEnvironment;
     }
 
-    public int checkPurchase(final ShardsPurchase purchase) throws IOException {
-        final OrdersGetRequest request = new OrdersGetRequest(purchase.getTransactionId());
-        final HttpResponse<Order> response = httpClient.execute(request);
+    public double checkPurchase(final ShardsPurchase purchase) throws IOException {
+        final CapturesGetRequest request = new CapturesGetRequest(purchase.getTransactionId());
+        final HttpResponse<Capture> response = httpClient.execute(request);
         return parseFromJson(response);
     }
 
@@ -44,8 +40,7 @@ public class PaypalService {
                 .accessToken();
     }
 
-    private int parseFromJson(final HttpResponse<Order> response) throws SerializeException {
-        final JSONObject jsonObject = new JSONObject(new Json().serialize(response.result()));
-        return Integer.parseInt(JsonParserPaypal.getValueFromPurchaseUnits(jsonObject));
+    private double parseFromJson(final HttpResponse<Capture> response) {
+        return Double.parseDouble(response.result().amount().value());
     }
 }

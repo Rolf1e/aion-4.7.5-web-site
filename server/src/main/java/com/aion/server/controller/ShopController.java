@@ -33,8 +33,9 @@ public class ShopController {
     public String purchaseShards(@RequestBody ShardsPurchase purchase) {
         try {
             final AccountData accountData = tokenRefresherService.refreshToken(purchase.getToken());
-            if (!accountData.getUpdatedAt().equals(DateUtils.getCurrentDate())) {
-                log.info("Token has been renewed {}", purchase.getUserId());
+            final Date updatedAt = accountData.getUpdatedAt();
+            if (!updatedAt.equals(DateUtils.resolveDate(updatedAt))) {
+                log.info("Token has been renewed {}", accountData.getId());
             }
 
             if (!loginService.checkAccountIsActivated(accountData.getActivated())) {
@@ -42,7 +43,7 @@ public class ShopController {
                 return "Player has not activate is account";
             }
 
-            final int amountResponse = paypalService.checkPurchase(purchase);
+            final double amountResponse = paypalService.checkPurchase(purchase);
             if (amountResponse == 0) {
                 log.info("Failed to purchase shards for transaction id {}", purchase.getTransactionId());
                 return "Failed to purchase shards for transaction id " + purchase.getTransactionId();
@@ -68,7 +69,8 @@ public class ShopController {
     public String buyItem(@RequestBody AionItem item) {
         try {
             final AccountData accountData = tokenRefresherService.refreshToken(item.getToken());
-            if (!accountData.getUpdatedAt().equals(DateUtils.getCurrentDate())) {
+            final Date updatedAt = accountData.getUpdatedAt();
+            if (!updatedAt.equals(DateUtils.resolveDate(updatedAt))) {
                 log.info("Token has been renewed {}", accountData.getId());
             }
 
