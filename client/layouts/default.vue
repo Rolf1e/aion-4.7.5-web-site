@@ -12,7 +12,7 @@
 
             <template slot="start">
 
-                <b-navbar-item class="link" v-for="link in links" tag="router-link" :to="{ path: link.path }">
+                <b-navbar-item class="link" v-for="link in links" tag="nuxt-link" :to="{ path: link.path }">
                     {{ link.title}}
                 </b-navbar-item>
 
@@ -20,12 +20,17 @@
 
             <template v-if="username" slot="end">
 
-                <b-dropdown
+
+                <b-navbar-item class="link"  tag="nuxt-link" :to="{ path: '/recharge-my-account' }">
+                    Shards : {{ shards }}
+
+                </b-navbar-item>
+
+                <b-dropdown class="menu"
                         position="is-bottom-left"
                         append-to-body
                         aria-role="menu">
-                    <a
-                            class="navbar-item"
+                    <a class="navbar-item"
                             slot="trigger"
                             role="button">
                         <span>Menu</span>
@@ -33,7 +38,9 @@
                     </a>
 
                     <b-dropdown-item custom aria-role="menuitem">
-                        Logged as <b> {{ username}} </b>
+                        Logged as <b> {{ username}} </b> 
+                        <hr class="dropdown-divider" aria-role="menuitem">
+                        <b>{{ premium ? 'Premium' : 'Free'}}</b> Account
                     </b-dropdown-item>
                     <hr class="dropdown-divider" aria-role="menuitem">
                     <b-dropdown-item  has-link aria-role="menuitem">
@@ -43,7 +50,7 @@
                         </nuxt-link>
 
                     </b-dropdown-item>
-                    <b-dropdown-item value="logout" aria-role="menuitem">
+                    <b-dropdown-item value="logout" aria-role="menuitem" @click="logout">
                         <b-icon icon="logout"></b-icon>
                         Logout
                     </b-dropdown-item>
@@ -106,10 +113,22 @@
         computed: {
             username() {
                 return this.$store.state.auth.username
+            },
+
+            shards () {
+                return this.$store.state.auth.shard
+            },
+            premium () {
+                return this.$store.state.auth.premium
             }
         },
 
-        methods: {}
+        methods: {
+            logout() {
+                this.$store.dispatch('auth/logout')
+                this.$router.push({path: '/'})
+            }
+        }
     }
 </script>
 
@@ -134,6 +153,12 @@
 
     .btn {
         margin: 5px;
+    }
+
+    .menu {
+        margin-bottom: 13px;
+        margin-top: 3px;
+        margin-left: 40px;
     }
 
 </style>

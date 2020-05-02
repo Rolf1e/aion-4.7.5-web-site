@@ -51,6 +51,8 @@
                 if (response.error === 'Successfully getting token') {
                     this.$store.dispatch('auth/loadToken', response.token)
                     this.$store.dispatch('auth/loadUsername', response.username)
+                    this.$store.dispatch('auth/setShard', response.shard)
+                    this.$store.dispatch('auth/setPremium', response.premium)
                     this.$emit('refresh')
                     this.$router.push({path: '/'})
                     return
