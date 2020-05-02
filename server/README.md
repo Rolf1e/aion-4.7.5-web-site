@@ -18,7 +18,8 @@ Buy item :
     	"idPlayer" : "1",
     	"token" : "*token*",
     	"idItem" : "1",
-    	"countItem" : "2"
+    	"countItem" : "2",
+    	"recipient" : "toGift"
     } 
     
 ##Paypal
