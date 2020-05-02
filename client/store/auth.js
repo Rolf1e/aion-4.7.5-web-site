@@ -1,3 +1,6 @@
+import Cookie from 'js-cookie'
+
+
 export const state = () => ({
 
     token: '',
@@ -17,8 +20,8 @@ export const mutations = {
         state.token = token
     },
 
-    SET_USERNAME(state, token) {
-        state.username = token
+    SET_USERNAME(state, username) {
+        state.username = username
     }
 
 
@@ -27,10 +30,12 @@ export const mutations = {
 export const actions = {
     loadToken({commit, dispach}, token) {
         commit('SET_TOKEN', token)
+        Cookie.set('token', token, {expires : 1})
     },
 
-    loadUsername({commit, dispach}, token) {
-        commit('SET_USERNAME', token)
+    loadUsername({commit, dispach}, username) {
+        commit('SET_USERNAME', username)
+        Cookie.set('username', username, {expires : 1})
     },
 
 

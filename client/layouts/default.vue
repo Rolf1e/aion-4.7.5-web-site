@@ -18,10 +18,9 @@
 
             </template>
 
-            <template v-if="isConnected" slot="end">
+            <template v-if="username" slot="end">
 
                 <b-dropdown
-                        v-model="navigation"
                         position="is-bottom-left"
                         append-to-body
                         aria-role="menu">
@@ -34,12 +33,12 @@
                     </a>
 
                     <b-dropdown-item custom aria-role="menuitem">
-                        Logged as <b>Rafael Beraldo</b>
+                        Logged as <b> {{ username}} </b>
                     </b-dropdown-item>
                     <hr class="dropdown-divider" aria-role="menuitem">
                     <b-dropdown-item value="settings">
                         <b-icon icon="settings"></b-icon>
-                        Settings
+                        Recharge my account
                     </b-dropdown-item>
                     <b-dropdown-item value="logout" aria-role="menuitem">
                         <b-icon icon="logout"></b-icon>
@@ -49,19 +48,20 @@
             </template>
 
             <template v-else slot="end">
-                <b-navbar-item class="button btn is-primary" tag="router-link" :to="{ path: '/register' }">
-                    Inscription
-                </b-navbar-item>
-
-                <b-navbar-item class="button btn is-light" tag="router-link" :to="{ path: '/login' }">
-                    Connexion
-                </b-navbar-item>
+                    <b-navbar-item tag="div">
+                        <router-link :to="{ path: '/register' }" class="button btn is-primary">
+                            <strong>Sign up</strong>
+                        </router-link>
+                        <router-link :to="{ path: '/login' }" class="button btn is-light">
+                            Log in
+                        </router-link>
+                    </b-navbar-item>
             </template>
 
 
         </b-navbar>
 
-        <nuxt ></nuxt>
+        <nuxt></nuxt>
 
 
     </div>
@@ -100,15 +100,13 @@
             }
         },
 
-        computed : {
-           isConnected () {
-               return this.$store.state.auth.username
-           }
+        computed: {
+            username() {
+                return this.$store.state.auth.username
+            }
         },
 
-      methods : {
-
-      }
+        methods: {}
     }
 </script>
 
