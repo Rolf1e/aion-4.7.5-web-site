@@ -36,9 +36,12 @@
                         Logged as <b> {{ username}} </b>
                     </b-dropdown-item>
                     <hr class="dropdown-divider" aria-role="menuitem">
-                    <b-dropdown-item value="settings">
-                        <b-icon icon="settings"></b-icon>
-                        Recharge my account
+                    <b-dropdown-item  has-link aria-role="menuitem">
+                        <nuxt-link :to="{ path: '/recharge-my-account' }">
+                            <b-icon icon="settings"></b-icon>
+                            Recharge my account
+                        </nuxt-link>
+
                     </b-dropdown-item>
                     <b-dropdown-item value="logout" aria-role="menuitem">
                         <b-icon icon="logout"></b-icon>
@@ -49,12 +52,12 @@
 
             <template v-else slot="end">
                     <b-navbar-item tag="div">
-                        <router-link :to="{ path: '/register' }" class="button btn is-primary">
+                        <nuxt-link :to="{ path: '/register' }" class="button btn is-primary">
                             <strong>Sign up</strong>
-                        </router-link>
-                        <router-link :to="{ path: '/login' }" class="button btn is-light">
+                        </nuxt-link>
+                        <nuxt-link :to="{ path: '/login' }" class="button btn is-light">
                             Log in
-                        </router-link>
+                        </nuxt-link>
                     </b-navbar-item>
             </template>
 
