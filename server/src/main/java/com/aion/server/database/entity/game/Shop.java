@@ -19,7 +19,7 @@ public class Shop {
     private String objectId;
 
     @Column(name = "item_id")
-    private int itemId;
+    private long itemId;
 
     @Column(name = "item_name")
     private String itemName;

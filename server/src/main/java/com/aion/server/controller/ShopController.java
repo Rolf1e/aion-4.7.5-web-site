@@ -3,7 +3,7 @@ package com.aion.server.controller;
 import com.aion.server.database.entity.login.AccountData;
 import com.aion.server.database.entity.game.Shop;
 import com.aion.server.service.*;
-import com.aion.server.service.infra.dto.AionItem;
+import com.aion.server.service.infra.dto.AionItemPurchase;
 import com.aion.server.service.infra.dto.ShardsPurchase;
 import com.aion.server.service.infra.exception.*;
 import com.aion.server.service.infra.utils.CurrencyConverter;
@@ -30,7 +30,7 @@ public class ShopController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
-    public String purchaseShards(@RequestBody ShardsPurchase purchase) {
+    public ShardsPurchase purchaseShards(@RequestBody ShardsPurchase purchase) {
         final String transactionId = purchase.getTransactionId();
         final String token = purchase.getToken();
         try {
@@ -43,13 +43,13 @@ public class ShopController {
 
             if (!loginService.checkAccountIsActivated(accountData.getId())) {
                 log.info("Player {} has not activate is account ", accountDataId);
-                return "Player's account is not activated";
+                return new ShardsPurchase(transactionId, true, "Player's account is not activated");
             }
 
             final double amountResponse = paypalService.checkPurchase(purchase);
             if (amountResponse == 0) {
                 log.info("Failed to purchase shards for transaction accountDataId {}", transactionId);
-                return "Failed to purchase shards for transaction accountDataId " + transactionId;
+                return new ShardsPurchase(transactionId, true, "Failed to purchase shards for transaction accountDataId " + transactionId);
             }
             final int convert = (int) new CurrencyConverter().convert(amountResponse);
 
@@ -57,22 +57,22 @@ public class ShopController {
                     && shardService.giveShardsToPlayer(accountDataId, convert)) {
                 shardService.savePayments(transactionId, accountDataId);
                 log.info("{} purchased {} shards for {} €", accountDataId, convert, amountResponse);
-                return "You purchased " + convert + " shards for " + amountResponse + "€";
+                return new ShardsPurchase(transactionId, false, "You purchased " + convert + " shards for " + amountResponse + "€");
             }
             log.info("Attempt to reuse transaction {} to by shards", transactionId);
-            return "This transaction " + transactionId + " may already have been handle, please contact our team ou discord if it's not normal";
+            return new ShardsPurchase(transactionId, true, "This transaction " + transactionId + " may already have been handle, please contact our team ou discord if it's not normal");
         } catch (TokenRefresherException e) {
             log.error("Failed to verify token {}", token);
-            return "Failed to verify user token";
+            return new ShardsPurchase(transactionId, true, "Failed to verify user token");
         } catch (IOException e) {
             log.error("Failed to getDetails on purchase {}", transactionId, e);
-            return "A problem happened in getting details from Paypal for purchase " + transactionId + " please contact our support on discord";
+            return new ShardsPurchase(transactionId, true, "A problem happened in getting details from Paypal for purchase " + transactionId + " please contact our support on discord");
         }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/buy", consumes = "application/json", produces = "application/json")
-    public String buyItem(@RequestBody AionItem item) {
+    public AionItemPurchase buyItem(@RequestBody AionItemPurchase item) {
         final String token = item.getToken();
         try {
             final AccountData accountData = tokenRefresherService.refreshToken(token);
@@ -83,26 +83,26 @@ public class ShopController {
 
             if (!loginService.checkAccountIsActivated(accountData.getId())) {
                 log.info("Player {} has not activate is account ", accountData.getId());
-                return "Player has not activate is account";
+                return new AionItemPurchase(item, true, "Player has not activate is account");
             }
 
             if (playerInformationService.checkPlayerExist(item.getRecipient())
                     && shopService.canPerform(item, accountData)) {
                 shopService.registerItem(item, accountData);
-                return "Successfully registered item in db";
+                return new AionItemPurchase(item, false, "Successfully registered item in db");
             }
-            log.info("You may not perform purchase & or your player doesn't exist");
-            return "You may not perform purchase & or your player doesn't exist";
+            log.info("User {} failed to perform purchase ", accountData.getId());
+            return new AionItemPurchase(item, true, "You don't have enough shards and|or your player doesn't exist");
 
         } catch (LoginException e) {
             log.error("Failed to find user {} in database for token {}", token, e);
-            return "Failed to find user";
+            return new AionItemPurchase(item, true, "Failed to find user");
         } catch (ShopException e) {
             log.error("Failed to find item {} for user token {}", item.getIdItem(), token, e);
-            return "Failed to find item";
+            return new AionItemPurchase(item, true, "Failed to find item");
         } catch (TokenRefresherException e) {
             log.error("Failed to verify token {}", token);
-            return "Failed to verify user token";
+            return new AionItemPurchase(item, true, "Failed to verify user token");
         }
     }
 
