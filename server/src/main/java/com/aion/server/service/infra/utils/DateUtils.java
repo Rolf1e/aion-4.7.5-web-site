@@ -7,7 +7,7 @@ import java.util.Date;
 @UtilityClass
 public class DateUtils {
 
-    private static final long ONE_HOUR_MILLISECOND = 3600000L;
+    public static final long ONE_HOUR_MILLISECOND = 3600000L;
 
     public static Date getCurrentDate() {
         return new Date();

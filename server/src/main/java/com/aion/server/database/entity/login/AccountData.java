@@ -63,8 +63,9 @@ public class AccountData {
         this.password = encryptedPassword;
         this.email = userInfos.getMail();
         this.token = token;
-        this.createdAt = DateUtils.getCurrentDate();
-        this.updatedAt = DateUtils.getCurrentDate();
+        final Date currentDate = DateUtils.getCurrentDate();
+        this.createdAt = currentDate;
+        this.updatedAt = new Date(currentDate.getTime() + DateUtils.ONE_HOUR_MILLISECOND);
     }
 
     public AccountData(final String name,
@@ -76,8 +77,9 @@ public class AccountData {
         this.password = password;
         this.token = token;
         this.updatedAt = updatedAt;
-        this.createdAt = DateUtils.getCurrentDate();
-        this.updatedAt = DateUtils.getCurrentDate();
+        final Date currentDate = DateUtils.getCurrentDate();
+        this.createdAt = currentDate;
+        this.updatedAt = new Date(currentDate.getTime() + DateUtils.ONE_HOUR_MILLISECOND);
     }
 
     public long giveToll(final long toGive) {
