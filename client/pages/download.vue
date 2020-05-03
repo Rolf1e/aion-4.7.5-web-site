@@ -6,7 +6,7 @@
         <div class="columns">
 
             <div class="column is-half">
-                <img src="http://aion-shard.com/media/slide1.png" alt="">
+                <img src="http://aion-shard.com/media/download.png" alt="">
             </div>
 
             <div class="column is-half">
@@ -38,7 +38,7 @@
     }
 
     .download-title {
-        margin: 40px 0px;
+        margin: 18px 0px;
     }
 
 </style>

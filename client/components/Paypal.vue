@@ -25,14 +25,14 @@
         data() {
             return {
                 error: false,
-                ammount: 0.1,
+                ammount: 4,
             }
         },
 
         computed: {
 
             numberOfShard() {
-                return isNaN(Math.round(this.ammount * 50)) ? 0 :  Math.round(this.ammount * 50)
+                return isNaN(Math.floor(this.ammount * 50)) ? 0 :  Math.floor(this.ammount * 50)
             }
         },
 
@@ -71,6 +71,8 @@
                     onApprove: async (data, actions) => {
                         const order = await actions.order.capture()
                         const paymentId = order.purchase_units[0].payments.captures[0].id
+                        const orderId = order.id
+                        const token = 'token'
                     },
 
                     onError: err => {

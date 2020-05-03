@@ -38,7 +38,7 @@
                     </a>
 
                     <b-dropdown-item custom aria-role="menuitem">
-                        Logged as <b> {{ username}} </b> 
+                        Logged as <b> {{ username}} </b>
                         <hr class="dropdown-divider" aria-role="menuitem">
                         <b>{{ premium ? 'Premium' : 'Free'}}</b> Account
                     </b-dropdown-item>
@@ -88,10 +88,6 @@
                     {
                         title: 'Home',
                         path: '/',
-                    },
-                    {
-                        title: 'Forum',
-                        path: '/forum',
                     },
                     {
                         title: 'Rules',
