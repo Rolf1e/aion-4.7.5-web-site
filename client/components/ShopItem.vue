@@ -2,7 +2,9 @@
     <div>
 
         <div class="box">
+
             <article class="media" style="margin-bottom: 30px">
+
                 <div class="media-left">
                     <figure class="image is-96x96">
                         <img class="picture" :src="pictureLink">
@@ -10,27 +12,27 @@
                 </div>
 
                 <div class="media-content">
-                    <div>
-                        <p>
-                            <strong> {{ title }}</strong>
-                            <!--                            <small>@johnsmith</small> <small>31m</small>-->
-                            <br>
-                            {{ description }}
-                        </p>
 
+                    <div>
+                        <h3 class="title"> {{ title }}</h3>
+                        <p @click="showFullDescription" class="description">
+                            {{ lightDescription }}
+                            {{ lightDescription !== description ? '.... ( click show more )' : '' }}
+                            {{ showDescription ? '( click to reduce description )' : '' }}
+                        </p>
                     </div>
 
-
                 </div>
+
             </article>
 
             <div class="price-block">
                 <div>
-                    <b-button type="is-dark btn" @click="buy" outlined> Acheter</b-button>
-                    <b-button type="is-dark btn" @click="gift" outlined> Cadeau</b-button>
+                    <b-button type="is-dark btn" :disabled="btnDisabled" @click="buy" outlined> Buy item</b-button>
                 </div>
-                <p class="price"> {{ price }} Shard </p>
+                <p class="price"> {{ price }} Shards </p>
             </div>
+
         </div>
 
     </div>
@@ -44,7 +46,9 @@
 
         data() {
             return {
-
+                btnDisabled: !this.$store.state.auth.token,
+                lightDescription: this.description.substr(0, 90),
+                showDescription: false
             }
         },
 
@@ -52,7 +56,8 @@
             title: String,
             description: String,
             picture: String,
-            price : Number
+            price: Number,
+            idItem: Number,
         },
 
         computed: {
@@ -64,31 +69,27 @@
         methods: {
 
             buy() {
-                Swal.fire(
-                    'Yeah!',
-                    'Stylé ton nouveau item',
-                    'success',
-                )
-            },
-
-            gift() {
 
                 Swal.fire({
-                    title: 'Username de la personne',
+                    title: 'Pseudo du personnage',
                     input: 'text',
                     inputAttributes: {
                         autocapitalize: 'off'
                     },
+
                     showCancelButton: true,
-                    confirmButtonText: 'Envoyer',
+                    confirmButtonText: 'Send',
                     showLoaderOnConfirm: true,
-                    preConfirm: (login) => {
-                        return fetch(`//api.github.com/users/${login}`)
+
+                    preConfirm: async (pseudo) => {
+
+                        return this.$axios.get(`http://51.178.130.119:8081/check-players-exist?name=${pseudo}`)
                             .then(response => {
-                                if (!response.ok) {
+
+                                if (!response.data) {
                                     throw new Error('Utilisateur non trouvé')
                                 }
-                                return response.json()
+                                return response.data
                             })
                             .catch(error => {
                                 Swal.showValidationMessage(
@@ -101,11 +102,22 @@
                     if (result.value) {
                         Swal.fire(
                             'Cool !',
-                            'Ton ami a de la chance',
+                            'Objet envoyé',
                             'success',
                         )
+
                     }
                 })
+            },
+
+            showFullDescription() {
+                if (!this.showDescription) {
+                    this.lightDescription = this.description
+                    this.showDescription = true
+                } else {
+                    this.lightDescription = this.description.substr(0, 100),
+                        this.showDescription = false
+                }
             }
 
         }
@@ -117,9 +129,11 @@
     .price-block {
         display: flex;
         justify-content: space-between;
+
     }
 
     .price {
+        margin-top: 13px;
         font-size: 22px;
     }
 
@@ -130,6 +144,25 @@
     .picture {
         height: 100%;
         width: 100%;
+    }
+
+    .title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        font-size: 15px;
+    }
+
+    .description:hover {
+        cursor: pointer;
+    }
+
+
+    .box {
+        min-height: 230px;
+        margin: 15px;
     }
 
 </style>

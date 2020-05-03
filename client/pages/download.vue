@@ -14,7 +14,6 @@
                     <h2 class="is-size-4">Please downloads 3 zip file</h2>
                 </div>
 
-
                 <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1y7DUCQ20SlaE4YGU5P7mnEJv3UGWJus6" type="is-primary button-download">Part 1</b-button>
                 <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1QM6K7Nh-Lw6CWpIah11Ze0cMrM1dDdHv" type="is-primary button-download">Part 2</b-button>
                 <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1K2WWcQcDoyzo2PZQFVXi_GSBJHmpY2Mm" type="is-primary button-download">Part 3</b-button>

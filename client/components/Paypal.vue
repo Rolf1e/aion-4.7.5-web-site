@@ -72,7 +72,8 @@
                         const order = await actions.order.capture()
                         const paymentId = order.purchase_units[0].payments.captures[0].id
                         const orderId = order.id
-                        const token = 'token'
+                        const token = this.$store.state.auth.token
+
                     },
 
                     onError: err => {
