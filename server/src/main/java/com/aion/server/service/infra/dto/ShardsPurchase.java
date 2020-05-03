@@ -1,14 +1,12 @@
 package com.aion.server.service.infra.dto;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor
 public class ShardsPurchase {
 
     private String token;
-    private int userId;
-    private double transactionAmount;
     private String transactionId;
 }

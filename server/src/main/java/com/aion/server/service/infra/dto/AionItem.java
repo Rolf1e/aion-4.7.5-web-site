@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AionItem {
 
-    private long idPlayer;
     private String token;
     private long idItem;
     private int countItem;

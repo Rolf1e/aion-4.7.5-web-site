@@ -15,7 +15,6 @@ Buy item :
 
     POST localhost:8080/buy
     {
-    	"idPlayer" : "1",
     	"token" : "*token*",
     	"idItem" : "1",
     	"countItem" : "2",
@@ -29,8 +28,6 @@ Purchase shards
     POST localhost:8080/purchase/shards
     {
     	"token" : "*token*",
-    	"userId": 1,
-    	"transactionAmount" : 10, 
     	"transactionId" : "*transactionId"
     } 
     
@@ -53,7 +50,14 @@ Login
          "username" : "tigran",
          "password" : "rolfie"
      }
- 
+     
+ OR
+
+    POST localhost:8080/login
+    {
+        "token" : "*token*"
+    }
+         
 Token 
 
     GET localhost:8080/valid?token=*token*
