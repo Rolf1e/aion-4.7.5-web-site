@@ -15,5 +15,7 @@ public interface AccountDataRepository extends CrudRepository<AccountData, Long>
 
     boolean existsByNameAndPassword(final String username, final String password);
 
+    boolean existsByName(final String username);
+
     void deleteByNameAndPassword(final String username, final String password);
 }

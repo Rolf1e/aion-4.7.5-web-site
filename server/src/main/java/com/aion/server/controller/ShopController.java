@@ -31,44 +31,51 @@ public class ShopController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
     public String purchaseShards(@RequestBody ShardsPurchase purchase) {
+        final String transactionId = purchase.getTransactionId();
+        final String token = purchase.getToken();
         try {
-            final AccountData accountData = tokenRefresherService.refreshToken(purchase.getToken());
+            final AccountData accountData = tokenRefresherService.refreshToken(token);
             final Date updatedAt = accountData.getUpdatedAt();
+            final long accountDataId = accountData.getId();
             if (!updatedAt.equals(DateUtils.resolveDate(updatedAt))) {
-                log.info("Token has been renewed {}", accountData.getId());
+                log.info("Token has been renewed {}", accountDataId);
             }
 
-            if (!loginService.checkAccountIsActivated(accountData.getActivated())) {
-                log.info("Player {} has not activate is account ", accountData.getId());
-                return "Player has not activate is account";
+            if (!loginService.checkAccountIsActivated(accountData.getId())) {
+                log.info("Player {} has not activate is account ", accountDataId);
+                return "Player's account is not activated";
             }
 
             final double amountResponse = paypalService.checkPurchase(purchase);
             if (amountResponse == 0) {
-                log.info("Failed to purchase shards for transaction id {}", purchase.getTransactionId());
-                return "Failed to purchase shards for transaction id " + purchase.getTransactionId();
+                log.info("Failed to purchase shards for transaction accountDataId {}", transactionId);
+                return "Failed to purchase shards for transaction accountDataId " + transactionId;
             }
-            if (amountResponse == purchase.getTransactionAmount()) {
-                final int convert = (int) new CurrencyConverter().convert(amountResponse);
+            final int convert = (int) new CurrencyConverter().convert(amountResponse);
 
-                if (shardService.giveShardsToPlayer(purchase.getUserId(), convert)) {
-                    return "You purchased " + convert + " shards for " + purchase.getTransactionAmount() + "";
-                }
+            if (!shardService.checkAlreadyUsed(transactionId)
+                    && shardService.giveShardsToPlayer(accountDataId, convert)) {
+                shardService.savePayments(transactionId, accountDataId);
+                log.info("{} purchased {} shards for {} €", accountDataId, convert, amountResponse);
+                return "You purchased " + convert + " shards for " + amountResponse + "€";
             }
+            log.info("Attempt to reuse transaction {} to by shards", transactionId);
+            return "This transaction " + transactionId + " may already have been handle, please contact our team ou discord if it's not normal";
         } catch (TokenRefresherException e) {
-            log.error("Failed to verify token for user {}", purchase.getUserId());
+            log.error("Failed to verify token {}", token);
             return "Failed to verify user token";
         } catch (IOException e) {
-            log.error("Failed to getDetails on purchase {}", purchase.getTransactionId(), e);
+            log.error("Failed to getDetails on purchase {}", transactionId, e);
+            return "A problem happened in getting details from Paypal for purchase " + transactionId + " please contact our support on discord";
         }
-        return "A problem happened in getting details from Paypal for purchase " + purchase.getTransactionId() + " please contact our support on discord";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/buy", consumes = "application/json", produces = "application/json")
     public String buyItem(@RequestBody AionItem item) {
+        final String token = item.getToken();
         try {
-            final AccountData accountData = tokenRefresherService.refreshToken(item.getToken());
+            final AccountData accountData = tokenRefresherService.refreshToken(token);
             final Date updatedAt = accountData.getUpdatedAt();
             if (!updatedAt.equals(DateUtils.resolveDate(updatedAt))) {
                 log.info("Token has been renewed {}", accountData.getId());
@@ -88,13 +95,13 @@ public class ShopController {
             return "You may not perform purchase & or your player doesn't exist";
 
         } catch (LoginException e) {
-            log.error("Failed to find user {} in database", item.getIdPlayer(), e);
+            log.error("Failed to find user {} in database for token {}", token, e);
             return "Failed to find user";
         } catch (ShopException e) {
-            log.error("Failed to find item {} for user {}", item.getIdItem(), item.getIdPlayer(), e);
+            log.error("Failed to find item {} for user token {}", item.getIdItem(), token, e);
             return "Failed to find item";
         } catch (TokenRefresherException e) {
-            log.error("Failed to verify token for user {}", item.getIdPlayer());
+            log.error("Failed to verify token {}", token);
             return "Failed to verify user token";
         }
     }

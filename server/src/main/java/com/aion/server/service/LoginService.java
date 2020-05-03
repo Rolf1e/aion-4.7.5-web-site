@@ -18,9 +18,8 @@ public class LoginService {
 
     private final AccountDataRepository accountDataRepository;
 
-    public boolean checkRegistered(final InputUserInfos userInfos) throws EncodeException {
-        final String encryptedPassword = EncryptionUtils.toEncode(userInfos.getPassword());
-        return accountDataRepository.existsByNameAndPassword(userInfos.getUsername(), encryptedPassword);
+    public boolean checkRegistered(final InputUserInfos userInfos) {
+        return accountDataRepository.existsByName(userInfos.getUsername());
     }
 
     public boolean checkAccountIsActivated(final long idPlayer) {

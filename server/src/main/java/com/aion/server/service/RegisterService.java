@@ -54,7 +54,7 @@ public class RegisterService {
         log.info("User {}  has confirmed email ", accountData.getId());
     }
 
-    public boolean checkRegistered(final InputUserInfos userInfos) throws EncodeException {
+    public boolean checkRegistered(final InputUserInfos userInfos){
         return loginService.checkRegistered(userInfos);
     }
 

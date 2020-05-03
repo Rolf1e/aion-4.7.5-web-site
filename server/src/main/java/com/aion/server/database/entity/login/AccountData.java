@@ -1,6 +1,7 @@
 package com.aion.server.database.entity.login;
 
 import com.aion.server.service.infra.dto.InputUserInfos;
+import com.aion.server.service.infra.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,8 @@ public class AccountData {
         this.password = encryptedPassword;
         this.email = userInfos.getMail();
         this.token = token;
+        this.createdAt = DateUtils.getCurrentDate();
+        this.updatedAt = DateUtils.getCurrentDate();
     }
 
     public AccountData(final String name,
@@ -73,6 +76,8 @@ public class AccountData {
         this.password = password;
         this.token = token;
         this.updatedAt = updatedAt;
+        this.createdAt = DateUtils.getCurrentDate();
+        this.updatedAt = DateUtils.getCurrentDate();
     }
 
     public long giveToll(final long toGive) {
