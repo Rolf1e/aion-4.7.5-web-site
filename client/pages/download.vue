@@ -11,7 +11,7 @@
 
             <div class="column is-half">
                 <div class="download-title">
-                    <h2 class="is-size-4">Please downloads 3 zip file</h2>
+                    <h2 class="is-size-4">Please download the following files</h2>
                 </div>
 
                 <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1y7DUCQ20SlaE4YGU5P7mnEJv3UGWJus6" type="is-primary button-download">Part 1</b-button>

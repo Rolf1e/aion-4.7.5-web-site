@@ -36,7 +36,7 @@
         </div>
 
         <div v-if="maxItems < itemsToShow.length " class="load-more-item has-text-centered">
-            <b-button rounded @click="loadMoreItems"> Charger plus d'items</b-button>
+            <b-button rounded @click="loadMoreItems">More items</b-button>
         </div>
 
     </div>
