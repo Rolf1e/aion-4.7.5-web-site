@@ -1,9 +1,10 @@
 #!/bin/bash
-if [ -e pid.txt ]
+cd /c/Site\ Internet/deployment
+if ps -p `cat pid.txt` > /dev/null
 then
   pid=`cat pid.txt`
   kill ${pid}
-  echo "Web server stops"
+I  echo "Stopping Web server in /c/Site\ Internet/deployment"
 else
   echo "Web Server is not running."
 fi
