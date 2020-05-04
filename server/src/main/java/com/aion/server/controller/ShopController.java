@@ -43,13 +43,13 @@ public class ShopController {
 
             if (!loginService.checkAccountIsActivated(accountData.getId())) {
                 log.info("Player {} has not activate is account ", accountDataId);
-                return new ShardsPurchase(transactionId, true, "Player's account is not activated");
+                return new ShardsPurchase(transactionId, accountData.getToll(), true, "Player's account is not activated");
             }
 
             final double amountResponse = paypalService.checkPurchase(purchase);
             if (amountResponse == 0) {
                 log.info("Failed to purchase shards for transaction accountDataId {}", transactionId);
-                return new ShardsPurchase(transactionId, true, "Failed to purchase shards for transaction accountDataId " + transactionId);
+                return new ShardsPurchase(transactionId, accountData.getToll(), true, "Failed to purchase shards for transaction accountDataId " + transactionId);
             }
             final int convert = (int) new CurrencyConverter().convert(amountResponse);
 
@@ -57,16 +57,16 @@ public class ShopController {
                     && shardService.giveShardsToPlayer(accountDataId, convert)) {
                 shardService.savePayments(transactionId, accountDataId);
                 log.info("{} purchased {} shards for {} €", accountDataId, convert, amountResponse);
-                return new ShardsPurchase(transactionId, false, "You purchased " + convert + " shards for " + amountResponse + "€");
+                return new ShardsPurchase(transactionId, accountData.getToll(), false, "You purchased " + convert + " shards for " + amountResponse + "€");
             }
             log.info("Attempt to reuse transaction {} to by shards", transactionId);
-            return new ShardsPurchase(transactionId, true, "This transaction " + transactionId + " may already have been handle, please contact our team ou discord if it's not normal");
+            return new ShardsPurchase(transactionId, accountData.getToll(), true, "This transaction " + transactionId + " may already have been handle, please contact our team ou discord if it's not normal");
         } catch (TokenRefresherException e) {
             log.error("Failed to verify token {}", token);
-            return new ShardsPurchase(transactionId, true, "Failed to verify user token");
+            return new ShardsPurchase(transactionId, 0, true, "Failed to verify user token");
         } catch (IOException e) {
             log.error("Failed to getDetails on purchase {}", transactionId, e);
-            return new ShardsPurchase(transactionId, true, "A problem happened in getting details from Paypal for purchase " + transactionId + " please contact our support on discord");
+            return new ShardsPurchase(transactionId, 0, true, "A problem happened in getting details from Paypal for purchase " + transactionId + " please contact our support on discord");
         }
     }
 
@@ -83,26 +83,26 @@ public class ShopController {
 
             if (!loginService.checkAccountIsActivated(accountData.getId())) {
                 log.info("Player {} has not activate is account ", accountData.getId());
-                return new AionItemPurchase(item, true, "Player has not activate is account");
+                return new AionItemPurchase(item, accountData.getToll(), true, "Player has not activate is account");
             }
 
             if (playerInformationService.checkPlayerExist(item.getRecipient())
                     && shopService.canPerform(item, accountData)) {
                 shopService.registerItem(item, accountData);
-                return new AionItemPurchase(item, false, "Successfully registered item in db");
+                return new AionItemPurchase(item, accountData.getToll(), false, "Successfully registered item in db");
             }
             log.info("User {} failed to perform purchase ", accountData.getId());
-            return new AionItemPurchase(item, true, "You don't have enough shards and|or your player doesn't exist");
+            return new AionItemPurchase(item, accountData.getToll(), true, "You don't have enough shards and|or your player doesn't exist");
 
         } catch (LoginException e) {
             log.error("Failed to find user {} in database for token {}", token, e);
-            return new AionItemPurchase(item, true, "Failed to find user");
+            return new AionItemPurchase(item, 0, true, "Failed to find user");
         } catch (ShopException e) {
             log.error("Failed to find item {} for user token {}", item.getIdItem(), token, e);
-            return new AionItemPurchase(item, true, "Failed to find item");
+            return new AionItemPurchase(item, 0, true, "Failed to find item");
         } catch (TokenRefresherException e) {
             log.error("Failed to verify token {}", token);
-            return new AionItemPurchase(item, true, "Failed to verify user token");
+            return new AionItemPurchase(item, 0, true, "Failed to verify user token");
         }
     }
 
