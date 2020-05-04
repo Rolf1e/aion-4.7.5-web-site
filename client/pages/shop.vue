@@ -28,7 +28,7 @@
                       :title="item.itemName"
                       :description="item.itemDescription"
                       :picture="item.itemPathToImageColumn"
-                      :idItem="item.objectId"
+                      :idItem="item.itemId"
                       :price="item.itemPrice">
 
             </ShopItem>
@@ -56,9 +56,9 @@
 
         async asyncData() {
 
-            const {data: categories} = await axios.get('http://51.178.130.119:8081/list-shop/category')
+            const {data: categories} = await axios.get('http://aion-shard.com:8081/list-shop/category')
 
-            const {data: items} = await axios.get('http://51.178.130.119:8081/list-shop')
+            const {data: items} = await axios.get('http://aion-shard.com:8081/list-shop')
 
             return {items, categories}
         },

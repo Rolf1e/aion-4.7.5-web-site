@@ -83,13 +83,13 @@
 
                     preConfirm: async (pseudo) => {
 
-                        return this.$axios.get(`http://51.178.130.119:8081/check-players-exist?name=${pseudo}`)
+                        return this.$axios.get(`http://aion-shard.com:8081/check-players-exist?name=${pseudo}`)
                             .then(response => {
 
                                 if (!response.data) {
                                     throw new Error('User not found')
                                 }
-                                return response.data
+                                return pseudo
                             })
                             .catch(error => {
                                 Swal.showValidationMessage(
@@ -98,13 +98,46 @@
                             })
                     },
                     allowOutsideClick: () => !Swal.isLoading()
-                }).then((result) => {
+                }).then(async (result) => {
+
                     if (result.value) {
-                        Swal.fire(
-                            'Great !',
-                            'Object successfully send',
-                            'success',
-                        )
+
+                        this.$axios.post('http://aion-shard.com:8081/buy', {
+                            'token': this.$store.state.auth.token,
+                            'idItem': this.idItem,
+                            'countItem': 1,
+                            'recipient': result.value
+                        })
+                            .then(response => {
+
+                                response = response.data
+
+                                if (!response.error) {
+
+                                    this.$store.dispatch('auth/setShard', response.shardBalance)
+
+                                    Swal.fire(
+                                        'Great !',
+                                        'Object successfully send',
+                                        'success',
+                                    )
+                                } else {
+                                    Swal.fire(
+                                        'Error',
+                                        response.message,
+                                        'error',
+                                    )
+                                }
+                            })
+
+                            .catch(error => {
+                                Swal.showValidationMessage(
+                                    `${error}`
+                                )
+                            })
+
+                        console.log(response)
+
 
                     }
                 })
