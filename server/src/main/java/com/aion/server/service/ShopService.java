@@ -44,7 +44,7 @@ public class ShopService {
                 final Shop item = itemById.get();
                 final WebShop webShop = new WebShop(aionItemPurchase.getRecipient(), item.getItemDescription(),
                         item.getItemId(), aionItemPurchase.getCountItem(), item.getItemPrice());
-                log.info("Give item {} to player {}", aionItemPurchase.getIdItem(), accountData.getId());
+                log.info("Give item {} to player {} from account {}", aionItemPurchase.getIdItem(), aionItemPurchase.getRecipient(), accountData.getId());
                 return webShopRepository.save(webShop);
             }
             throw new ShopInsertionException(aionItemPurchase.getIdItem(), accountData.getId());
