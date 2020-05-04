@@ -3,7 +3,7 @@
 
         <div class="box">
 
-            <article class="media" style="margin-bottom: 30px">
+            <article class="media">
 
                 <div class="media-left">
                     <figure class="image is-96x96">
@@ -17,8 +17,8 @@
                         <h3 class="title"> {{ title }}</h3>
                         <p @click="showFullDescription" class="description">
                             {{ lightDescription }}
-                            {{ lightDescription !== description ? '.... ( click show more )' : '' }}
-                            {{ showDescription ? '( click to reduce description )' : '' }}
+                            {{ lightDescription !== description ? '.... ( show more )' : '' }}
+                            {{ showDescription ? '( reduce description )' : '' }}
                         </p>
                     </div>
 
@@ -47,7 +47,7 @@
         data() {
             return {
                 btnDisabled: !this.$store.state.auth.token,
-                lightDescription: this.description.substr(0, 90),
+                lightDescription: this.description.substr(0, 40),
                 showDescription: false
             }
         },
@@ -71,7 +71,7 @@
             buy() {
 
                 Swal.fire({
-                    title: 'Pseudo du personnage',
+                    title: 'Username',
                     input: 'text',
                     inputAttributes: {
                         autocapitalize: 'off'
@@ -87,7 +87,7 @@
                             .then(response => {
 
                                 if (!response.data) {
-                                    throw new Error('Utilisateur non trouvé')
+                                    throw new Error('User not found')
                                 }
                                 return response.data
                             })
@@ -101,8 +101,8 @@
                 }).then((result) => {
                     if (result.value) {
                         Swal.fire(
-                            'Cool !',
-                            'Objet envoyé',
+                            'Great !',
+                            'Object successfully send',
                             'success',
                         )
 
@@ -115,7 +115,7 @@
                     this.lightDescription = this.description
                     this.showDescription = true
                 } else {
-                    this.lightDescription = this.description.substr(0, 100),
+                    this.lightDescription = this.description.substr(0, 40),
                         this.showDescription = false
                 }
             }
@@ -128,17 +128,13 @@
 
     .price-block {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-
     }
 
     .price {
-        margin-top: 13px;
         font-size: 22px;
-    }
-
-    .price-block .btn {
-        margin-left: 10px;
+        margin-top: 13px;
     }
 
     .picture {
@@ -159,10 +155,9 @@
         cursor: pointer;
     }
 
-
     .box {
-        min-height: 230px;
-        margin: 15px;
+        min-height: 200px;
+        margin: 5px;
     }
 
 </style>
