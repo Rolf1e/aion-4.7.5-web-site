@@ -3,7 +3,7 @@
 
         <h1 class="title"> Créer un compte </h1>
 
-        <b-field label="Pseudo">
+        <b-field label="Username">
             <b-input v-model="username" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
         </b-field>
 
@@ -11,12 +11,12 @@
             <b-input v-model="email" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
         </b-field>
 
-        <b-field label="Mot de passe">
+        <b-field label="Password">
             <b-input type="password" v-model="password" @keyup.native="error.show = false" @keyup.native.enter="login"
                      password-reveal></b-input>
         </b-field>
 
-        <b-field label="Comfirmer mot de passe">
+        <b-field label="Confirm your password">
             <b-input type="password" v-model="confirmPassword" @keyup.native="error.show = false"
                      @keyup.native.enter="login"
                      password-reveal></b-input>
@@ -62,7 +62,7 @@
 
                     this.loading = true
 
-                    const {data: response} = await this.$axios.post('http://51.178.130.119:8081/register', {
+                    const {data: response} = await this.$axios.post('http://aion-shard.com:8081/register', {
                         "username": this.username,
                         "password": this.password,
                         "mail" : this.email

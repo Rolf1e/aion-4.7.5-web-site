@@ -6,14 +6,13 @@
 
       <div class="column is-half text-content">
 
-        <h1 class="title"> Bienvenue sur le serveur Aion Shard </h1>
+        <h1 class="title"> Welcome to Aion Shard </h1>
         <p> Serveur ... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur feugiat leo eu turpis
           faucibus
           bibendum. Cras pretium mi eu arcu imperdiet, quis malesuada nisl dignissim. </p>
 
         <div class="buttons">
-          <b-button type="is-primary">Rejoins le serveur</b-button>
-          <b-button type="is-primary">Regarde le Shop</b-button>
+          <b-button type="is-primary">Join the server</b-button>
         </div>
 
       </div>

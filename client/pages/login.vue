@@ -43,7 +43,7 @@
                     return
                 }
 
-                const {data: response} = await this.$axios.post('http://51.178.130.119:8081/login', {
+                const {data: response} = await this.$axios.post('http://aion-shard.com:8081/login', {
                     "username": this.username,
                     "password": this.password
                 })
@@ -51,6 +51,8 @@
                 if (response.error === 'Successfully getting token') {
                     this.$store.dispatch('auth/loadToken', response.token)
                     this.$store.dispatch('auth/loadUsername', response.username)
+                    this.$store.dispatch('auth/setShard', response.shard)
+                    this.$store.dispatch('auth/setPremium', response.premium)
                     this.$emit('refresh')
                     this.$router.push({path: '/'})
                     return

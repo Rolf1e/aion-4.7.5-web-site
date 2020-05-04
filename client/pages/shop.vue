@@ -28,6 +28,7 @@
                       :title="item.itemName"
                       :description="item.itemDescription"
                       :picture="item.itemPathToImageColumn"
+                      :idItem="item.itemId"
                       :price="item.itemPrice">
 
             </ShopItem>
@@ -35,7 +36,7 @@
         </div>
 
         <div v-if="maxItems < itemsToShow.length " class="load-more-item has-text-centered">
-            <b-button rounded @click="loadMoreItems"> Charger plus d'items</b-button>
+            <b-button rounded @click="loadMoreItems">More items</b-button>
         </div>
 
     </div>
@@ -55,9 +56,9 @@
 
         async asyncData() {
 
-            const {data: categories} = await axios.get('http://51.178.130.119:8081/list-shop/category')
+            const {data: categories} = await axios.get('http://aion-shard.com:8081/list-shop/category')
 
-            const {data: items} = await axios.get('http://51.178.130.119:8081/list-shop')
+            const {data: items} = await axios.get('http://aion-shard.com:8081/list-shop')
 
             return {items, categories}
         },

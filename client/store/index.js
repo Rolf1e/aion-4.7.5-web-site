@@ -1,4 +1,5 @@
 const Cookie = require('js-cookie')
+const axios = require('axios')
 
 export const actions = {
 
@@ -6,7 +7,7 @@ export const actions = {
 
     },
 
-    nuxtClientInit({commit}) {
+    async nuxtClientInit({commit}) {
 
         if (process.client) {
 
@@ -16,6 +17,13 @@ export const actions = {
             if (username !== undefined && token !== undefined) {
                 commit('auth/SET_USERNAME', username)
                 commit('auth/SET_TOKEN', token)
+
+                const { data : response} = await axios.post('http://aion-shard.com:8081/login', {
+                    token : token
+                })
+
+                commit('auth/SET_SHARD', response.shard)
+
             }
         }
 
