@@ -1,11 +1,13 @@
 package com.aion.server.database.entity.game;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "webshop", schema = "ac47_server_gs")
+@Data
 @NoArgsConstructor
 public class WebShop {
 
@@ -21,7 +23,7 @@ public class WebShop {
     private String itemDesc;
 
     @Column(name = "item_id")
-    private int itemId;
+    private long itemId;
 
     @Column(name = "count")
     private int count;
@@ -31,7 +33,7 @@ public class WebShop {
 
     public WebShop(final String recipient,
                    final String itemDesc,
-                   final int itemId,
+                   final long itemId,
                    final int count,
                    final int toll) {
 

@@ -1,23 +1,28 @@
 package com.aion.server.database.entity.login;
 
 import com.aion.server.service.infra.dto.InputUserInfos;
+import com.aion.server.service.infra.utils.DateUtils;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "account_data", schema = "ac47_server_ls")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
+/**
+ * Represent an account (real dude is behind this)
+ */
 public class AccountData {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
@@ -42,6 +47,14 @@ public class AccountData {
     @Column(name = "toll")
     private long toll;
 
+    @Column(name = "created_at", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Column(name = "updated_at", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
     public AccountData(final InputUserInfos userInfos,
                        final String token,
                        final String encryptedPassword) {
@@ -50,6 +63,23 @@ public class AccountData {
         this.password = encryptedPassword;
         this.email = userInfos.getMail();
         this.token = token;
+        final Date currentDate = DateUtils.getCurrentDate();
+        this.createdAt = currentDate;
+        this.updatedAt = new Date(currentDate.getTime() + DateUtils.ONE_HOUR_MILLISECOND);
+    }
+
+    public AccountData(final String name,
+                       final String password,
+                       final String token,
+                       final Date updatedAt) {
+
+        this.name = name;
+        this.password = password;
+        this.token = token;
+        this.updatedAt = updatedAt;
+        final Date currentDate = DateUtils.getCurrentDate();
+        this.createdAt = currentDate;
+        this.updatedAt = new Date(currentDate.getTime() + DateUtils.ONE_HOUR_MILLISECOND);
     }
 
     public long giveToll(final long toGive) {
