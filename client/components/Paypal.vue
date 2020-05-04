@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 <template>
     <div>
 
@@ -17,6 +18,8 @@
 </template>
 
 <script>
+
+    import Swal from 'sweetalert2'
 
     export default {
 
@@ -73,6 +76,24 @@
                         const paymentId = order.purchase_units[0].payments.captures[0].id
                         const orderId = order.id
                         const token = this.$store.state.auth.token
+
+                        console.log(paymentId)
+
+                        const { data : response } = await this.$axios.post('http://aion-shard.com:8081/purchase/shards', {
+                            'token' : token,
+                            'transactionId' : paymentId
+                        })
+
+                        if (!response.error) {
+                            Swal.fire(
+                                'Great !',
+                                'Shard successfully send',
+                                'success',
+                            )
+                            this.$store.dispatch('auth/setShard', response.shardBalance )
+
+                        }
+
 
                     },
 
