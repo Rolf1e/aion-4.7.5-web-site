@@ -106,7 +106,7 @@ public class ShopController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://aion-shard.com")
     @GetMapping(value = "/list-shop")
     public List<Shop> getListShopItem(@RequestParam(value = "category", defaultValue = "all") final String category) {
         if (category.equals("all")) {
@@ -117,7 +117,7 @@ public class ShopController {
         return shopService.getShopListByCategory(category);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://aion-shard.com")
     @GetMapping(value = "/list-shop/category")
     public List<String> getListCategory() {
         log.info("Get shop list by categories");
