@@ -41,7 +41,7 @@ import Swal from "sweetalert2";
 
         mounted() {
             const script = document.createElement("script")
-            script.src = "https://www.paypal.com/sdk/js?client-id=AZ2iwgULZ5w_pjyDSJ53UnTNOIIHEC-TDMJyJBJAa9dg6Mqlu3ZKMP-gtzc9DadQaXwUnq6CrqnIk_Ad&currency=EUR"
+            script.src = "https://www.paypal.com/sdk/js?client-id=AVS8bzdunfsXRbvrkpFRmm0BVw1mZbJxuqF9gB4uOF9EXK72jDHMEx35UkTXwv4AdStIqwe04qdDPjJQ&currency=EUR"
             script.addEventListener("load", this.setLoaded)
             document.body.appendChild(script)
         },
