@@ -2,6 +2,7 @@ package com.aion.server.controller;
 
 import com.aion.server.database.entity.game.Player;
 import com.aion.server.service.PlayerInformationService;
+import com.aion.server.service.infra.dto.Factions;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,5 +31,12 @@ public class PlayerInformationController {
     public boolean checkPlayersExist(@RequestParam(value = "name") final String name) {
         log.info("Check if player {} exist", name);
         return playerInformationService.checkPlayerExist(name);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/factions/exist")
+    public Factions getFactionsStats() {
+        log.info("Get factions infos");
+        return playerInformationService.getFactionsStats();
     }
 }

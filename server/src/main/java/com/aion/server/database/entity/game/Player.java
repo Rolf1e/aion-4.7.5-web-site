@@ -2,6 +2,7 @@ package com.aion.server.database.entity.game;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
@@ -28,4 +29,9 @@ public class Player {
     @Column(name = "account_name")
     private String accountName;
 
+    @Column(name = "race")
+    private String race;
+
+    @Column(name = "online")
+    private int online;
 }
