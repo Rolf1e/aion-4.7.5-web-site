@@ -12,13 +12,13 @@
         </b-field>
 
         <b-field label="Password">
-            <b-input type="password" v-model="password" @keyup.native="error.show = false" @keyup.native.enter="login"
+            <b-input type="password" v-model="password" @keyup.native="error.show = false" @keyup.native.enter="register"
                      password-reveal></b-input>
         </b-field>
 
         <b-field label="Confirm your password">
             <b-input type="password" v-model="confirmPassword" @keyup.native="error.show = false"
-                     @keyup.native.enter="login"
+                     @keyup.native.enter="register"
                      password-reveal></b-input>
         </b-field>
 
