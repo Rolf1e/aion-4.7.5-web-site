@@ -62,7 +62,7 @@
 
         computed: {
             pictureLink() {
-                return 'http://aion-shard.com/img/' + this.picture + '.png'
+                return 'http://51.178.130.119:80/img/' + this.picture + '.png'
             }
         },
 
