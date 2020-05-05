@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="html-editor-align-center">
         <h1 class="title"> General rules </h1>
 
         <ul>
@@ -143,17 +143,26 @@
 </script>
 
 <style scoped>
+    .html-editor-align-center {
+        margin-bottom: 10%;
+    }
 
   li {
     list-style: inside;
     margin-bottom: 13px;
     margin-left: 40px;
     font-size: 16px;
+    color: #f7f8fb;
+  }
+
+  p{
+    color: #f7f8fb;
   }
 
   .title {
     font-size: 25px;
     margin-top: 50px;
+      color: #f7f8fb;
   }
 
 </style>
