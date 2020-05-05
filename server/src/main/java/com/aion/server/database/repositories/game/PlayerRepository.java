@@ -13,4 +13,6 @@ public interface PlayerRepository extends CrudRepository<Player, Long> {
     Optional<List<Player>> findAllByAccountId(final long accountId);
 
     boolean existsByName(final String name);
+
+    long countByRaceAndOnline(final String race, final int online);
 }

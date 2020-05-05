@@ -70,7 +70,10 @@ Check user exist
    
     GET localhost:8080/check-players-exist?name=*name*
 
+Factions
 
+    GET localhost:8080/factions/exist
+    
 ##Mail 
  
  Send mail to recipients 
