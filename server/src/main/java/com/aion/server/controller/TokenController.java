@@ -25,7 +25,7 @@ public class TokenController {
     private final RegisterService registerService;
     private final TokenRefresherService tokenRefresherService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     //TODO TO REFACTOR BECOZ THIS IS UGLY !!
     public OutputUserInfos getToken(@RequestBody InputUserInfos userInfos) {
@@ -52,7 +52,7 @@ public class TokenController {
     }
 
     //Todo redirection
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @GetMapping("/valid")
     public String confirmMail(@RequestParam("token") String token) {
         try {
