@@ -57,7 +57,7 @@
             description: String,
             picture: String,
             price: Number,
-            idItem: String,
+            idItem: Number,
         },
 
         computed: {
