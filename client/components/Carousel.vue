@@ -12,7 +12,7 @@
   export default {
     methods: {
       getImgUrl(value) {
-        return `http://aion-shard.com/media/slide${value}.png`
+        return `http://51.178.130.119:80/media/slide${value}.png`
       }
     }
   }

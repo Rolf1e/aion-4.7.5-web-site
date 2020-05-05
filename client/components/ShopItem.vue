@@ -83,7 +83,7 @@
 
                     preConfirm: async (pseudo) => {
 
-                        return this.$axios.get(`http://aion-shard.com:8081/check-players-exist?name=${pseudo}`)
+                        return this.$axios.get(`http://api.aion-shard.com/check-players-exist?name=${pseudo}`)
                             .then(response => {
 
                                 if (!response.data) {
@@ -102,7 +102,7 @@
 
                     if (result.value) {
 
-                        this.$axios.post('http://aion-shard.com:8081/buy', {
+                        this.$axios.post('http://api.aion-shard.com/buy', {
                             'token': this.$store.state.auth.token,
                             'idItem': this.idItem,
                             'countItem': 1,

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="line">
-            <img src="http://aion-shard.com/media/download2.png" alt="">
+            <img src="http://51.178.130.119:80/media/download2.png" alt="">
             <div>
                 <div class="download-title">
                     <h2 class="is-size-4">Step 1</h2>
@@ -13,7 +13,7 @@
                     <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1K2WWcQcDoyzo2PZQFVXi_GSBJHmpY2Mm" type="is-primary button-download">Part 3</b-button>
                     <h2 class="is-size-4">Step 2</h2>
                     <p>If you have not yet created an account we advise you to create it with the sign up button in top to be able to connect to the server once the client has been downloaded.</p>
-                    <img src="http://aion-shard.com/media/signup.png" alt="">
+                    <img src="http://51.178.130.119:80/media/signup.png" alt="">
                     <p>Now you are ready to log into the game. Enter your account name and password, create a character and you're ready to rumble!</p>
                     <p class="enjoy">Enjoy your new experience on Aion Shard server!</p>
                 </div>

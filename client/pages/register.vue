@@ -62,7 +62,7 @@
 
                     this.loading = true
 
-                    const {data: response} = await this.$axios.post('http://aion-shard.com:8081/register', {
+                    const {data: response} = await this.$axios.post('http://api.aion-shard.com/register', {
                         "username": this.username,
                         "password": this.password,
                         "mail" : this.email

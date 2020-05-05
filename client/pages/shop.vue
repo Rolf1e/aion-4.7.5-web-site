@@ -56,9 +56,9 @@
 
         async asyncData() {
 
-            const {data: categories} = await axios.get('http://aion-shard.com:8081/list-shop/category')
+            const {data: categories} = await axios.get('http://api.aion-shard.com/list-shop/category')
 
-            const {data: items} = await axios.get('http://aion-shard.com:8081/list-shop')
+            const {data: items} = await axios.get('http://api.aion-shard.com/list-shop')
 
             return {items, categories}
         },
