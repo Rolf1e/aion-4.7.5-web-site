@@ -130,7 +130,6 @@
 </script>
 
 <style scoped>
-
     .container .background {
         position: fixed;
         right: 0;
@@ -141,14 +140,14 @@
         height: auto;
         z-index: -100;
         background-size: 100% auto;
-        filter: grayscale(100%);
-        -webkit-filter: grayscale(100%);
     }
 
     .navbar {
         height: 100px;
-        margin: 50px 0;
-        background-color: transparent;
+        margin-top: 5%;
+        background-color: rgba(0,0,0,0.6);
+        padding-right: 3%;
+        font-size: 120%;
     }
 
     .logo {
@@ -164,13 +163,7 @@
     }
 
     .btn {
-        margin: 5px;
-    }
-
-    .menu {
-        margin-bottom: 13px;
-        margin-top: 3px;
-        margin-left: 40px;
+        margin: 3%;
     }
 
 </style>

@@ -26,7 +26,7 @@
             {{ this.error.message }}
         </b-message>
 
-        <b-button type="button is-primary" :loading='loading' :disabled='loading' @click="register">Connexion</b-button>
+        <b-button class="button" type="button is-primary" :loading='loading' :disabled='loading' @click="register">Connexion</b-button>
 
     </div>
 </template>
@@ -105,4 +105,18 @@
 
 <style scoped>
 
+    .container {
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        padding: 2%;
+        margin-top: 5%;
+    }
+
+    .button {
+        margin-top: 1%;
+    }
+
+    .container h1 {
+        color: #ffffff;
+    }
 </style>
