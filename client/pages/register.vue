@@ -3,20 +3,20 @@
 
         <h1 class="title"> Créer un compte </h1>
 
-        <b-field label="Username">
+        <b-field label="Username" custom-class="has-text-white">
             <b-input v-model="username" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
         </b-field>
 
-        <b-field label="Email">
+        <b-field label="Email" custom-class="has-text-white">
             <b-input v-model="email" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
         </b-field>
 
-        <b-field label="Password">
+        <b-field label="Password" custom-class="has-text-white">
             <b-input type="password" v-model="password" @keyup.native="error.show = false" @keyup.native.enter="login"
                      password-reveal></b-input>
         </b-field>
 
-        <b-field label="Confirm your password">
+        <b-field label="Confirm your password" custom-class="has-text-white">
             <b-input type="password" v-model="confirmPassword" @keyup.native="error.show = false"
                      @keyup.native.enter="login"
                      password-reveal></b-input>

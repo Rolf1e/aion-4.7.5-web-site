@@ -144,7 +144,7 @@
     .html-editor-align-center {
         margin-top: 5%;
         margin-bottom: 10%;
-        background-color: rgba(0,0,0,0.6);
+        background-color: rgba(0,0,0,0.8);
         padding: 2%;
     }
     ul {

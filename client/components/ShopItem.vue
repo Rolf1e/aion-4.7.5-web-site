@@ -28,7 +28,7 @@
 
             <div class="price-block">
                 <div>
-                    <b-button type="is-dark btn" :disabled="btnDisabled" @click="buy" outlined> Buy item</b-button>
+                    <b-button type="is-light btn" :disabled="btnDisabled" @click="buy" outlined> Buy item</b-button>
                 </div>
                 <p class="price"> {{ price }} Shards </p>
             </div>
@@ -158,6 +158,15 @@
 </script>
 
 <style scoped>
+
+    .box{
+        color: white;
+        background-color: rgba(0,0,0,0.8);
+    }
+
+    .title {
+        color: white;
+    }
 
     .price-block {
         display: flex;
