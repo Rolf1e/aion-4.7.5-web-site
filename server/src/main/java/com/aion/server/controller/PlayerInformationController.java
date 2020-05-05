@@ -19,21 +19,21 @@ public class PlayerInformationController {
 
     private final PlayerInformationService playerInformationService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @GetMapping("/list-players")
     public List<Player> getListPlayers(@RequestParam(value = "idUser") final int idUser) {
         log.info("Get player informations for user {}", idUser);
         return playerInformationService.getWholeInfosForPlayer(idUser);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @GetMapping("/check-players-exist")
     public boolean checkPlayersExist(@RequestParam(value = "name") final String name) {
         log.info("Check if player {} exist", name);
         return playerInformationService.checkPlayerExist(name);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @GetMapping("/factions/exist")
     public Factions getFactionsStats() {
         log.info("Get factions infos");
