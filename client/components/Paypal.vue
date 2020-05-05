@@ -79,7 +79,7 @@ import Swal from "sweetalert2";
 
                         console.log(paymentId)
 
-                        const { data : response } = await this.$axios.post('http://aion-shard.com:8081/purchase/shards', {
+                        const { data : response } = await this.$axios.post('http://51.178.130.119:8081/purchase/shards', {
                             'token' : token,
                             'transactionId' : paymentId
                         })

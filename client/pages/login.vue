@@ -43,7 +43,7 @@
                     return
                 }
 
-                const {data: response} = await this.$axios.post('http://api.aion-shard.com/login', {
+                const {data: response} = await this.$axios.post('http://51.178.130.119:8081/login', {
                     "username": this.username,
                     "password": this.password
                 })

@@ -18,7 +18,7 @@ export const actions = {
                 commit('auth/SET_USERNAME', username)
                 commit('auth/SET_TOKEN', token)
 
-                const { data : response} = await axios.post('http://aion-shard.com:8081/login', {
+                const { data : response} = await axios.post('http://51.178.130.119:8081/login', {
                     token : token
                 })
 
