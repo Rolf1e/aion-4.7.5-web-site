@@ -106,7 +106,7 @@ public class ShopController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://51.178.130.119:3000")
     @GetMapping(value = "/list-shop")
     public List<Shop> getListShopItem(@RequestParam(value = "category", defaultValue = "all") final String category) {
         if (category.equals("all")) {
