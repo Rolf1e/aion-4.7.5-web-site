@@ -112,8 +112,6 @@
             </li>
         </ul>
 
-        <p>Reminder: The general rules also apply to events.</p>
-
         <h1 class="title"> Forum rules</h1>
 
         <ul>
@@ -144,24 +142,29 @@
 
 <style scoped>
     .html-editor-align-center {
+        margin-top: 5%;
         margin-bottom: 10%;
+        background-color: rgba(0,0,0,0.6);
+        padding: 2%;
+    }
+    ul {
+        margin-bottom: 2%;
     }
 
-  li {
-    list-style: inside;
-    margin-bottom: 13px;
-    margin-left: 40px;
-    font-size: 16px;
-    color: #f7f8fb;
-  }
+    li {
+        list-style: inside;
+        margin-bottom: 13px;
+        margin-left: 40px;
+        font-size: 16px;
+        color: #f7f8fb;
+    }
 
-  p{
-    color: #f7f8fb;
-  }
+    p{
+        color: #f7f8fb;
+    }
 
   .title {
     font-size: 25px;
-    margin-top: 50px;
       color: #f7f8fb;
   }
 

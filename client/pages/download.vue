@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="line">
-            <!--<img src="http://51.178.130.119:80/media/download2.png" alt="">-->
             <div>
                 <div class="download-title">
                     <h2 class="is-size-4">Step 1</h2>
@@ -31,39 +30,24 @@
 
     .line{
         text-align: center;
+        margin-top: 5%;
         margin-bottom: 5%;
-    }
-
-    .line img {
-        width: 50%;
+        background-color: rgba(0,0,0,0.6);
+        padding: 2%;
     }
 
     .download-title {
-        margin-top: 5%;
-        margin-left: 3%;
         text-align: left;
         color: #f7f8fb;
     }
 
+    .is-size-4 {
+        margin-top: 1%;
+    }
+
     .download-title p {
         margin-top: 1%;
-        margin-bottom: 1%;
-    }
-
-    .download-title img {
-        width: 15%;
-    }
-
-    .download-title .enjoy {
-        margin-top: 2%;
-    }
-
-    .download-title h2 {
-        margin-top: 2%;
-    }
-
-    .download-title .second-option-dl {
-        margin-top: 2%;
+        margin-bottom: 2%;
     }
 
 </style>

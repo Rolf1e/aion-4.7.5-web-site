@@ -4,7 +4,7 @@
 
     <div class="columns">
 
-      <div class="column is-half text-content">
+      <div class="column text-content">
 
         <h1 class="title"> Welcome to Aion Shard </h1>
         <p> Come and discover a server with a multitude of custom features.<br>
@@ -16,9 +16,6 @@
 
       </div>
 
-      <!--<div class="column is-half">
-        <Carousel></Carousel>
-      </div>-->
     </div>
 
   </div>
@@ -41,22 +38,19 @@
 </script>
 
 <style>
-  .content .columns {
-    margin-bottom: 5%;
-    margin-left: 1%;
+
+  .content {
+    background-color: rgba(0,0,0,0.6);
+    /*border: solid rgba(127,0,255,0.2);*/
+    margin-top: 7%;
+    margin-left: 7%;
+    padding: 2%;
+    width: 60%;
   }
 
   .content .columns .title {
     font-size: 250%;
     color: #f7f8fb;
-  }
-
-  .content {
-    margin-top: 10%;
-  }
-
-  .text-content {
-    margin-top: 5%;
   }
 
   .text-content p {
