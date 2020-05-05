@@ -11,7 +11,7 @@ public enum MailTemplate {
             "Dummy template"),
     CONFIRM_LOGIN("/templates/mail/loginConfirm.template",
             Arrays.asList("link.verification", "date"),
-            "Mail de confirmation de création de compte");
+            "Aion Shards - Confirm account !");
 
     private final String fileNameTemplate;
     private final List<String> fields;
