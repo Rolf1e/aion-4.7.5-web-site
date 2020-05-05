@@ -1,10 +1,14 @@
 <template>
     <div class="container">
+
+        <img class="background" src="http://51.178.130.119:80/media/background3.jpg">
+
         <b-navbar class="navbar">
+
             <template slot="brand">
                 <b-navbar-item tag="router-link" :to="{ path: '/' }">
                     <img class="logo"
-                         src="~/assets/images/logo.png"
+                         src="http://51.178.130.119/media/logo.png"
                          alt="Logo du serveur"
                     >
                 </b-navbar-item>
@@ -68,14 +72,11 @@
                     </b-navbar-item>
             </template>
 
-
         </b-navbar>
 
         <nuxt></nuxt>
 
-
     </div>
-
 
 </template>
 
@@ -130,21 +131,36 @@
 
 <style scoped>
 
+    .container .background {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -100;
+        background-size: 100% auto;
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%);
+    }
+
     .navbar {
         height: 100px;
         margin: 50px 0;
+        background-color: transparent;
     }
 
     .logo {
-        width: 90px;
-        height: 90px;
-        margin-right: 30px;
+        width: 100px;
+        height: 100px;
         max-height: none !important;
     }
 
     .link {
         margin: 20px 0;
         height: 50px;
+        color: #f7f8fb;
     }
 
     .btn {

@@ -7,9 +7,8 @@
       <div class="column is-half text-content">
 
         <h1 class="title"> Welcome to Aion Shard </h1>
-        <p> Serveur ... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur feugiat leo eu turpis
-          faucibus
-          bibendum. Cras pretium mi eu arcu imperdiet, quis malesuada nisl dignissim. </p>
+        <p> Come and discover a server with a multitude of custom features.<br>
+          A pvp energized and encouraged, pve instances reworked so that you can rediscover the feeling of novelty. A team listening to you and much more!</p>
 
         <div class="buttons">
           <b-button type="is-primary">Join the server</b-button>
@@ -17,16 +16,12 @@
 
       </div>
 
-      <div class="column is-half">
+      <!--<div class="column is-half">
         <Carousel></Carousel>
-      </div>
+      </div>-->
     </div>
 
-
-
-
   </div>
-
 
 </template>
 
@@ -46,30 +41,32 @@
 </script>
 
 <style>
+  .content .columns {
+    margin-bottom: 5%;
+    margin-left: 1%;
+  }
 
-  .title {
-    font-size: 23px;
+  .content .columns .title {
+    font-size: 250%;
+    color: #f7f8fb;
   }
 
   .content {
-    margin-top: 120px;
+    margin-top: 10%;
   }
 
   .text-content {
-    margin-top: 30px;
+    margin-top: 5%;
   }
 
   .text-content p {
-    margin-top: 35px;
-    margin-left: 10px;
-    margin-right: 20px;
+    margin-top: 5%;
     text-justify: auto;
+    color: #f7f8fb;
   }
 
-
-  .button {
-    margin-top: 15px;
-    margin-left: 15px;
+  .text-content .buttons {
+    margin-top: 5%;
   }
 
 </style>
