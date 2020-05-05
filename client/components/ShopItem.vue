@@ -148,7 +148,7 @@
                     this.lightDescription = this.description
                     this.showDescription = true
                 } else {
-                    this.lightDescription = this.description.substr(0, 40),
+                    this.lightDescription = this.description.substr(0, 40)
                         this.showDescription = false
                 }
             }
