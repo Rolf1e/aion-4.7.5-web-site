@@ -4,11 +4,11 @@
         <h1 class="title"> Créer un compte </h1>
 
         <b-field label="Username">
-            <b-input v-model="username" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
+            <b-input v-model="username" @keyup.native="error.show = false" @keyup.native.enter="register"></b-input>
         </b-field>
 
         <b-field label="Email">
-            <b-input v-model="email" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
+            <b-input v-model="email" @keyup.native="error.show = false" @keyup.native.enter="register"></b-input>
         </b-field>
 
         <b-field label="Password">
