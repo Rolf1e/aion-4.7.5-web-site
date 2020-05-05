@@ -9,12 +9,14 @@ import com.aion.server.service.infra.dto.OutputUserInfos;
 import com.aion.server.service.infra.exception.EncodeException;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import com.aion.server.service.infra.exception.UserExistException;
+import com.aion.server.service.infra.utils.DateUtils;
 import com.aion.server.service.infra.utils.EncryptionUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,8 @@ public class RegisterService {
     public OutputUserInfos registerNewUser(final InputUserInfos userInfos) throws UserExistException, MessagingException, EncodeException {
         if (!checkRegistered(userInfos)) {
             final String token = tokenService.generateToken();
-            final List<String> valuesToFilWith = asList("/valid?token=" + token, "15 / 4 / 2020");
+            final Date currentDate = new Date(DateUtils.getCurrentDate().getTime() + DateUtils.ONE_HOUR_MILLISECOND);
+            final List<String> valuesToFilWith = asList("/valid?token=" + token, currentDate.toString());
             final String encryptedPassword = EncryptionUtils.toEncode(userInfos.getPassword());
             final AccountData accountData = insertUserWithToken(userInfos, token, encryptedPassword);
             sendMail(userInfos, valuesToFilWith);
@@ -54,7 +57,7 @@ public class RegisterService {
         log.info("User {}  has confirmed email ", accountData.getId());
     }
 
-    public boolean checkRegistered(final InputUserInfos userInfos){
+    public boolean checkRegistered(final InputUserInfos userInfos) {
         return loginService.checkRegistered(userInfos);
     }
 

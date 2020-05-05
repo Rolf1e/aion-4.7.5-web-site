@@ -1,15 +1,9 @@
-# Baniere Aion Shard
-
-
 What a great news !
 
 You wish to join us on Aion Shard by creating your account.
 Please complete your subscription by cliking on the following button before ${date}:
 
-                <a href="http://aion-shard.com/${link.verification}"></a>
-                -------------------------------------------
-                |            Complete Subscription         |
-                -------------------------------------------
+                http://aion-shard.com${link.verification}"
 
 Having a Shard account enable you to :
 - play on Aion Shard Server,
