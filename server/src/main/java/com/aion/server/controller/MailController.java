@@ -22,7 +22,7 @@ public class MailController {
     private final MailService mailService;
     private final TokenRefresherService tokenRefresherService;
 
-//    @CrossOrigin(origins = "http://localhost:3000")
+//    @CrossOrigin(origins = "http://51.178.130.119:3000")
 //    @PostMapping(value = "/send-mail", consumes = "application/json", produces = "application/json")
     public String sendMailTo(@RequestBody final WebMailData webMailData) {
         try {

@@ -21,7 +21,7 @@ public class RegisterController {
 
     private final RegisterService registerService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://51.178.130.119:3000")
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     public OutputUserInfos register(@RequestBody InputUserInfos userToRegister) {
         try {

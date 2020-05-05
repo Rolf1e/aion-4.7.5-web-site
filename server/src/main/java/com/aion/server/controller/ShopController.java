@@ -28,7 +28,7 @@ public class ShopController {
     private final PlayerInformationService playerInformationService;
     private final TokenRefresherService tokenRefresherService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://51.178.130.119:3000")
     @PostMapping(value = "/purchase/shards", consumes = "application/json", produces = "application/json")
     public ShardsPurchase purchaseShards(@RequestBody ShardsPurchase purchase) {
         final String transactionId = purchase.getTransactionId();
@@ -70,7 +70,7 @@ public class ShopController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://51.178.130.119:3000")
     @PostMapping(value = "/buy", consumes = "application/json", produces = "application/json")
     public AionItemPurchase buyItem(@RequestBody AionItemPurchase item) {
         final String token = item.getToken();
@@ -106,7 +106,7 @@ public class ShopController {
         }
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://51.178.130.119:3000")
     @GetMapping(value = "/list-shop")
     public List<Shop> getListShopItem(@RequestParam(value = "category", defaultValue = "all") final String category) {
         if (category.equals("all")) {
@@ -117,7 +117,7 @@ public class ShopController {
         return shopService.getShopListByCategory(category);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://51.178.130.119:3000")
     @GetMapping(value = "/list-shop/category")
     public List<String> getListCategory() {
         log.info("Get shop list by categories");
