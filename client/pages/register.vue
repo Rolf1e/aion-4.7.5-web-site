@@ -16,7 +16,7 @@
                      password-reveal></b-input>
         </b-field>
 
-        <b-field label="Confirm your password">
+        <b-field label="Confirm your password" custom-class="has-text-white">
             <b-input type="password" v-model="confirmPassword" @keyup.native="error.show = false"
                      @keyup.native.enter="register"
                      password-reveal></b-input>

@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
     <div>
 
         <b-field :type="error ? 'is-danger' : 'false'">
-            <b-input placeholder="Ammount"
+            <b-input placeholder="Amount"
                      @keyup.native="verifyAmmount"
                      v-model="ammount"
                      icon-right="currency-eur">
@@ -28,7 +28,7 @@ import Swal from "sweetalert2";
         data() {
             return {
                 error: false,
-                ammount: 4,
+                ammount: 1,
             }
         },
 
@@ -124,7 +124,8 @@ import Swal from "sweetalert2";
 <style scoped>
 
     .shards {
-        margin-bottom: 40px;
+        margin-bottom: 5%;
+        color: white;
     }
 
 </style>

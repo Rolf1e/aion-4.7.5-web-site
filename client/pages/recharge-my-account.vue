@@ -1,9 +1,6 @@
 <template>
-    <div>
-
+    <div class="paypal-case">
         <paypal></paypal>
-
-
 
     </div>
 </template>
@@ -21,7 +18,9 @@
 </script>
 
 <style scoped>
-
+    .paypal-case {
+        margin-top: 5%;
+    }
 </style>
 
 

@@ -1,11 +1,11 @@
 <template>
     <div class="container">
 
-        <b-field label="Username">
+        <b-field label="Username" custom-class="has-text-white">
             <b-input v-model="username" @keyup.native="error.show = false" @keyup.native.enter="login"></b-input>
         </b-field>
 
-        <b-field label="Password">
+        <b-field label="Password" custom-class="has-text-white">
             <b-input type="password" v-model="password" @keyup.native="error.show = false" @keyup.native.enter="login"
                      password-reveal></b-input>
         </b-field>
@@ -67,5 +67,12 @@
 </script>
 
 <style scoped>
+
+    .container {
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        padding: 2%;
+        margin-top: 5%;
+    }
 
 </style>

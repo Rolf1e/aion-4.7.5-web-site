@@ -1,4 +1,5 @@
 <template>
+
     <div class="container">
 
         <img class="background" src="http://51.178.130.119:80/media/background3.jpg">
@@ -25,7 +26,7 @@
             <template v-if="username" slot="end">
 
 
-                <b-navbar-item class="link"  tag="nuxt-link" :to="{ path: '/recharge-my-account' }">
+                <b-navbar-item class="link-shard"  tag="nuxt-link" :to="{ path: '/recharge-my-account' }">
                     Shards : {{ shards }}
 
                 </b-navbar-item>
@@ -143,11 +144,21 @@
     }
 
     .navbar {
-        height: 100px;
+        height: 10%;
         margin-top: 5%;
         background-color: rgba(0,0,0,0.6);
         padding-right: 3%;
         font-size: 120%;
+    }
+
+    .navbar .link {
+        height: 50%;
+        margin-top: 10%;
+    }
+
+    .navbar .link-shard {
+        height: 50%;
+        margin-top: 14%;
     }
 
     .logo {
@@ -156,14 +167,12 @@
         max-height: none !important;
     }
 
-    .link {
-        margin: 20px 0;
-        height: 50px;
-        color: #f7f8fb;
-    }
-
     .btn {
         margin: 3%;
     }
 
+    .navbar-item {
+        /*font-size: 115%;*/
+        color: white;
+    }
 </style>
