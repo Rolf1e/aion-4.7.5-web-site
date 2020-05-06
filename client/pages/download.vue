@@ -5,10 +5,10 @@
                 <div class="download-title">
                     <h2 class="is-size-4">Step 1</h2>
                     <p>You can download the client via our torrent, use the following button. If you don't have a torrent client we recommend the µtorrent client.</p>
-                    <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1HXb_DLjf7lfjZ0Mjiqvfc3t9IlGluRfG" type="is-primary button-download">Torrent</b-button>
+                    <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1Mt3TAfYzgIpnMUgfweoL0jbVijlWactv" type="is-primary button-download">Torrent</b-button>
                     <p class="second-option-dl">You can also download the client with the following three links.</p>
-                    <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1y7DUCQ20SlaE4YGU5P7mnEJv3UGWJus6" type="is-primary button-download">Part 1</b-button>
-                    <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1QM6K7Nh-Lw6CWpIah11Ze0cMrM1dDdHv" type="is-primary button-download">Part 2</b-button>
+                    <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1HglfI3SZQL4uTgnVP7TxYmgbW50O11q4" type="is-primary button-download">Part 1</b-button>
+                    <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1F0mbXpJ97R_XqLEpRO39GYvZrSp997P8" type="is-primary button-download">Part 2</b-button>
                     <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1K2WWcQcDoyzo2PZQFVXi_GSBJHmpY2Mm" type="is-primary button-download">Part 3</b-button>
                     <h2 class="is-size-4">Step 2</h2>
                     <p>If you have not yet created an account we advise you to create it with the sign up button in top to be able to connect to the server once the client has been downloaded.</p>
