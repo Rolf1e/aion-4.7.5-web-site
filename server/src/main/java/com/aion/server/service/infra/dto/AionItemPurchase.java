@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class AionItemPurchase {
 
     private String token;
-    private long idItem;
+    private long objectId;
     private int countItem;
     private long shardBalance;
     private String recipient;
@@ -20,7 +20,7 @@ public class AionItemPurchase {
                             final boolean error,
                             final String message) {
 
-        this.idItem = aionItemPurchase.getIdItem();
+        this.objectId = aionItemPurchase.getObjectId();
         this.countItem = aionItemPurchase.getCountItem();
         this.recipient = aionItemPurchase.getRecipient();
         this.shardBalance = shardBalance;
