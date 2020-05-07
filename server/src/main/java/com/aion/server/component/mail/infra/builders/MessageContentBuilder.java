@@ -72,7 +72,7 @@ class MessageContentBuilder {
 
     private MimeBodyPart getMessagePart(final String part) throws MessagingException {
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setText(part);
+        mimeBodyPart.setContent(part, ContentType.HTML.getContentType());
         return mimeBodyPart;
     }
 
