@@ -12,8 +12,11 @@ import com.aion.server.service.infra.exception.TokenRefresherException;
 import com.aion.server.service.infra.exception.UserDoesntExistException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Slf4j
@@ -21,6 +24,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TokenController {
 
+    public static final String GOOD_RESPONSE_HTML = "/templates/account/token-validation/goodResponse.html";
+    public static final String BAD_RESPONSE_HTML = "/templates/account/token-validation/badResponse.html";
     private final TokenService tokenService;
     private final RegisterService registerService;
     private final TokenRefresherService tokenRefresherService;
@@ -54,15 +59,15 @@ public class TokenController {
     //Todo redirection
     @CrossOrigin
     @GetMapping("/valid")
-    public String confirmMail(@RequestParam("token") String token) {
+    public String confirmMail(@RequestParam("token") String token) throws IOException {
         try {
             if (tokenService.checkToken(token)) {
                 registerService.updateActivatedUser(token);
-                return "You finished account validation";
+                return IOUtils.toString(this.getClass().getResourceAsStream(GOOD_RESPONSE_HTML), StandardCharsets.UTF_8);
             }
         } catch (UserDoesntExistException e) {
             log.error("User {} exist", token, e);
         }
-        return "Something went wrong !";
+        return IOUtils.toString(this.getClass().getResourceAsStream(BAD_RESPONSE_HTML), StandardCharsets.UTF_8);
     }
 }
