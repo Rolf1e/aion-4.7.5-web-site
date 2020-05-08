@@ -60,20 +60,12 @@ class MessageContentBuilder {
 
     private MimeMessage buildToMineMessage() throws MessagingException {
         final MimeMessage finalMessage = new MimeMessage(session);
-        final Multipart multipart = new MimeMultipart();
-
-        for (String part : contentToConvert) {
-            multipart.addBodyPart(getMessagePart(part));
+        StringBuilder content = new StringBuilder();
+        for (String p : contentToConvert) {
+            content.append(p);
         }
-        finalMessage.setContent(multipart, ContentType.HTML.getContentType());
-
+        finalMessage.setContent(content.toString(), ContentType.HTML.getContentType());
         return finalMessage;
-    }
-
-    private MimeBodyPart getMessagePart(final String part) throws MessagingException {
-        MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setText(part);
-        return mimeBodyPart;
     }
 
     private List<String> getContentFilled(final List<String> noFilledContent) throws WrongSizeTemplateException {
