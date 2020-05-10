@@ -9,7 +9,7 @@ public enum MailTemplate {
     DUMMY("/templates/dummy.txt",
             Collections.emptyList(),
             "Dummy template"),
-    CONFIRM_LOGIN("/templates/mail/loginConfirm.template",
+    CONFIRM_LOGIN("/templates/mail/loginConfirm.html",
             Arrays.asList("link.verification", "date"),
             "Aion Shards - Confirm account !");
 
