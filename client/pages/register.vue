@@ -1,7 +1,7 @@
 <template>
     <div class="container">
 
-        <h1 class="title"> Créer un compte </h1>
+        <h1 class="title"> Create an account </h1>
 
         <b-field label="Username">
             <b-input v-model="username" @keyup.native="error.show = false" @keyup.native.enter="register"></b-input>
@@ -72,10 +72,10 @@
 
                     if (response.error === 'Successfully register user') {
                         Swal.fire({
-                            title: 'Votre compte a été créé',
-                            text: 'Veuillez vérifier votre boite mail pour valider votre compte',
+                            title: 'Your account has been created',
+                            text: 'Please check your mailbox to validate your account.',
                             icon: 'success',
-                            confirmButtonText: 'Cool'
+                            confirmButtonText: 'Great'
                         }).then((result) => {
                             if (result.value) {
                                 this.$router.push({path: '/'})
@@ -83,7 +83,7 @@
                         })
 
                     } else {
-                        this.error.message = 'Mot de passe ou email non valide'
+                        this.error.message = 'Invalid password or email'
                         this.error.show = true
                         this.username = ''
                         this.email = ''
