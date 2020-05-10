@@ -45,8 +45,6 @@
         data() {
             return {
                 btnDisabled: !this.$store.state.auth.token,
-                lightDescription: this.description.substr(0, 40),
-                showDescription: false
             }
         },
 
@@ -56,6 +54,7 @@
             picture: String,
             price: Number,
             objectId: Number,
+            itemId: Number,
         },
 
         computed: {
@@ -64,7 +63,7 @@
             },
 
             itemLink() {
-                return `https://aioncodex.com/4x/item/${this.objectId}`
+                return `https://aioncodex.com/4x/item/${this.itemId}`
             }
         },
 
