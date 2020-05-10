@@ -13,7 +13,7 @@ public interface ShopRepository extends CrudRepository<Shop, Long> {
 
     List<Shop> findAllByItemCategory(final String category);
 
-    Optional<Shop> findByItemId(final long itemId);
+    Optional<Shop> findByObjectId(final long itemId);
 
     @Query(value = "SELECT DISTINCT itemCategory FROM Shop")
     List<String> getItemCategory();

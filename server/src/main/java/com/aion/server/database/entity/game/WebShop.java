@@ -14,7 +14,7 @@ public class WebShop {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "recipient")
     private String recipient;

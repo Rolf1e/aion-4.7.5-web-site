@@ -98,7 +98,7 @@ public class ShopController {
             log.error("Failed to find user {} in database for token {}", token, e);
             return new AionItemPurchase(item, 0, true, "Failed to find user");
         } catch (ShopException e) {
-            log.error("Failed to find item {} for user token {}", item.getIdItem(), token, e);
+            log.error("Failed to find item {} for user token {}", item.getObjectId(), token, e);
             return new AionItemPurchase(item, 0, true, "Failed to find item");
         } catch (TokenRefresherException e) {
             log.error("Failed to verify token {}", token);
