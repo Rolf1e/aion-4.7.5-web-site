@@ -39,17 +39,17 @@ public class ShopService {
             accountData.takeToll(getItemPrice(aionItemPurchase));
             accountDataRepository.save(accountData);
             log.info("Subtract player money {}", accountData.getId());
-            final Optional<Shop> itemById = getItemById(aionItemPurchase);
+            final Optional<Shop> itemById = getItemByObjectId(aionItemPurchase);
             if (itemById.isPresent()) {
                 final Shop item = itemById.get();
                 final WebShop webShop = new WebShop(aionItemPurchase.getRecipient(), item.getItemDescription(),
-                        item.getItemId(), aionItemPurchase.getCountItem(), item.getItemPrice());
-                log.info("Give item {} to player {} from account {}", aionItemPurchase.getIdItem(), aionItemPurchase.getRecipient(), accountData.getId());
+                        item.getItemId(), aionItemPurchase.getCountItem() * item.getItemCount(), item.getItemPrice());
+                log.info("Give item {} to player {} from account {}", aionItemPurchase.getObjectId(), aionItemPurchase.getRecipient(), accountData.getId());
                 return webShopRepository.save(webShop);
             }
-            throw new ShopInsertionException(aionItemPurchase.getIdItem(), accountData.getId());
+            throw new ShopInsertionException(aionItemPurchase.getObjectId(), accountData.getId());
         }
-        throw new ShopPerformPurchaseException(aionItemPurchase.getIdItem(), accountData.getId());
+        throw new ShopPerformPurchaseException(aionItemPurchase.getObjectId(), accountData.getId());
     }
 
     public List<Shop> getShopList() {
@@ -65,15 +65,15 @@ public class ShopService {
     }
 
     private long getItemPrice(final AionItemPurchase aionItemPurchase) throws ItemDoesntExistException {
-        final Optional<Shop> itemById = getItemById(aionItemPurchase);
+        final Optional<Shop> itemById = getItemByObjectId(aionItemPurchase);
         if (itemById.isPresent()) {
             return itemById.get().getItemPrice();
         }
-        throw new ItemDoesntExistException(aionItemPurchase.getIdItem());
+        throw new ItemDoesntExistException(aionItemPurchase.getObjectId());
     }
 
-    private Optional<Shop> getItemById(final AionItemPurchase aionItemPurchase) {
-        return shopRepository.findByItemId(aionItemPurchase.getIdItem());
+    private Optional<Shop> getItemByObjectId(final AionItemPurchase aionItemPurchase) {
+        return shopRepository.findByObjectId(aionItemPurchase.getObjectId());
     }
 
     private long getUserMoney(final AccountData accountData) throws UserDoesntExistException {

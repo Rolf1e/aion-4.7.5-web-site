@@ -12,6 +12,23 @@
                     <b-button tag="a" target="_blank" href="https://drive.google.com/open?id=1K2WWcQcDoyzo2PZQFVXi_GSBJHmpY2Mm" type="is-primary button-download">Part 3</b-button>
                     <h2 class="is-size-4">Step 2</h2>
                     <p>If you have not yet created an account we advise you to create it with the sign up button in top to be able to connect to the server once the client has been downloaded.</p>
+                    <h2 class="is-size-4">In case you have problems launching the game</h2>
+                    <p>If you have any problems running the game, first of all, download and install the programs :</p>
+                    <ul>
+                        <li>
+                            <a href="https://www.microsoft.com/en-us/download/details.aspx?id=9894">DirectX</a>
+                        </li>
+                        <li>
+                            <a href="https://www.microsoft.com/en-us/download/details.aspx?id=5555">Microsoft Visual C++ (x86)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.microsoft.com/en-US/download/details.aspx?id=14632">Microsoft Visual C++ (x64)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.microsoft.com/en-us/download/details.aspx?id=17851">NET Framework</a>
+                        </li>
+                    </ul>
+                    <p>You have any other problems ? Please contact our support on <a href="http://forum.aion-shard.com/">forum</a></p>
                     <p>Now you are ready to log into the game. Enter your account name and password, create a character and you're ready to rumble!</p>
                     <p class="enjoy">Enjoy your new experience on Aion Shard server!</p>
                 </div>
@@ -27,6 +44,14 @@
 </script>
 
 <style scoped>
+
+    li {
+        list-style: inside;
+        margin-bottom: 13px;
+        margin-left: 40px;
+        font-size: 16px;
+        color: #f7f8fb;
+    }
 
     .line{
         text-align: center;

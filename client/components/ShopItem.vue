@@ -15,10 +15,8 @@
 
                     <div>
                         <h3 class="title"> {{ title }}</h3>
-                        <p @click="showFullDescription" class="description">
-                            {{ lightDescription }}
-                            {{ lightDescription !== description ? '.... ( show more )' : '' }}
-                            {{ showDescription ? '( reduce description )' : '' }}
+                        <p class="description">
+                            <a target="_blank" :href="this.itemLink"> Show more information about item </a>
                         </p>
                     </div>
 
@@ -62,7 +60,11 @@
 
         computed: {
             pictureLink() {
-                return 'http://51.178.130.119:80/img/' + this.picture + '.png'
+                return `http://51.178.130.119:80/img/${this.picture}.png`
+            },
+
+            itemLink() {
+                return `https://aioncodex.com/4x/item/${this.idItem}`
             }
         },
 
@@ -143,15 +145,6 @@
                 })
             },
 
-            showFullDescription() {
-                if (!this.showDescription) {
-                    this.lightDescription = this.description
-                    this.showDescription = true
-                } else {
-                    this.lightDescription = this.description.substr(0, 40)
-                        this.showDescription = false
-                }
-            }
 
         }
     }
