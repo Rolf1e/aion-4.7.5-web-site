@@ -28,7 +28,7 @@
                       :title="item.itemName"
                       :description="item.itemDescription"
                       :picture="item.itemPathToImageColumn"
-                      :idItem="item.itemId"
+                      :objectId="item.objectId"
                       :price="item.itemPrice">
 
             </ShopItem>

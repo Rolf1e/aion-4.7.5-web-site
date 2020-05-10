@@ -55,7 +55,7 @@
             description: String,
             picture: String,
             price: Number,
-            idItem: Number,
+            objectId: Number,
         },
 
         computed: {
@@ -64,7 +64,7 @@
             },
 
             itemLink() {
-                return `https://aioncodex.com/4x/item/${this.idItem}`
+                return `https://aioncodex.com/4x/item/${this.objectId}`
             }
         },
 
@@ -106,7 +106,7 @@
 
                         this.$axios.post('http://51.178.130.119:8081/buy', {
                             'token': this.$store.state.auth.token,
-                            'idItem': this.idItem,
+                            'objectId': this.objectId,
                             'countItem': 1,
                             'recipient': result.value
                         })
