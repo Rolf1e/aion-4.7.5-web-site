@@ -20,8 +20,8 @@ public class PaypalService {
     private final PayPalHttpClient httpClient;
     private final PayPalEnvironment payPalEnvironment;
 
-    public PaypalService(@Qualifier("sandboxHttpClient") final PayPalHttpClient httpClient,
-                         @Qualifier("sandbox") final PayPalEnvironment payPalEnvironment) {
+    public PaypalService(@Qualifier("httpClient") final PayPalHttpClient httpClient,
+                         @Qualifier("environnement") final PayPalEnvironment payPalEnvironment) {
 
         this.httpClient = httpClient;
         this.payPalEnvironment = payPalEnvironment;
